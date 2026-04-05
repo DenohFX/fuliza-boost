@@ -8,38 +8,47 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #0f172a, #020617);
+      background: linear-gradient(135deg, #020617, #0f172a);
       color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
     }
 
-    .container {
-      max-width: 400px;
-      margin: auto;
-      padding: 20px;
+    .app {
+      width: 100%;
+      max-width: 380px;
       text-align: center;
     }
 
-    h1 {
+    .logo {
+      font-size: 26px;
+      font-weight: bold;
       color: #38bdf8;
-      margin-top: 20px;
+      margin-bottom: 20px;
     }
 
     .card {
       background: #111827;
       padding: 25px;
-      border-radius: 12px;
-      margin-top: 20px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
     }
 
     h2 {
       margin-bottom: 10px;
     }
 
+    p {
+      font-size: 13px;
+      color: #9ca3af;
+    }
+
     input {
       width: 100%;
       padding: 12px;
-      margin: 10px 0;
+      margin-top: 15px;
       border-radius: 8px;
       border: none;
       outline: none;
@@ -49,67 +58,86 @@
     button {
       width: 100%;
       padding: 12px;
+      margin-top: 15px;
       background: #22c55e;
       border: none;
       border-radius: 8px;
       color: white;
       font-size: 16px;
       cursor: pointer;
+      transition: 0.3s;
     }
 
     button:hover {
       background: #16a34a;
     }
 
-    .result {
+    .loading {
       margin-top: 15px;
-      color: #9ca3af;
-      font-size: 14px;
+      display: none;
+      color: #38bdf8;
     }
 
-    .footer {
-      margin-top: 30px;
-      font-size: 12px;
-      color: #6b7280;
+    .result-box {
+      margin-top: 15px;
+      padding: 15px;
+      background: #020617;
+      border-radius: 10px;
+      display: none;
     }
+
+    .amount {
+      font-size: 22px;
+      color: #22c55e;
+      font-weight: bold;
+    }
+
   </style>
 </head>
 
 <body>
 
-<div class="container">
-  <h1>Fuliza Boost 🚀</h1>
+<div class="app">
+  <div class="logo">Fuliza Boost 🚀</div>
 
   <div class="card">
     <h2>Check Your Limit</h2>
+    <p>Enter your Safaricom number</p>
 
-    <input type="text" id="phone" placeholder="Enter Phone Number">
+    <input type="text" id="phone" placeholder="07XXXXXXXX">
 
     <button onclick="checkLimit()">Check Now</button>
 
-    <div class="result" id="result"></div>
-  </div>
+    <div class="loading" id="loading">⏳ Processing request...</div>
 
-  <div class="footer">
-    Powered by Fuliza Boost System
+    <div class="result-box" id="resultBox">
+      <p>Your Fuliza Limit:</p>
+      <div class="amount" id="amount"></div>
+    </div>
   </div>
 </div>
 
 <script>
 function checkLimit() {
   const phone = document.getElementById("phone").value;
-  const result = document.getElementById("result");
+  const loading = document.getElementById("loading");
+  const resultBox = document.getElementById("resultBox");
+  const amount = document.getElementById("amount");
 
   if (phone === "") {
-    result.innerHTML = "⚠️ Please enter phone number";
+    alert("Enter phone number");
     return;
   }
 
-  result.innerHTML = "⏳ Checking your limit...";
+  resultBox.style.display = "none";
+  loading.style.display = "block";
 
   setTimeout(() => {
-    let amount = Math.floor(Math.random() * 5000) + 500;
-    result.innerHTML = "✅ Your Fuliza limit is KES " + amount;
+    loading.style.display = "none";
+    resultBox.style.display = "block";
+
+    let value = Math.floor(Math.random() * 5000) + 500;
+    amount.innerHTML = "KES " + value;
   }, 2000);
 }
 </script>
