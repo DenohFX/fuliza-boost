@@ -1,195 +1,218 @@
- </body>
-</html><!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
-  <title>FulizaBoost</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FulizaBoost</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f5f7fa;
-      color: #111827;
-    }
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f7fa;
+            color: #111827;
+        }
 
-    .container {
-      max-width: 420px;
-      margin: auto;
-      padding: 20px;
-    }
+        .container {
+            max-width: 420px;
+            margin: auto;
+            padding: 20px;
+        }
 
-    h1 {
-      text-align: center;
-      margin-top: 20px;
-      font-size: 28px;
-    }
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 28px;
+        }
 
-    .subtitle {
-      text-align: center;
-      color: gray;
-      font-size: 14px;
-      margin-bottom: 20px;
-    }
+        .subtitle {
+            text-align: center;
+            color: gray;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
 
-    .activity {
-      background: white;
-      padding: 12px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-      font-size: 14px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    }
+        .activity {
+            background: white;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
 
-    .activity span {
-      color: green;
-      font-weight: bold;
-    }
+        .activity span {
+            color: green;
+            font-weight: bold;
+        }
 
-    h2 {
-      font-size: 18px;
-      margin-bottom: 10px;
-    }
+        h2 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
 
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
 
-    .card {
-      background: white;
-      border-radius: 12px;
-      padding: 18px;
-      text-align: center;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-      cursor: pointer;
-      transition: 0.2s;
-    }
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 18px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: 0.2s;
+        }
 
-    .card:hover {
-      transform: scale(1.03);
-    }
+        .card:hover {
+            transform: scale(1.03);
+        }
 
-    .amount {
-      color: #16a34a;
-      font-size: 20px;
-      font-weight: bold;
-    }
+        .card.selected {
+            border: 2px solid green;
+        }
 
-    .fee {
-      color: gray;
-      font-size: 12px;
-      margin-top: 5px;
-    }
+        .amount {
+            color: #16a34a;
+            font-size: 20px;
+            font-weight: bold;
+        }
 
-    .selected {
-      border: 2px solid #16a34a;
-    }
+        .fee {
+            color: gray;
+            font-size: 12px;
+            margin-top: 5px;
+        }
 
-    .btn {
-      width: 100%;
-      padding: 14px;
-      margin-top: 20px;
-      background: #16a34a;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      font-size: 16px;
-      cursor: pointer;
-    }
+        .btn {
+            width: 100%;
+            margin-top: 20px;
+            padding: 14px;
+            background: #16a34a;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
 
-    .result {
-      margin-top: 15px;
-      text-align: center;
-      color: green;
-      display: none;
-    }
-  </style>
+        .result {
+            margin-top: 15px;
+            text-align: center;
+            color: green;
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
 
 <div class="container">
 
-  <h1>FulizaBoost</h1>
-  <div class="subtitle">Instant Limit Increase • Same Day Access</div>
+    <h1>FulizaBoost</h1>
+    <div class="subtitle">Instant Limit Increase • Same Day Access</div>
 
-  <div class="activity">
-    🔄 <b>LIVE ACTIVITY</b><br>
-    Faith W. (0712***11) boosted to <span>Ksh 45,000</span> just now
-  </div>
+    <div class="activity">
+        🔄 LIVE ACTIVITY<br>
+        Faith W. (0712****11) boosted to <span>Ksh 45,000</span> just now
+    </div>
 
-  <h2>Select Your New Approved Limit</h2>
+    <h2>Select Your New Approved Limit</h2>
 
-  <div class="grid" id="grid">
-    <div class="card" onclick="select(this)">Ksh 3,000<br><div class="fee">Fee: 250</div></div>
-    <div class="card" onclick="select(this)">Ksh 5,000<br><div class="fee">Fee: 293</div></div>
-    <div class="card" onclick="select(this)">Ksh 7,500<br><div class="fee">Fee: 350</div></div>
-    <div class="card" onclick="select(this)">Ksh 10,000<br><div class="fee">Fee: 500</div></div>
-    <div class="card" onclick="select(this)">Ksh 12,500<br><div class="fee">Fee: 747</div></div>
-    <div class="card" onclick="select(this)">Ksh 16,000<br><div class="fee">Fee: 898</div></div>
-    <div class="card" onclick="select(this)">Ksh 21,000<br><div class="fee">Fee: 1015</div></div>
-    <div class="card" onclick="select(this)">Ksh 25,500<br><div class="fee">Fee: 1220</div></div>
-    <div class="card" onclick="select(this)">Ksh 30,000<br><div class="fee">Fee: 1533</div></div>
-    <div class="card" onclick="select(this)">Ksh 35,000<br><div class="fee">Fee: 1730</div></div>
-    <div class="card" onclick="select(this)">Ksh 45,000<br><div class="fee">Fee: 2000</div></div>
-    <div class="card" onclick="select(this)">Ksh 60,000<br><div class="fee">Fee: 2250</div></div>
-  </div>
+    <div class="grid">
+        <div class="card" onclick="select(this)">
+            <div class="amount">Ksh 3,000</div>
+            <div class="fee">Fee: 250</div>
+        </div>
 
-  <button class="btn" onclick="boost()">Continue</button>
+        <div class="card" onclick="select(this)">
+            <div class="amount">Ksh 5,000</div>
+            <div class="fee">Fee: 293</div>
+        </div>
 
-  <div class="result" id="result">
-    ✅ Request submitted successfully!
-  </div>
+        <div class="card" onclick="select(this)">
+            <div class="amount">Ksh 7,500</div>
+            <div class="fee">Fee: 350</div>
+        </div>
+
+        <div class="card" onclick="select(this)">
+            <div class="amount">Ksh 10,000</div>
+            <div class="fee">Fee: 500</div>
+        </div>
+
+        <div class="card" onclick="select(this)">
+            <div class="amount">Ksh 12,500</div>
+            <div class="fee">Fee: 747</div>
+        </div>
+
+        <div class="card" onclick="select(this)">
+            <div class="amount">Ksh 16,000</div>
+            <div class="fee">Fee: 898</div>
+        </div>
+
+        <div class="card" onclick="select(this)">
+            <div class="amount">Ksh 21,000</div>
+            <div class="fee">Fee: 1015</div>
+        </div>
+
+        <div class="card" onclick="select(this)">
+            <div class="amount">Ksh 25,500</div>
+            <div class="fee">Fee: 1220</div>
+        </div>
+
+        <div class="card" onclick="select(this)">
+            <div class="amount">Ksh 30,000</div>
+            <div class="fee">Fee: 1533</div>
+        </div>
+
+        <div class="card" onclick="select(this)">
+            <div class="amount">Ksh 35,000</div>
+            <div class="fee">Fee: 1730</div>
+        </div>
+
+        <div class="card" onclick="select(this)">
+            <div class="amount">Ksh 45,000</div>
+            <div class="fee">Fee: 2000</div>
+        </div>
+
+        <div class="card" onclick="select(this)">
+            <div class="amount">Ksh 60,000</div>
+            <div class="fee">Fee: 2250</div>
+        </div>
+    </div>
+
+    <button class="btn" onclick="boost()">Continue</button>
+
+    <div class="result" id="result">
+        ✅ Request submitted successfully!
+    </div>
 
 </div>
 
 <script>
-  let selectedCard = null;
-
-  function select(el) {
-    const cards = document.querySelectorAll(".card");
-    cards.forEach(c => c.classList.remove("selected"));
-
-    el.classList.add("selected");
-    selectedCard = el.innerText;
-  }
-
-  function boost() {
-    if (!selectedCard) {
-      alert("Please select a limit");
-      return;
-    }
-
-    document.getElementById("result").style.display = "block";
-  }
-</script>
-
-</body>
-</html>
-<script>
 let selectedCard = null;
 
-document.querySelectorAll('.card').forEach(card => {
-  card.addEventListener('click', () => {
-    document.querySelectorAll('.card').forEach(c => {
-      c.style.border = "none";
-    });
+function select(el) {
+    document.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedCard = el.innerText;
+}
 
-    card.style.border = "2px solid green";
-    selectedCard = card.innerText;
-  });
-});
+function boost() {
+    if (!selectedCard) {
+        alert("Please select a limit");
+        return;
+    }
 
-function submitRequest() {
-  if (!selectedCard) {
-    alert("Please select amount first");
-    return;
-  }
+    // ✅ SHOW SUCCESS MESSAGE
+    document.getElementById("result").style.display = "block";
 
-  document.querySelector(".result").innerHTML =
-    "✅ Request submitted successfully!";
+    // 🔥 OPTIONAL: REDIRECT AFTER 2 SECONDS
+    setTimeout(() => {
+        window.location.href = "https://your-link-here.com";
+    }, 2000);
 }
 </script>
 
