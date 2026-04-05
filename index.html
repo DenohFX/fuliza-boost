@@ -3,262 +3,191 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fuliza Boost</title>
+<title>Limit Upgrade</title>
 
 <style>
 body {
-  font-family: Arial;
-  background: #f4f6f8;
-  display: flex;
-  justify-content: center;
+  font-family: Arial, sans-serif;
+  background: #f5f6f7;
+  margin: 0;
   padding: 20px;
 }
 
 .container {
-  width: 100%;
   max-width: 400px;
+  margin: auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 15px;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
 }
 
 .card {
-  background: #fff;
-  padding: 20px;
-  border-radius: 16px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  padding: 15px;
   text-align: center;
+  border-radius: 12px;
+  background: #f1f1f1;
+  cursor: pointer;
+  transition: 0.3s;
+  border: 2px solid transparent;
 }
 
-.hidden { display: none; }
+.card h3 {
+  color: green;
+  margin: 0;
+}
 
-input {
-  width: 100%;
-  padding: 12px;
-  margin: 10px 0;
-  border-radius: 10px;
-  border: 1px solid #ddd;
+.card p {
+  font-size: 12px;
+  color: gray;
+}
+
+.card.active {
+  background: #e6f4ea;
+  border: 2px solid green;
 }
 
 button {
   width: 100%;
-  padding: 14px;
-  border: none;
-  border-radius: 10px;
-  background: #16a34a;
-  color: white;
-  font-size: 16px;
-  margin-top: 10px;
-}
-
-/* LIVE */
-.live {
-  margin-top: 10px;
-  font-size: 14px;
-  color: gray;
-}
-
-/* Loader */
-.spinner {
-  border: 5px solid #eee;
-  border-top: 5px solid #16a34a;
-  border-radius: 50%;
-  width: 45px;
-  height: 45px;
-  margin: 20px auto;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  100% { transform: rotate(360deg); }
-}
-
-/* Plans */
-#plansGrid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-.plan {
+  margin-top: 20px;
   padding: 15px;
+  background: green;
+  color: white;
+  border: none;
   border-radius: 12px;
-  background: #f1f5f9;
+  font-size: 16px;
   cursor: pointer;
-  font-weight: bold;
-  color: #16a34a;
 }
 
-/* Modal */
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.5);
-}
-
-.modal-content {
-  background: white;
-  padding: 20px;
-  margin: 100px auto;
-  width: 90%;
-  max-width: 350px;
-  border-radius: 15px;
-}
-
-.modal-buttons {
-  display: flex;
-  gap: 10px;
-}
-.modal-buttons button {
-  flex: 1;
+button:disabled {
+  background: #ccc;
 }
 </style>
+
 </head>
 
 <body>
 
 <div class="container">
+  <h2>Select Your New Approved Limit</h2>
 
-<!-- STEP 1 -->
-<div id="step1" class="card">
-  <h2>Fuliza Plus+</h2>
-  <p>Verify your identity to unlock higher limits</p>
+  <div class="grid" id="cards">
 
-  <input type="text" id="phone" placeholder="Enter M-Pesa Number">
-  <button onclick="startProcess()">Check My Eligibility</button>
-
-  <!-- LIVE ACTIVITY -->
-  <p id="liveUsers" class="live">🟢 137 users online | 🔒 SSL Secured</p>
-</div>
-
-<!-- LOADING -->
-<div id="loading" class="card hidden">
-  <div class="spinner"></div>
-  <p id="loadingText">Connecting...</p>
-</div>
-
-<!-- RESULT -->
-<div id="result" class="card hidden">
-  <h2>Congratulations!</h2>
-  <p id="resultText"></p>
-  <button onclick="showPlans()">Proceed to Upgrade Limit</button>
-</div>
-
-<!-- PLANS -->
-<div id="plans" class="card hidden">
-  <h3>Select Your New Approved Limit</h3>
-
-  <div id="plansGrid">
-    <div class="plan" onclick="pay(3000,250)">Ksh 3,000</div>
-    <div class="plan" onclick="pay(5000,293)">Ksh 5,000</div>
-    <div class="plan" onclick="pay(7500,350)">Ksh 7,500</div>
-    <div class="plan" onclick="pay(10000,500)">Ksh 10,000</div>
-    <div class="plan" onclick="pay(12500,747)">Ksh 12,500</div>
-    <div class="plan" onclick="pay(16000,898)">Ksh 16,000</div>
-    <div class="plan" onclick="pay(21000,1015)">Ksh 21,000</div>
-    <div class="plan" onclick="pay(25500,1220)">Ksh 25,500</div>
-    <div class="plan" onclick="pay(30000,1533)">Ksh 30,000</div>
-    <div class="plan" onclick="pay(35000,1730)">Ksh 35,000</div>
-    <div class="plan" onclick="pay(45000,2000)">Ksh 45,000</div>
-    <div class="plan" onclick="pay(60000,2250)">Ksh 60,000</div>
-    <div class="plan" onclick="pay(70000,2500)">Ksh 70,000</div>
-  </div>
-</div>
-
-<!-- PAYMENT MODAL -->
-<div id="paymentModal" class="modal hidden">
-  <div class="modal-content">
-    <h3>Limit Upgrade</h3>
-
-    <p>Pay via Till Number <b>6363781</b></p>
-
-    <input type="text" placeholder="ID Number">
-    <input type="text" id="confirmPhone" readonly>
-
-    <div class="modal-buttons">
-      <button onclick="closeModal()" style="background:#ccc;color:black;">Cancel</button>
-      <button id="payBtn">Pay</button>
+    <div class="card" data-amount="3000">
+      <h3>Ksh 3,000</h3>
+      <p>FEE: KSH 250</p>
     </div>
+
+    <div class="card" data-amount="5000">
+      <h3>Ksh 5,000</h3>
+      <p>FEE: KSH 293</p>
+    </div>
+
+    <div class="card" data-amount="7500">
+      <h3>Ksh 7,500</h3>
+      <p>FEE: KSH 350</p>
+    </div>
+
+    <div class="card" data-amount="10000">
+      <h3>Ksh 10,000</h3>
+      <p>FEE: KSH 500</p>
+    </div>
+
+    <div class="card" data-amount="12500">
+      <h3>Ksh 12,500</h3>
+      <p>FEE: KSH 747</p>
+    </div>
+
+    <div class="card" data-amount="16000">
+      <h3>Ksh 16,000</h3>
+      <p>FEE: KSH 898</p>
+    </div>
+
+    <div class="card" data-amount="21000">
+      <h3>Ksh 21,000</h3>
+      <p>FEE: KSH 1015</p>
+    </div>
+
+    <div class="card" data-amount="25500">
+      <h3>Ksh 25,500</h3>
+      <p>FEE: KSH 1220</p>
+    </div>
+
+    <div class="card" data-amount="30000">
+      <h3>Ksh 30,000</h3>
+      <p>FEE: KSH 1533</p>
+    </div>
+
+    <div class="card" data-amount="35000">
+      <h3>Ksh 35,000</h3>
+      <p>FEE: KSH 1730</p>
+    </div>
+
+    <div class="card" data-amount="45000">
+      <h3>Ksh 45,000</h3>
+      <p>FEE: KSH 2000</p>
+    </div>
+
+    <div class="card" data-amount="60000">
+      <h3>Ksh 60,000</h3>
+      <p>FEE: KSH 2250</p>
+    </div>
+
+    <div class="card" data-amount="70000">
+      <h3>Ksh 70,000</h3>
+      <p>FEE: KSH 2500</p>
+    </div>
+
   </div>
-</div>
+
+  <button id="upgradeBtn" disabled>
+    ⚡ SELECT LIMIT FIRST
+  </button>
 
 </div>
 
 <script>
-let userPhone = "";
+const cards = document.querySelectorAll(".card");
+const button = document.getElementById("upgradeBtn");
 
-/* LIVE USERS */
-let users = 137;
-setInterval(() => {
-  let change = Math.floor(Math.random() * 5) - 2;
-  users += change;
-  if (users < 100) users = 100;
-  if (users > 200) users = 200;
+let selectedAmount = null;
 
-  document.getElementById("liveUsers").innerText =
-    `🟢 ${users} users online | 🔒 SSL Secured`;
-}, 3000);
+cards.forEach(card => {
+  card.addEventListener("click", () => {
 
-/* START */
-function startProcess() {
-  userPhone = document.getElementById("phone").value;
+    // remove active from all
+    cards.forEach(c => c.classList.remove("active"));
 
-  if (!userPhone) {
-    alert("Enter phone number");
-    return;
+    // add active to clicked
+    card.classList.add("active");
+
+    // get amount
+    selectedAmount = card.getAttribute("data-amount");
+
+    // enable button
+    button.disabled = false;
+
+    // update button text
+    button.innerText = "⚡ UPGRADE TO KSH " + Number(selectedAmount).toLocaleString();
+  });
+});
+
+// button click action
+button.addEventListener("click", () => {
+  if(selectedAmount){
+    alert("Proceeding with Ksh " + selectedAmount);
   }
-
-  show("loading");
-
-  let steps = [
-    "Connecting...",
-    "Verifying CRB Status...",
-    "Checking Usage History...",
-    "Finalizing Trust Score..."
-  ];
-
-  let i = 0;
-
-  let interval = setInterval(() => {
-    document.getElementById("loadingText").innerText = steps[i];
-    i++;
-
-    if (i >= steps.length) {
-      clearInterval(interval);
-      showResult();
-    }
-  }, 1500);
-}
-
-/* RESULT */
-function showResult() {
-  show("result");
-  document.getElementById("resultText").innerText =
-    `High Trust Score Detected. ${userPhone} is eligible for a boost.`;
-}
-
-/* PLANS */
-function showPlans() {
-  show("plans");
-}
-
-/* PAYMENT */
-function pay(amount, fee) {
-  document.getElementById("paymentModal").classList.remove("hidden");
-  document.getElementById("confirmPhone").value = userPhone;
-  document.getElementById("payBtn").innerText = `Pay Ksh ${fee}`;
-}
-
-/* CLOSE */
-function closeModal() {
-  document.getElementById("paymentModal").classList.add("hidden");
-}
-
-/* NAVIGATION */
-function show(step) {
-  document.querySelectorAll(".card").forEach(el => el.classList.add("hidden"));
-  document.getElementById(step).classList.remove("hidden");
-}
+});
 </script>
 
 </body>
