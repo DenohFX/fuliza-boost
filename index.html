@@ -1,33 +1,104 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
   <title>Fuliza Boost</title>
+
   <style>
     body {
-      font-family: Arial;
-      background: #0f172a;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #0f172a, #020617);
       color: white;
       text-align: center;
-      padding-top: 100px;
-      margin: 0;
     }
-    h1 {
+
+    header {
+      padding: 20px;
+      font-size: 24px;
+      font-weight: bold;
       color: #38bdf8;
     }
+
+    .card {
+      background: #111827;
+      margin: 40px auto;
+      padding: 30px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 350px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    }
+
+    h2 {
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: #9ca3af;
+      font-size: 14px;
+    }
+
+    input {
+      width: 90%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      font-size: 14px;
+    }
+
     button {
-      padding: 12px 25px;
+      width: 95%;
+      padding: 12px;
+      margin-top: 10px;
       background: #22c55e;
       border: none;
+      border-radius: 8px;
       color: white;
       font-size: 16px;
-      border-radius: 6px;
       cursor: pointer;
+    }
+
+    button:hover {
+      background: #16a34a;
+    }
+
+    .info {
+      margin-top: 20px;
+      font-size: 13px;
+      color: #6b7280;
     }
   </style>
 </head>
+
 <body>
-  <h1>Welcome to Fuliza Boost 🚀</h1>
-  <p>Your site is now working perfectly!</p>
-  <button>Get Started</button>
+
+  <header>
+    Fuliza Boost 🚀
+  </header>
+
+  <div class="card">
+    <h2>Request Boost</h2>
+    <p>Quick and easy access to funds</p>
+
+    <form onsubmit="submitForm(event)">
+      <input type="text" placeholder="Phone Number" required>
+      <input type="number" placeholder="Amount (KES)" required>
+      <button type="submit">Request Now</button>
+    </form>
+
+    <div class="info">
+      Secure • Fast • Trusted
+    </div>
+  </div>
+
+  <script>
+    function submitForm(e) {
+      e.preventDefault();
+      alert("✅ Request received! Processing...");
+    }
+  </script>
+
 </body>
 </html>
