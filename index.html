@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+ </body>
+</html><!DOCTYPE html>
 <html>
 <head>
   <title>FulizaBoost</title>
@@ -163,6 +164,33 @@
 
     document.getElementById("result").style.display = "block";
   }
+</script>
+
+</body>
+</html>
+<script>
+let selectedCard = null;
+
+document.querySelectorAll('.card').forEach(card => {
+  card.addEventListener('click', () => {
+    document.querySelectorAll('.card').forEach(c => {
+      c.style.border = "none";
+    });
+
+    card.style.border = "2px solid green";
+    selectedCard = card.innerText;
+  });
+});
+
+function submitRequest() {
+  if (!selectedCard) {
+    alert("Please select amount first");
+    return;
+  }
+
+  document.querySelector(".result").innerHTML =
+    "✅ Request submitted successfully!";
+}
 </script>
 
 </body>
