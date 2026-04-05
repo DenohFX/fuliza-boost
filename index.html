@@ -1,198 +1,181 @@
- <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fuliza Plus</title>
+"use client";
+import { useState, useEffect } from "react";
 
-<style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f3f4f6;
+export default function Home() {
+  const [step, setStep] = useState(1);
+  const [phone, setPhone] = useState("");
+
+  const startProcess = () => {
+    if (!phone) return alert("Enter phone number");
+
+    setStep(2);
+
+    setTimeout(() => setStep(3), 2000); // Connecting
+    setTimeout(() => setStep(4), 4000); // CRB
+    setTimeout(() => setStep(5), 6000); // Usage
+    setTimeout(() => setStep(6), 8000); // Success
+    setTimeout(() => setStep(7), 10000); // Final page
+  };
+
+  const Loader = ({ text }) => (
+    <div className="card">
+      <div className="spinner"></div>
+      <h2>{text}</h2>
+      <p>Accessing secure databases...</p>
+    </div>
+  );
+
+  return (
+    <div className="container">
+
+      {/* STEP 1 */}
+      {step === 1 && (
+        <div className="card">
+          <h1>Fuliza Plus+</h1>
+          <p>OFFICIAL VERIFICATION PORTAL</p>
+
+          <input
+            placeholder="Enter M-Pesa Number"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+          />
+
+          <button onClick={startProcess}>
+            Check My Eligibility
+          </button>
+
+          <small>137 USERS ONLINE | SSL SECURED</small>
+        </div>
+      )}
+
+      {/* STEP 2-5 LOADING */}
+      {step === 2 && <Loader text="Connecting..." />}
+      {step === 3 && <Loader text="Verifying CRB Status..." />}
+      {step === 4 && <Loader text="Checking Usage History..." />}
+      {step === 5 && <Loader text="Finalizing Score..." />}
+
+      {/* STEP 6 SUCCESS */}
+      {step === 6 && (
+        <div className="card">
+          <div className="check">✔</div>
+          <h2>Congratulations!</h2>
+          <p>
+            High Trust Score Detected. <b>{phone}</b> is eligible for a boost.
+          </p>
+
+          <button onClick={() => setStep(7)}>
+            Proceed to Upgrade Limit
+          </button>
+        </div>
+      )}
+
+      {/* STEP 7 FINAL */}
+      {step === 7 && (
+        <div className="card">
+          <h1>FulizaBoost</h1>
+
+          <div className="live">
+            🔴 LIVE: Faith W. boosted to Ksh 45,000 just now
+          </div>
+
+          <h3>Select Your New Approved Limit</h3>
+
+          <div className="grid">
+            {[3000, 5000, 7500, 10000, 12500, 16000].map((amt) => (
+              <div key={amt} className="box">
+                Ksh {amt}
+                <span>Fee: Ksh {Math.floor(amt * 0.05)}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <style jsx>{`
+        .container {
+          height: 100vh;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background: #f3f4f6;
+          font-family: sans-serif;
+        }
+
+        .card {
+          background: white;
+          padding: 30px;
+          border-radius: 20px;
+          width: 90%;
+          max-width: 350px;
+          text-align: center;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        input {
+          width: 100%;
+          padding: 15px;
+          margin: 15px 0;
+          border-radius: 10px;
+          border: 1px solid #ddd;
+        }
+
+        button {
+          width: 100%;
+          padding: 15px;
+          border: none;
+          background: green;
+          color: white;
+          border-radius: 10px;
+          font-weight: bold;
+        }
+
+        .spinner {
+          border: 4px solid #eee;
+          border-top: 4px solid green;
+          border-radius: 50%;
+          width: 50px;
+          height: 50px;
+          margin: auto;
+          animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+          100% { transform: rotate(360deg); }
+        }
+
+        .check {
+          font-size: 50px;
+          color: green;
+        }
+
+        .grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 10px;
+          margin-top: 20px;
+        }
+
+        .box {
+          background: #f9f9f9;
+          padding: 15px;
+          border-radius: 10px;
+          font-weight: bold;
+        }
+
+        .box span {
+          display: block;
+          font-size: 12px;
+          color: gray;
+        }
+
+        .live {
+          background: #eee;
+          padding: 10px;
+          border-radius: 10px;
+          margin-bottom: 10px;
+        }
+      `}</style>
+
+    </div>
+  );
 }
-
-.container {
-  padding: 20px;
-  max-width: 400px;
-  margin: auto;
-}
-
-h2 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 15px;
-}
-
-.box {
-  background: #fff;
-  padding: 15px;
-  border-radius: 12px;
-  text-align: center;
-  font-weight: bold;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-.box:hover {
-  transform: scale(1.05);
-}
-
-.box.active {
-  border: 2px solid #16a34a;
-  background: #dcfce7;
-}
-
-.box small {
-  display: block;
-  margin-top: 5px;
-  color: gray;
-  font-weight: normal;
-}
-
-button {
-  width: 100%;
-  margin-top: 20px;
-  padding: 15px;
-  background: #16a34a;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-button:hover {
-  background: #15803d;
-}
-
-/* POPUP */
-.popup {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.5);
-  display: none;
-  justify-content: center;
-  align-items: center;
-}
-
-.popup-content {
-  background: white;
-  padding: 20px;
-  border-radius: 15px;
-  width: 90%;
-  max-width: 350px;
-  text-align: center;
-}
-
-.popup-content h3 {
-  color: #16a34a;
-}
-
-.popup-content input {
-  width: 100%;
-  padding: 12px;
-  margin: 10px 0;
-  border-radius: 10px;
-  border: 1px solid #ccc;
-}
-
-.actions {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 15px;
-}
-
-.actions button {
-  width: 48%;
-}
-</style>
-</head>
-
-<body>
-
-<div class="container">
-<h2>Select Your New Approved Limit</h2>
-
-<div class="grid">
-<div class="box" onclick="selectBox(this, 3000)">Ksh 3,000<small>Fee: Ksh 250</small></div>
-<div class="box" onclick="selectBox(this, 5000)">Ksh 5,000<small>Fee: Ksh 293</small></div>
-<div class="box" onclick="selectBox(this, 7500)">Ksh 7,500<small>Fee: Ksh 350</small></div>
-<div class="box" onclick="selectBox(this, 10000)">Ksh 10,000<small>Fee: Ksh 500</small></div>
-<div class="box" onclick="selectBox(this, 12500)">Ksh 12,500<small>Fee: Ksh 747</small></div>
-<div class="box" onclick="selectBox(this, 16000)">Ksh 16,000<small>Fee: Ksh 898</small></div>
-<div class="box" onclick="selectBox(this, 21000)">Ksh 21,000<small>Fee: Ksh 1015</small></div>
-<div class="box" onclick="selectBox(this, 25500)">Ksh 25,500<small>Fee: Ksh 1200</small></div>
-<div class="box" onclick="selectBox(this, 30000)">Ksh 30,000<small>Fee: Ksh 1533</small></div>
-<div class="box" onclick="selectBox(this, 35000)">Ksh 35,000<small>Fee: Ksh 1730</small></div>
-<div class="box" onclick="selectBox(this, 45000)">Ksh 45,000<small>Fee: Ksh 2000</small></div>
-<div class="box" onclick="selectBox(this, 60000)">Ksh 60,000<small>Fee: Ksh 2250</small></div>
-<div class="box" onclick="selectBox(this, 70000)">Ksh 70,000<small>Fee: Ksh 2500</small></div>
-</div>
-
-<button id="upgradeBtn">SELECT AMOUNT</button>
-</div>
-
-<!-- POPUP -->
-<div id="popup" class="popup">
-<div class="popup-content">
-<h3 id="popupTitle">Limit will be boosted</h3>
-
-<p>Enter your Safaricom number for verification</p>
-
-<input type="text" placeholder="ID Number">
-<input type="text" placeholder="Phone Number">
-
-<div class="actions">
-<button onclick="closePopup()">Cancel</button>
-<button id="payBtn">Pay</button>
-</div>
-</div>
-</div>
-
-<script>
-let selectedAmount = 0;
-
-function selectBox(element, amount) {
-  document.querySelectorAll('.box').forEach(box => {
-    box.classList.remove('active');
-  });
-
-  element.classList.add('active');
-  selectedAmount = amount;
-
-  document.getElementById('upgradeBtn').innerText =
-"UPGRADE TO KSH " + selectedAmount.toLocaleString();
-}
-
-document.getElementById('upgradeBtn').onclick = function () {
-   if (selectedAmount === 0) {
-    alert("Please select an amount first");
-    return;
-  }
-
-  document.getElementById('popup').style.display = "flex";
-
-  document.getElementById('popupTitle').innerText =
-"Limit will be boosted to Ksh " + selectedAmount.toLocaleString();
-
-  document.getElementById('payBtn').innerText =
-    "Pay Ksh " + Math.floor(selectedAmount * 0.05);
-};
-
-function closePopup() {
-  document.getElementById('popup').style.display = "none";
-}
-</script>
-
-</body>
-</html>
