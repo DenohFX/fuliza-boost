@@ -3,272 +3,299 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FulizaBoost</title>
+<title>Fuliza Demo UI</title>
 
 <style>
-body {
-  font-family: Arial, sans-serif;
-  background: #f5f7f9;
-  margin: 0;
-}
-
-/* TITLE */
-h1 {
-  text-align: center;
-  margin: 15px 0;
-}
-
-/* LIVE ACTIVITY */
-.live {
-  background: #fff;
-  padding: 12px;
-  margin: 10px;
-  border-radius: 12px;
-  font-size: 14px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-}
-
-/* GRID */
-.grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  padding: 10px;
+body{
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
+  margin:0;
+  background:#f4f6f8;
 }
 
 /* CARD */
-.box {
-  background: #fff;
-  padding: 18px;
-  border-radius: 16px;
-  text-align: center;
-  border: 2px solid transparent;
+.screen{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
 }
 
-.box.selected {
-  border: 2px solid #1e8e3e;
-  background: #eaf6ee;
+.card{
+  background:#fff;
+  width:90%;
+  padding:25px;
+  border-radius:22px;
+  text-align:center;
+  box-shadow:0 10px 30px rgba(0,0,0,0.08);
 }
 
-.amount {
-  font-size: 20px;
-  font-weight: bold;
-  color: #1e8e3e;
+/* TITLE */
+.title{
+  font-size:22px;
+  font-weight:700;
 }
 
-.fee {
-  font-size: 12px;
-  color: #888;
-}
-
-/* SUPPORT */
-.support {
-  text-align: center;
-  margin: 10px 0 90px;
-  color: #1e8e3e;
-  font-size: 14px;
-}
-
-/* STICKY BUTTON */
-.sticky-btn {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background: #fff;
-  padding: 10px;
-  box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-}
-
-.sticky-btn button {
-  width: 95%;
-  padding: 16px;
-  border: none;
-  border-radius: 14px;
-  background: #1e8e3e;
-  color: white;
-  font-size: 16px;
-  font-weight: bold;
-}
-
-/* MODAL */
-.modal {
-  display: none;
-  position: fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background: rgba(0,0,0,0.6);
-  justify-content: center;
-  align-items: center;
-}
-
-.modal-content {
-  background: #fff;
-  padding: 20px;
-  border-radius: 20px;
-  width: 90%;
-  text-align: center;
+.sub{
+  color:#666;
+  font-size:14px;
 }
 
 /* INPUT */
-input {
-  width: 100%;
-  padding: 12px;
-  margin: 10px 0;
-  border-radius: 10px;
-  border: 1px solid #ccc;
+input{
+  width:100%;
+  padding:14px;
+  margin:15px 0;
+  border-radius:14px;
+  border:1px solid #ddd;
+  font-size:15px;
+}
+
+/* BUTTON */
+button{
+  width:100%;
+  padding:16px;
+  border:none;
+  border-radius:16px;
+  background:#1e8e3e;
+  color:#fff;
+  font-size:16px;
+  font-weight:600;
 }
 
 /* LOADER */
-.loader {
-  border: 5px solid #eee;
-  border-top: 5px solid #1e8e3e;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  margin: auto;
-  animation: spin 1s linear infinite;
+.loader{
+  border:5px solid #eee;
+  border-top:5px solid #1e8e3e;
+  border-radius:50%;
+  width:60px;
+  height:60px;
+  margin:auto;
+  animation:spin 1s linear infinite;
 }
 
-@keyframes spin {
-  100% { transform: rotate(360deg); }
+@keyframes spin{
+  100%{transform:rotate(360deg);}
+}
+
+/* LIVE */
+.live{
+  background:#fff;
+  margin:10px;
+  padding:12px;
+  border-radius:12px;
+  font-size:13px;
+  box-shadow:0 2px 10px rgba(0,0,0,0.05);
+}
+
+/* GRID */
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  padding:10px;
+}
+
+.box{
+  background:#fff;
+  padding:18px;
+  border-radius:16px;
+  text-align:center;
+  transition:0.2s;
+}
+
+.box.selected{
+  border:2px solid #1e8e3e;
+  background:#eaf6ee;
+}
+
+.amount{
+  font-weight:700;
+  font-size:18px;
+  color:#1e8e3e;
+}
+
+.fee{
+  font-size:12px;
+  color:#888;
+}
+
+/* STICKY */
+.sticky{
+  position:fixed;
+  bottom:0;
+  width:100%;
+  background:#fff;
+  padding:10px;
+}
+
+/* FADE */
+.fade{
+  animation:fade 0.5s ease;
+}
+@keyframes fade{
+  from{opacity:0; transform:translateY(10px);}
+  to{opacity:1;}
 }
 </style>
 </head>
 
 <body>
 
-<h1>FulizaBoost</h1>
-
-<!-- LIVE ACTIVITY -->
-<div class="live" id="liveActivity">
-  Loading activity...
-</div>
-
-<h3 style="padding-left:10px;">Select Your New Approved Limit</h3>
-
-<div class="grid" id="grid"></div>
-
-<div class="support">
-  💬 Need help? Chat with Support
-</div>
-
-<!-- STICKY BUTTON -->
-<div class="sticky-btn">
-  <button id="upgradeBtn">⚡ SELECT A LIMIT</button>
-</div>
-
-<!-- MODAL -->
-<div class="modal" id="modal">
-  <div class="modal-content" id="modalContent"></div>
-</div>
+<div id="app"></div>
 
 <script>
 
+const app = document.getElementById("app");
+
+/* LANDING */
+function landing(){
+  app.innerHTML = `
+  <div class="screen fade">
+    <div class="card">
+      <div class="title">Fuliza Demo</div>
+      <div class="sub">Demo interface for limit upgrade flow</div>
+
+      <input id="phone" placeholder="Enter phone number">
+
+      <button onclick="start()">Check Eligibility</button>
+
+      <p style="font-size:12px;color:#999;margin-top:10px;">
+        Demo only • Not a real service
+      </p>
+    </div>
+  </div>`;
+}
+
+/* LOADING */
+function start(){
+
+  const phone = document.getElementById("phone").value || "07XXXXXXXX";
+
+  steps([
+    "Connecting...",
+    "Verifying profile...",
+    "Analyzing usage...",
+    "Calculating score..."
+  ], ()=>success(phone));
+}
+
+function steps(arr, done){
+  let i=0;
+
+  function next(){
+    if(i >= arr.length){
+      done();
+      return;
+    }
+
+    app.innerHTML = `
+    <div class="screen fade">
+      <div class="card">
+        <div class="loader"></div>
+        <h3>${arr[i]}</h3>
+        <p class="sub">Processing data...</p>
+      </div>
+    </div>`;
+
+    i++;
+    setTimeout(next, 1800);
+  }
+
+  next();
+}
+
+/* SUCCESS */
+function success(phone){
+  app.innerHTML = `
+  <div class="screen fade">
+    <div class="card">
+      <h2>✅ Eligible</h2>
+      <p><b>${phone}</b> can proceed</p>
+      <button onclick="limits()">Continue</button>
+    </div>
+  </div>`;
+}
+
 /* DATA */
 const data = [
-  ["3,000","250"],["5,000","293"],
-  ["7,500","350"],["10,000","500"],
-  ["12,500","747"],["16,000","898"],
-  ["21,000","1015"],["25,500","1220"],
-  ["30,000","1533"],["35,000","1730"],
-  ["45,000","2000"],["60,000","2250"],
-  ["70,000","2500"]
+["3,000","250"],["5,000","293"],
+["7,500","350"],["10,000","500"],
+["12,500","747"],["16,000","898"],
+["21,000","1015"],["25,500","1220"],
+["30,000","1533"],["35,000","1730"],
+["45,000","2000"],["60,000","2250"],
+["70,000","2500"]
 ];
 
-let selected = "";
+let selected="";
 
-/* LOAD GRID */
-const grid = document.getElementById("grid");
+/* LIMITS */
+function limits(){
 
-data.forEach(d=>{
-  let div = document.createElement("div");
-  div.className="box";
-  div.innerHTML=`
-    <div class="amount">Ksh ${d[0]}</div>
-    <div class="fee">Fee: Ksh ${d[1]}</div>
+  app.innerHTML = `
+  <div class="live" id="live">Loading activity...</div>
+
+  <h3 style="padding:10px;">Select Limit (Demo)</h3>
+
+  <div class="grid" id="grid"></div>
+
+  <div class="sticky">
+    <button id="btn">Select Limit</button>
+  </div>
   `;
-  div.onclick=()=>{
-    document.querySelectorAll(".box").forEach(b=>b.classList.remove("selected"));
-    div.classList.add("selected");
 
-    selected = d[0];
+  const grid = document.getElementById("grid");
 
-    document.getElementById("upgradeBtn").innerText =
-      "⚡ UPGRADE TO KSH " + d[0];
-  }
-  grid.appendChild(div);
-});
+  data.forEach(d=>{
+    let div=document.createElement("div");
+    div.className="box";
+
+    div.innerHTML=`
+      <div class="amount">Ksh ${d[0]}</div>
+      <div class="fee">Fee: ${d[1]}</div>
+    `;
+
+    div.onclick=()=>{
+      document.querySelectorAll(".box").forEach(b=>b.classList.remove("selected"));
+      div.classList.add("selected");
+      selected=d[0];
+
+      document.getElementById("btn").innerText=
+      "Continue with Ksh "+d[0];
+    };
+
+    grid.appendChild(div);
+  });
+
+  document.getElementById("btn").onclick=()=>{
+    if(!selected){
+      alert("Select amount");
+      return;
+    }
+    alert("Demo complete");
+  };
+
+  liveFeed();
+}
 
 /* LIVE ACTIVITY */
-const names=["John","Faith","Brian","Kevin","Mary","James"];
+function liveFeed(){
 
-setInterval(()=>{
-  let n = names[Math.floor(Math.random()*names.length)];
-  let amt = data[Math.floor(Math.random()*data.length)][0];
+  const names=["Alex","Sam","Chris","Jordan","Taylor"];
+  const towns=["Nairobi","Mombasa","Kisumu","Nakuru"];
 
-  document.getElementById("liveActivity").innerText =
-    `${n} boosted to Ksh ${amt} just now`;
+  setInterval(()=>{
+    const n=names[Math.floor(Math.random()*names.length)];
+    const t=towns[Math.floor(Math.random()*towns.length)];
+    const a=data[Math.floor(Math.random()*data.length)][0];
 
-},3000);
-
-/* BUTTON CLICK */
-document.getElementById("upgradeBtn").onclick = () => {
-
-  if(!selected){
-    alert("Select amount first");
-    return;
-  }
-
-  document.getElementById("modal").style.display="flex";
-
-  document.getElementById("modalContent").innerHTML = `
-    <h3>Secure Fuliza Upgrade</h3>
-    <p>Upgrade to <b>Ksh ${selected}</b></p>
-
-    <input type="text" placeholder="Enter ID Number">
-    <input type="text" placeholder="Enter Phone Number">
-
-    <p>Pay via Till Number: <b>6363781</b></p>
-
-    <button onclick="startProcess()">Proceed</button>
-  `;
-};
-
-/* PROCESS FLOW */
-function startProcess(){
-
-  const modal = document.getElementById("modalContent");
-
-  modal.innerHTML = `
-    <div class="loader"></div>
-    <p>Connecting...</p>
-  `;
-
-  setTimeout(()=>{
-    modal.innerHTML = `
-      <div class="loader"></div>
-      <p>Verifying CRB Status...</p>
-    `;
-  },2000);
-
-  setTimeout(()=>{
-    modal.innerHTML = `
-      <div class="loader"></div>
-      <p>Finalizing Trust Score...</p>
-    `;
-  },4000);
-
-  setTimeout(()=>{
-    modal.innerHTML = `
-      <h2>✅ Congratulations!</h2>
-      <p>You qualify for Fuliza Boost</p>
-      <button onclick="location.reload()">Done</button>
-    `;
-  },6000);
-
+    document.getElementById("live").innerText =
+      `${n} in ${t} selected Ksh ${a}`;
+  },3000);
 }
+
+/* INIT */
+landing();
 
 </script>
 
