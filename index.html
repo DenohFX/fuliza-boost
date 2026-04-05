@@ -38,6 +38,7 @@ button {
   color: white;
   border: none;
   border-radius: 10px;
+  font-size: 16px;
 }
 
 .spinner {
@@ -63,13 +64,22 @@ button {
   <p>OFFICIAL VERIFICATION PORTAL</p>
 
   <input id="phone" placeholder="Enter M-Pesa Number">
-  <button onclick="start()">Check My Eligibility</button>
+
+  <!-- IMPORTANT: button type -->
+  <button id="btn">Check My Eligibility</button>
 </div>
 
 <script>
+// FIX: attach event properly
+document.getElementById("btn").addEventListener("click", start);
+
 function start() {
   const phone = document.getElementById("phone").value;
-  if (!phone) return alert("Enter number");
+
+  if (!phone) {
+    alert("Enter phone number");
+    return;
+  }
 
   step("Connecting...");
   setTimeout(() => step("Verifying CRB Status..."), 2000);
@@ -78,3 +88,33 @@ function start() {
 }
 
 function step(text) {
+  document.getElementById("app").innerHTML = `
+    <div class="spinner"></div>
+    <h3>${text}</h3>
+    <p>Accessing secure databases...</p>
+  `;
+}
+
+function success(phone) {
+  document.getElementById("app").innerHTML = `
+    <h2>✅ Congratulations</h2>
+    <p>${phone} is eligible for boost</p>
+    <button onclick="final()">Proceed</button>
+  `;
+}
+
+function final() {
+  document.getElementById("app").innerHTML = `
+    <h2>FulizaBoost</h2>
+    <p>🔴 LIVE: Faith W. boosted to Ksh 45,000 just now</p>
+    <p>Select Amount</p>
+
+    <button>Ksh 3,000</button><br><br>
+    <button>Ksh 5,000</button><br><br>
+    <button>Ksh 10,000</button>
+  `;
+}
+</script>
+
+</body>
+</html>
