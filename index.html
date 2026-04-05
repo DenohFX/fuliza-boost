@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -7,127 +7,121 @@
 
 <style>
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f3f4f6;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f3f4f6;
 }
 
 .container {
-    padding: 20px;
-    max-width: 400px;
-    margin: auto;
+  padding: 20px;
+  max-width: 400px;
+  margin: auto;
 }
 
 h2 {
-    text-align: center;
-    margin-bottom: 20px;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 .grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
 }
 
 .box {
-    background: #ffffff;
-    padding: 15px;
-    border-radius: 12px;
-    text-align: center;
-    font-weight: bold;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    cursor: pointer;
-    transition: 0.2s;
+  background: #ffffff;
+  padding: 15px;
+  border-radius: 12px;
+  text-align: center;
+  font-weight: bold;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: 0.2s;
 }
 
 .box:hover {
-    transform: scale(1.05);
+  transform: scale(1.05);
 }
 
 .box.active {
-    border: 2px solid #16a34a;
-    background: #dcfce7;
+  border: 2px solid #16a34a;
+  background: #dcfce7;
 }
 
 .box small {
-    display: block;
-    margin-top: 5px;
-    color: gray;
-    font-weight: normal;
+  display: block;
+  margin-top: 5px;
+  color: gray;
+  font-weight: normal;
 }
 
 button {
-    width: 100%;
-    margin-top: 20px;
-    padding: 15px;
-    background: #16a34a;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-size: 16px;
-    cursor: pointer;
+  width: 100%;
+  margin-top: 20px;
+  padding: 15px;
+  background: #16a34a;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
 }
 
 button:hover {
-    background: #15803d;
+  background: #15803d;
 }
 </style>
-</head>
 
+</head>
 <body>
 
 <div class="container">
+  <h2>Select Your New Approved Limit</h2>
 
-<h2>Select Your New Approved Limit</h2>
+  <div class="grid">
 
-<div class="grid">
+    <div class="box" onclick="selectBox(this, 3000)">Ksh 3,000<br><small>Fee: Ksh 250</small></div>
+    <div class="box" onclick="selectBox(this, 5000)">Ksh 5,000<br><small>Fee: Ksh 293</small></div>
+    <div class="box" onclick="selectBox(this, 7500)">Ksh 7,500<br><small>Fee: Ksh 350</small></div>
+    <div class="box" onclick="selectBox(this, 10000)">Ksh 10,000<br><small>Fee: Ksh 500</small></div>
+    <div class="box" onclick="selectBox(this, 12500)">Ksh 12,500<br><small>Fee: Ksh 747</small></div>
+    <div class="box" onclick="selectBox(this, 16000)">Ksh 16,000<br><small>Fee: Ksh 898</small></div>
+    <div class="box" onclick="selectBox(this, 21000)">Ksh 21,000<br><small>Fee: Ksh 1015</small></div>
+    <div class="box" onclick="selectBox(this, 25500)">Ksh 25,500<br><small>Fee: Ksh 1200</small></div>
+    <div class="box" onclick="selectBox(this, 30000)">Ksh 30,000<br><small>Fee: Ksh 1533</small></div>
+    <div class="box" onclick="selectBox(this, 35000)">Ksh 35,000<br><small>Fee: Ksh 1730</small></div>
+    <div class="box" onclick="selectBox(this, 45000)">Ksh 45,000<br><small>Fee: Ksh 2000</small></div>
+    <div class="box" onclick="selectBox(this, 60000)">Ksh 60,000<br><small>Fee: Ksh 2250</small></div>
+    <div class="box" onclick="selectBox(this, 70000)">Ksh 70,000<br><small>Fee: Ksh 2500</small></div>
 
-<div class="box" onclick="selectBox(this, 3000)">Ksh 3,000<br><small>Fee: Ksh 250</small></div>
-<div class="box" onclick="selectBox(this, 5000)">Ksh 5,000<br><small>Fee: Ksh 293</small></div>
-<div class="box" onclick="selectBox(this, 7500)">Ksh 7,500<br><small>Fee: Ksh 350</small></div>
-<div class="box" onclick="selectBox(this, 10000)">Ksh 10,000<br><small>Fee: Ksh 500</small></div>
-<div class="box" onclick="selectBox(this, 12500)">Ksh 12,500<br><small>Fee: Ksh 747</small></div>
-<div class="box" onclick="selectBox(this, 16000)">Ksh 16,000<br><small>Fee: Ksh 898</small></div>
-<div class="box" onclick="selectBox(this, 21000)">Ksh 21,000<br><small>Fee: Ksh 1015</small></div>
-<div class="box" onclick="selectBox(this, 25500)">Ksh 25,500<br><small>Fee: Ksh 1200</small></div>
-<div class="box" onclick="selectBox(this, 30000)">Ksh 30,000<br><small>Fee: Ksh 1533</small></div>
-<div class="box" onclick="selectBox(this, 35000)">Ksh 35,000<br><small>Fee: Ksh 1730</small></div>
-<div class="box" onclick="selectBox(this, 45000)">Ksh 45,000<br><small>Fee: Ksh 2000</small></div>
-<div class="box" onclick="selectBox(this, 60000)">Ksh 60,000<br><small>Fee: Ksh 2250</small></div>
-<div class="box" onclick="selectBox(this, 70000)">Ksh 70,000<br><small>Fee: Ksh 2500</small></div>
+  </div>
 
-</div>
-
-<button id="upgradeBtn">SELECT AMOUNT</button>
-
+  <button id="upgradeBtn">SELECT AMOUNT</button>
 </div>
 
 <script>
 let selectedAmount = 0;
 
 function selectBox(element, amount) {
-    // remove active from all
-    document.querySelectorAll('.box').forEach(box => {
-        box.classList.remove('active');
-    });
+  document.querySelectorAll('.box').forEach(box => {
+    box.classList.remove('active');
+  });
 
-    // add active to clicked
-    element.classList.add('active');
+  element.classList.add('active');
+  selectedAmount = amount;
 
-    selectedAmount = amount;
-
-    // update button text
-    document.getElementById('upgradeBtn').innerText =
-        "UPGRADE TO KSH " + amount.toLocaleString();
+  document.getElementById('upgradeBtn').innerText =
+    "UPGRADE TO KSH " + amount.toLocaleString();
 }
 
 document.getElementById('upgradeBtn').onclick = function () {
-    if (selectedAmount === 0) {
-        alert("Please select an amount first");
-        return;
-    }
+  if (selectedAmount === 0) {
+    alert("Please select an amount first");
+    return;
+  }
 
-    window.location.href = "https://hass-fuliza-boost.vercel.app";
+  window.location.href = "https://hass-fuliza-boost.vercel.app";
 };
 </script>
 
