@@ -1,145 +1,168 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Fuliza Boost</title>
+  <title>FulizaBoost</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #020617, #0f172a);
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+      background: #f5f7fa;
+      color: #111827;
     }
 
-    .app {
-      width: 100%;
-      max-width: 380px;
+    .container {
+      max-width: 420px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    h1 {
       text-align: center;
+      margin-top: 20px;
+      font-size: 28px;
     }
 
-    .logo {
-      font-size: 26px;
-      font-weight: bold;
-      color: #38bdf8;
+    .subtitle {
+      text-align: center;
+      color: gray;
+      font-size: 14px;
       margin-bottom: 20px;
     }
 
-    .card {
-      background: #111827;
-      padding: 25px;
-      border-radius: 15px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-    }
-
-    h2 {
-      margin-bottom: 10px;
-    }
-
-    p {
-      font-size: 13px;
-      color: #9ca3af;
-    }
-
-    input {
-      width: 100%;
+    .activity {
+      background: white;
       padding: 12px;
-      margin-top: 15px;
-      border-radius: 8px;
-      border: none;
-      outline: none;
-      font-size: 14px;
-    }
-
-    button {
-      width: 100%;
-      padding: 12px;
-      margin-top: 15px;
-      background: #22c55e;
-      border: none;
-      border-radius: 8px;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    button:hover {
-      background: #16a34a;
-    }
-
-    .loading {
-      margin-top: 15px;
-      display: none;
-      color: #38bdf8;
-    }
-
-    .result-box {
-      margin-top: 15px;
-      padding: 15px;
-      background: #020617;
       border-radius: 10px;
-      display: none;
+      margin-bottom: 20px;
+      font-size: 14px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     }
 
-    .amount {
-      font-size: 22px;
-      color: #22c55e;
+    .activity span {
+      color: green;
       font-weight: bold;
     }
 
+    h2 {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 18px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .card:hover {
+      transform: scale(1.03);
+    }
+
+    .amount {
+      color: #16a34a;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .fee {
+      color: gray;
+      font-size: 12px;
+      margin-top: 5px;
+    }
+
+    .selected {
+      border: 2px solid #16a34a;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 14px;
+      margin-top: 20px;
+      background: #16a34a;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .result {
+      margin-top: 15px;
+      text-align: center;
+      color: green;
+      display: none;
+    }
   </style>
 </head>
 
 <body>
 
-<div class="app">
-  <div class="logo">Fuliza Boost 🚀</div>
+<div class="container">
 
-  <div class="card">
-    <h2>Check Your Limit</h2>
-    <p>Enter your Safaricom number</p>
+  <h1>FulizaBoost</h1>
+  <div class="subtitle">Instant Limit Increase • Same Day Access</div>
 
-    <input type="text" id="phone" placeholder="07XXXXXXXX">
-
-    <button onclick="checkLimit()">Check Now</button>
-
-    <div class="loading" id="loading">⏳ Processing request...</div>
-
-    <div class="result-box" id="resultBox">
-      <p>Your Fuliza Limit:</p>
-      <div class="amount" id="amount"></div>
-    </div>
+  <div class="activity">
+    🔄 <b>LIVE ACTIVITY</b><br>
+    Faith W. (0712***11) boosted to <span>Ksh 45,000</span> just now
   </div>
+
+  <h2>Select Your New Approved Limit</h2>
+
+  <div class="grid" id="grid">
+    <div class="card" onclick="select(this)">Ksh 3,000<br><div class="fee">Fee: 250</div></div>
+    <div class="card" onclick="select(this)">Ksh 5,000<br><div class="fee">Fee: 293</div></div>
+    <div class="card" onclick="select(this)">Ksh 7,500<br><div class="fee">Fee: 350</div></div>
+    <div class="card" onclick="select(this)">Ksh 10,000<br><div class="fee">Fee: 500</div></div>
+    <div class="card" onclick="select(this)">Ksh 12,500<br><div class="fee">Fee: 747</div></div>
+    <div class="card" onclick="select(this)">Ksh 16,000<br><div class="fee">Fee: 898</div></div>
+    <div class="card" onclick="select(this)">Ksh 21,000<br><div class="fee">Fee: 1015</div></div>
+    <div class="card" onclick="select(this)">Ksh 25,500<br><div class="fee">Fee: 1220</div></div>
+    <div class="card" onclick="select(this)">Ksh 30,000<br><div class="fee">Fee: 1533</div></div>
+    <div class="card" onclick="select(this)">Ksh 35,000<br><div class="fee">Fee: 1730</div></div>
+    <div class="card" onclick="select(this)">Ksh 45,000<br><div class="fee">Fee: 2000</div></div>
+    <div class="card" onclick="select(this)">Ksh 60,000<br><div class="fee">Fee: 2250</div></div>
+  </div>
+
+  <button class="btn" onclick="boost()">Continue</button>
+
+  <div class="result" id="result">
+    ✅ Request submitted successfully!
+  </div>
+
 </div>
 
 <script>
-function checkLimit() {
-  const phone = document.getElementById("phone").value;
-  const loading = document.getElementById("loading");
-  const resultBox = document.getElementById("resultBox");
-  const amount = document.getElementById("amount");
+  let selectedCard = null;
 
-  if (phone === "") {
-    alert("Enter phone number");
-    return;
+  function select(el) {
+    const cards = document.querySelectorAll(".card");
+    cards.forEach(c => c.classList.remove("selected"));
+
+    el.classList.add("selected");
+    selectedCard = el.innerText;
   }
 
-  resultBox.style.display = "none";
-  loading.style.display = "block";
+  function boost() {
+    if (!selectedCard) {
+      alert("Please select a limit");
+      return;
+    }
 
-  setTimeout(() => {
-    loading.style.display = "none";
-    resultBox.style.display = "block";
-
-    let value = Math.floor(Math.random() * 5000) + 500;
-    amount.innerHTML = "KES " + value;
-  }, 2000);
-}
+    document.getElementById("result").style.display = "block";
+  }
 </script>
 
 </body>
