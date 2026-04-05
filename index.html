@@ -1,128 +1,170 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>FulizaBoost</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>
-    body {
-      font-family: Arial;
-      background: #f5f5f5;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
+"use client";
+import { useState, useEffect } from "react";
 
-    .card {
-      background: #fff;
-      padding: 20px;
-      border-radius: 12px;
-      text-align: center;
-      width: 90%;
-      max-width: 400px;
-    }
-
-    input {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-    }
-
-    button {
-      width: 100%;
-      padding: 12px;
-      background: green;
-      color: white;
-      border: none;
-      border-radius: 8px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 15px;
-    }
-
-    .box {
-      background: white;
-      padding: 15px;
-      border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-
-    .live {
-      background: #eef;
-      padding: 10px;
-      margin: 10px 0;
-      border-radius: 8px;
-      font-size: 14px;
-    }
-  </style>
-</head>
-
-<body>
-
-<div class="card" id="app">
-  <h2>Fuliza Plus+</h2>
-  <p>OFFICIAL VERIFICATION PORTAL</p>
-
-  <input id="phone" placeholder="Enter phone number" />
-  <button onclick="start()">Check My Eligibility</button>
-</div>
-
-<script>
+export default function Home() {
   const limits = [
-    [3000,250],[5000,293],[7500,350],[10000,500],
-    [12500,747],[16000,898],[21000,1015],[25500,1220],
-    [30000,1533],[35000,1730],[45000,2000],[60000,2250],[70000,2500]
+    { amount: 3000, fee: 250 },
+    { amount: 5000, fee: 293 },
+    { amount: 7500, fee: 350 },
+    { amount: 10000, fee: 500 },
+    { amount: 12500, fee: 747 },
+    { amount: 16000, fee: 898 },
+    { amount: 21000, fee: 1015 },
+    { amount: 25500, fee: 1220 },
+    { amount: 30000, fee: 1533 },
+    { amount: 35000, fee: 1730 },
+    { amount: 45000, fee: 2000 },
+    { amount: 60000, fee: 2250 },
+    { amount: 70000, fee: 2500 },
   ];
 
-  const names = ["Faith W.","James K.","Brian M.","Sarah N."];
+  const names = ["Faith W.", "Brian M.", "Kevin K.", "Jane N.", "Alex P."];
+  const phones = ["0712***111", "0704***709", "0798***222", "0733***555"];
 
-  function start() {
-    const phone = document.getElementById("phone").value;
-    if (!phone) return alert("Enter phone");
+  const [selected, setSelected] = useState(null);
+  const [activity, setActivity] = useState("");
 
-    document.getElementById("app").innerHTML = "Checking...";
-    
-    setTimeout(() => {
-      document.getElementById("app").innerHTML = "Connecting...";
-    }, 1500);
+  // LIVE ACTIVITY
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const name = names[Math.floor(Math.random() * names.length)];
+      const phone = phones[Math.floor(Math.random() * phones.length)];
+      const amount =
+        limits[Math.floor(Math.random() * limits.length)].amount;
 
-    setTimeout(showMain, 3000);
-  }
-
-  function showMain() {
-    document.getElementById("app").innerHTML = `
-      <h2>FulizaBoost</h2>
-      <p>Instant Limit Increase • Same Day Access</p>
-
-      <div class="live" id="live">Loading activity...</div>
-
-      <h3>Select Your Limit</h3>
-      <div class="grid">
-        ${limits.map(l => `
-          <div class="box">
-            <strong>Ksh ${l[0]}</strong><br/>
-            Fee: ${l[1]}
-          </div>
-        `).join("")}
-      </div>
-    `;
-
-    setInterval(() => {
-      const name = names[Math.floor(Math.random()*names.length)];
-      const amt = limits[Math.floor(Math.random()*limits.length)][0];
-
-      document.getElementById("live").innerText =
-        `${name} boosted to Ksh ${amt} just now`;
+      setActivity(`${name} (${phone}) boosted to Ksh ${amount} just now`);
     }, 3000);
-  }
-</script>
 
-</body>
-</html>
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div style={styles.page}>
+      <div style={styles.container}>
+        <h1 style={styles.title}>FulizaBoost</h1>
+        <p style={styles.subtitle}>
+          Instant Limit Increase • Same Day Access
+        </p>
+
+        {/* LIVE ACTIVITY */}
+        <div style={styles.liveBox}>
+          🔄 {activity || "Loading activity..."}
+        </div>
+
+        <h3 style={styles.sectionTitle}>
+          Select Your New Approved Limit
+        </h3>
+
+        {/* GRID */}
+        <div style={styles.grid}>
+          {limits.map((item, i) => (
+            <div
+              key={i}
+              onClick={() => setSelected(item)}
+              style={{
+                ...styles.card,
+                border:
+                  selected?.amount === item.amount
+                    ? "2px solid green"
+                    : "1px solid #eee",
+                background:
+                  selected?.amount === item.amount
+                    ? "#eaf7ee"
+                    : "#fff",
+              }}
+            >
+              <h2 style={styles.amount}>Ksh {item.amount.toLocaleString()}</h2>
+              <p style={styles.fee}>FEE: KSH {item.fee}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* BUTTON */}
+        {selected && (
+          <button style={styles.button}>
+            ⚡ UPGRADE TO KSH {selected.amount.toLocaleString()}
+          </button>
+        )}
+
+        <p style={styles.help}>💬 Need help? Chat with Support</p>
+      </div>
+    </div>
+  );
+}
+
+// STYLES
+const styles = {
+  page: {
+    background: "#f5f6f7",
+    minHeight: "100vh",
+    padding: "20px",
+    display: "flex",
+    justifyContent: "center",
+  },
+  container: {
+    width: "100%",
+    maxWidth: "500px",
+    background: "#fff",
+    padding: "20px",
+    borderRadius: "20px",
+    boxShadow: "0 5px 20px rgba(0,0,0,0.05)",
+  },
+  title: {
+    textAlign: "center",
+    fontSize: "26px",
+    fontWeight: "bold",
+  },
+  subtitle: {
+    textAlign: "center",
+    color: "#666",
+    marginBottom: "15px",
+  },
+  liveBox: {
+    background: "#eef1ff",
+    padding: "10px",
+    borderRadius: "10px",
+    fontSize: "14px",
+    marginBottom: "20px",
+    textAlign: "center",
+  },
+  sectionTitle: {
+    marginBottom: "15px",
+  },
+  grid: {
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr",
+    gap: "12px",
+  },
+  card: {
+    padding: "15px",
+    borderRadius: "12px",
+    textAlign: "center",
+    cursor: "pointer",
+    transition: "0.2s",
+  },
+  amount: {
+    color: "green",
+    margin: "0",
+  },
+  fee: {
+    color: "#888",
+    fontSize: "13px",
+  },
+  button: {
+    marginTop: "20px",
+    width: "100%",
+    padding: "15px",
+    background: "green",
+    color: "#fff",
+    border: "none",
+    borderRadius: "12px",
+    fontSize: "16px",
+    fontWeight: "bold",
+  },
+  help: {
+    marginTop: "15px",
+    textAlign: "center",
+    color: "green",
+    fontSize: "14px",
+  },
+};
