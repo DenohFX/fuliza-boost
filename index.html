@@ -10,16 +10,28 @@ body {
   font-family: Arial, sans-serif;
   background: #f3f4f6;
   margin: 0;
-  padding: 20px;
-  text-align: center;
+
+  /* ✅ CENTER FIX */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
+/* WRAPPER */
+#app {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* CARD */
 .card {
   background: white;
   padding: 20px;
   border-radius: 20px;
   max-width: 400px;
-  margin: auto;
+  width: 100%;
   box-shadow: 0 5px 20px rgba(0,0,0,0.1);
 }
 
