@@ -164,6 +164,34 @@ button {
   background:#16a34a;
   color:white;
 }
+
+/* LIVE ACTIVITY (ADDED ONLY) */
+.live-activity {
+  display:flex;
+  align-items:center;
+  background:#f1f5f3;
+  border-radius:12px;
+  padding:12px;
+  margin-bottom:15px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.05);
+  text-align:left;
+}
+
+.live-icon {
+  font-size:18px;
+  color:#16a34a;
+  margin-right:10px;
+}
+
+.live-label {
+  font-size:11px;
+  color:#6b7280;
+  font-weight:bold;
+}
+
+.live-text {
+  font-size:13px;
+}
 </style>
 </head>
 
@@ -217,6 +245,27 @@ function getFee(a){
   return limits.find(l=>l.amount===a).fee;
 }
 
+/* LIVE ACTIVITY DATA (ADDED ONLY) */
+const activityNames = [
+  "Brian O. (0725****80)",
+  "Kevin M. (0712****34)",
+  "James K. (0798****21)",
+  "Peter N. (0703****55)"
+];
+
+function generateActivity(){
+  let name = activityNames[Math.floor(Math.random()*activityNames.length)];
+  let amount = limits[Math.floor(Math.random()*limits.length)].amount;
+  return `${name} boosted to <span style="color:#16a34a;font-weight:600;">Ksh ${amount}</span> just now`;
+}
+
+setInterval(()=>{
+  let el = document.getElementById("liveActivityText");
+  if(el){
+    el.innerHTML = generateActivity();
+  }
+},5000);
+
 function render(){
   const app = document.getElementById("app");
 
@@ -260,6 +309,18 @@ function render(){
   if(step===7){
     app.innerHTML = `
     <div class="card">
+
+      <!-- LIVE ACTIVITY (ADDED ONLY) -->
+      <div class="live-activity">
+        <div class="live-icon">↻</div>
+        <div>
+          <div class="live-label">LIVE ACTIVITY</div>
+          <div class="live-text" id="liveActivityText">
+            ${generateActivity()}
+          </div>
+        </div>
+      </div>
+
       <h3>Select Your Limit</h3>
       <div class="grid">
         ${limits.map(l=>`
