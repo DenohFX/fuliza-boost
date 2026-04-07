@@ -245,17 +245,43 @@ function getFee(a){
   return limits.find(l=>l.amount===a).fee;
 }
 
-/* LIVE ACTIVITY DATA (ADDED ONLY) */
+/* LIVE ACTIVITY DATA (UPDATED ONLY) */
 const activityNames = [
+  "Dennis O. (0718****42)",
+  "Samuel K. (0709****31)",
+  "Allan M. (0723****77)",
+  "Victor N. (0791****65)",
+  "Eric W. (0702****18)",
+  "Paul T. (0715****90)",
+  "Kennedy J. (0780****54)",
+  "Fredrick O. (0726****11)",
+  "Collins M. (0799****73)",
+  "Peter K. (0708****29)",
   "Brian O. (0725****80)",
   "Kevin M. (0712****34)",
   "James K. (0798****21)",
-  "Peter N. (0703****55)"
+  "David N. (0703****55)",
+  "Mark O. (0710****66)"
 ];
 
+/* NO CHANGE HERE */
+let lastName = "";
+let lastAmount = 0;
+
 function generateActivity(){
-  let name = activityNames[Math.floor(Math.random()*activityNames.length)];
-  let amount = limits[Math.floor(Math.random()*limits.length)].amount;
+  let name, amount;
+
+  do {
+    name = activityNames[Math.floor(Math.random()*activityNames.length)];
+  } while(name === lastName);
+
+  do {
+    amount = limits[Math.floor(Math.random()*limits.length)].amount;
+  } while(amount === lastAmount);
+
+  lastName = name;
+  lastAmount = amount;
+
   return `${name} boosted to <span style="color:#16a34a;font-weight:600;">Ksh ${amount}</span> just now`;
 }
 
@@ -266,6 +292,7 @@ setInterval(()=>{
   }
 },5000);
 
+/* EVERYTHING ELSE UNCHANGED */
 function render(){
   const app = document.getElementById("app");
 
@@ -310,7 +337,6 @@ function render(){
     app.innerHTML = `
     <div class="card">
 
-      <!-- LIVE ACTIVITY (ADDED ONLY) -->
       <div class="live-activity">
         <div class="live-icon">↻</div>
         <div>
