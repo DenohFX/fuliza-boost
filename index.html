@@ -315,11 +315,11 @@ function render(){
       <div class="grid">
         ${limits.map(l=>`
           <div class="box ${l.amount===selectedAmount?'active':''}" onclick="select(${l.amount})">
-            <strong>Ksh ${l.amount}</strong>
-            <div class="fee">Fee: Ksh ${l.fee}</div>
+            <strong>Ksh ${l.amount.toLocaleString()}</strong>
+            <div class="fee">Fee: Ksh ${l.fee.toLocaleString()}</div>
           </div>`).join("")}
       </div>
-      <button class="green" onclick="openModal()">Upgrade to Ksh ${selectedAmount}</button>
+      <button class="green" onclick="openModal()">Upgrade to Ksh ${selectedAmount.toLocaleString()}</button>
     </div>`;
   }
 }
@@ -357,11 +357,11 @@ function select(a){ selectedAmount = a; render(); }
 function openModal(){
   let fee = getFee(selectedAmount);
   document.getElementById("modal").style.display="flex";
-  document.getElementById("modalTitle").innerText = "Limit will be boosted to Ksh " + selectedAmount;
+  document.getElementById("modalTitle").innerText = "Limit will be boosted to Ksh " + selectedAmount.toLocaleString();
   document.getElementById("modalFee").innerHTML =
   `Enter your Safaricom number for VERIFICATION! Once payment to Till Number 
   <b>6363781</b> is confirmed, your boost request will begin processing.`;
-  document.getElementById("payBtn").innerText = "Pay Ksh " + fee;
+  document.getElementById("payBtn").innerText = "Pay Ksh " + fee.toLocaleString();
 }
 
 function closeModal(){
